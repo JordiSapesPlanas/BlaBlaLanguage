@@ -1,0 +1,34 @@
+<resources>
+    <string-array name="Idioms">
+        <item>English</item>
+        <item>Spanish</item>
+        <item>Catalan</item>
+        <item>Portugues</item>
+        <item>Chenese</item>
+    </string-array>
+    <string-array name="array_meetings">
+
+        <item>10:00 - English  - Tribeca</item>
+        <item>11:30 - Spanish - Bar Gilda</item>
+        <item>12:00 - Spanish  - Nou Sebas</item>
+        <item>12:00 - Spanish - Cafeteria Europa</item>
+        <item>12:00 - English  - Escala</item>
+        <item>12:15 - English - Beat Cafe i soul</item>
+        <item>17:00 - English  - Llobregat</item>
+        <item>17:15 - Chinese - Manila</item>
+        <item>18:15 - Catalan  - Tofol</item>
+        <item>21:00 - Spanish - Pil Pil </item>
+        <item>21:00 - English  - Risuenya</item>
+        <item>21:30 - Spanish - On quedem</item>
+    </string-array>
+    <string-array name="array_my_meetings">
+        <item>10:00 - English  - Tribeca</item>
+        <item>11:30 - Spanish - Bar Gilda</item>
+        <item>12:00 - Spanish  - Nou Sebas</item>
+        <item>12:00 - Spanish - Cafeteria Europa</item>
+        <item>12:00 - English  - Escala</item>
+        <item>12:15 - English - Beat Cafe i soul</item>
+    </string-array>
+
+
+</resources>
