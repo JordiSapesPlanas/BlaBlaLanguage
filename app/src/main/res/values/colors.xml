@@ -4,4 +4,9 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorBackgroundIcon">#9BCC5A</color>
+    <color name="verdeAlpha">#50A4C639</color>
+    <color name="drk_button">#303F9F</color>
+    <color name="lgt_button">#3F51B5</color>
+    <color name="black_light">#333</color>
+
 </resources>
