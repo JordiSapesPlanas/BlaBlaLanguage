@@ -9,6 +9,7 @@
     <string name="title_activity_meeting_detail">MeetingDetailActivity</string>
     <string name="title_activity_meating_detail">MeatingDetailActivity</string>
     <string name="large_text">
+
         "Material is the metaphor.\n\n"
 
         "A material metaphor is the unifying theory of a rationalized space and a system of motion."
@@ -113,5 +114,14 @@
     </string>
     <string name="title_activity_user_profile_activiy">UserProfileActiviy</string>
     <string name="title_activity_meeting_preferences">MeetingPreferences</string>
+    <string name="create_meeting">Create New Meeting</string>
     <string name="title_activity_meetings_list">MeetingsList</string>
+    <string-array name="createmeeting_list">
+        <item>Select Establishment</item>
+        <item>Select Language</item>
+        <item>Select Data</item>
+        <item>Select Capacity</item>
+
+    </string-array>
+    <string name="title_activity_createmeeting">createmeeting</string>
 </resources>

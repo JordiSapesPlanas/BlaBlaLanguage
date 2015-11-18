@@ -45,12 +45,12 @@
         </activity>
         <activity
             android:name=".MeetingPreferences"
-            android:label="@string/title_activity_meeting_preferences"
+            android:label="@string/create_meeting"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
         <activity
-            android:name=".MeetingsList"
-            android:label="@string/title_activity_meetings_list"
+            android:name=".CreateMeeting"
+            android:label="Create New Meeting"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
         <activity
