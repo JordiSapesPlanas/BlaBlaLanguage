@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/languageImage"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_alignParentLeft="true"
+
+        app:civ_border_width="1dp"
+        app:civ_border_color="@android:color/transparent"/>
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/languageImage"
+        android:layout_toRightOf="@id/languageImage"
+        android:layout_marginLeft="15dp"
+        android:textColor="#040404"
+        android:typeface="sans"
+        android:textSize="15dip"
+        android:textStyle="bold"
+        android:text="Name: "
+        />
+
+
+    <TextView
+        android:id="@+id/name2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/name"
+        android:layout_toRightOf="@id/languageImage"
+        android:layout_marginLeft="15dp"
+        android:textColor="#040404"
+        android:typeface="sans"
+        android:textSize="15dip"
+
+        android:textStyle="bold"
+        android:text="Establishment: "
+        />
+
+    <TextView
+        android:id="@+id/name3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/name2"
+        android:layout_toRightOf="@id/languageImage"
+        android:layout_marginLeft="15dp"
+        android:textColor="#040404"
+        android:typeface="sans"
+        android:textSize="15dip"
+
+        android:textStyle="bold"
+        android:text="Time: "
+        />
+
+    <TextView
+        android:id="@+id/name4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/name3"
+        android:layout_toRightOf="@id/languageImage"
+        android:layout_marginLeft="15dp"
+        android:textColor="#040404"
+        android:typeface="sans"
+        android:textSize="15dip"
+
+        android:textStyle="bold"
+        android:text="Date: "
+        />
+
+
+    <TextView
+        android:id="@+id/nameMeeting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/languageImage"
+        android:layout_toRightOf="@id/name"
+        android:textColor="#040404"
+        android:typeface="sans"
+        android:textSize="15dip"
+        />
+
+
+    <TextView
+        android:id="@+id/nameEstablishment"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/nameMeeting"
+        android:layout_toRightOf="@id/name2"
+
+        android:textColor="#343434"
+        android:textSize="15dip"
+
+        />
+
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/nameEstablishment"
+        android:layout_toRightOf="@id/name3"
+
+        android:textColor="#343434"
+        android:textSize="15dip"
+
+        />
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/time"
+        android:layout_toRightOf="@id/name4"
+
+        android:textColor="#343434"
+        android:textSize="15dip"
+
+        />
+</RelativeLayout>

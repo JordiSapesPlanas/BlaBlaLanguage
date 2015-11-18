@@ -1,11 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="Idioms">
-        <item>English</item>
-        <item>Spanish</item>
-        <item>Catalan</item>
-        <item>Portugues</item>
-        <item>Chinese</item>
-    </string-array>
     <string-array name="array_meetings">
 
         <item>10:00 - English  - Tribeca</item>
@@ -21,14 +15,4 @@
         <item>21:00 - English  - Risuenya</item>
         <item>21:30 - Spanish - On quedem</item>
     </string-array>
-    <string-array name="array_my_meetings">
-        <item>10:00 - English  - Tribeca</item>
-        <item>11:30 - Spanish - Bar Gilda</item>
-        <item>12:00 - Spanish  - Nou Sebas</item>
-        <item>12:00 - Spanish - Cafeteria Europa</item>
-        <item>12:00 - English  - Escala</item>
-        <item>12:15 - English - Beat Cafe i soul</item>
-    </string-array>
-
-
 </resources>
