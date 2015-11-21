@@ -6,7 +6,7 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_meating_detail" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.jordi.blablalanguage.MeatingDetailActivity">
+    tools:context=".Activitys.MeatingDetailActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

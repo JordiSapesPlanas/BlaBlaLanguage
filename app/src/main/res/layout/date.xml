@@ -5,31 +5,31 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <DatePicker
-        android:id="@+id/datePicker1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
-    </DatePicker>
-
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Cancel"
         android:id="@+id/buttonDateCancel"
-        android:layout_alignTop="@+id/buttonDateSet"
-        android:layout_alignRight="@+id/datePicker1"
-        android:layout_alignEnd="@+id/datePicker1" />
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Set"
         android:id="@+id/buttonDateSet"
-        android:layout_marginLeft="45dp"
-        android:layout_marginStart="45dp"
-        android:layout_below="@+id/datePicker1"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+
+    <DatePicker
+        android:id="@+id/datePicker1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true">
+    </DatePicker>
 
 
 </RelativeLayout>

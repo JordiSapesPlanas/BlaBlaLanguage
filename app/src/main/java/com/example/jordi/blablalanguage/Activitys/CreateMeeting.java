@@ -1,4 +1,4 @@
-package com.example.jordi.blablalanguage;
+package com.example.jordi.blablalanguage.Activitys;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -13,6 +13,8 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import com.example.jordi.blablalanguage.R;
 
 public class CreateMeeting extends Activity implements NumberPicker.OnValueChangeListener
 {

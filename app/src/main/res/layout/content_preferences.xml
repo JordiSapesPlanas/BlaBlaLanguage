@@ -6,7 +6,7 @@
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_preferences"
-    tools:context="com.example.jordi.blablalanguage.PreferencesActivity"
+    tools:context=".Activitys.PreferencesActivity"
     android:baselineAligned="false"
     android:clickable="false"
     android:dividerPadding="@dimen/abc_action_bar_icon_vertical_padding_material"

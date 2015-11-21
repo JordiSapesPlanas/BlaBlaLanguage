@@ -1,4 +1,4 @@
-package com.example.jordi.blablalanguage;
+package com.example.jordi.blablalanguage.Activitys;
 
 import android.content.Intent;
 import android.os.Build;
@@ -13,6 +13,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
+import com.example.jordi.blablalanguage.R;
 
 public class SearchMeetingActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -29,7 +31,7 @@ public class SearchMeetingActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
 
-                Intent i = new Intent(view.getContext(),CreateMeeting.class);
+                Intent i = new Intent(view.getContext(), CreateMeeting.class);
                 startActivityForResult(i,0);
             }
         });

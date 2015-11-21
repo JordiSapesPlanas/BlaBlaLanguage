@@ -1,4 +1,4 @@
-package com.example.jordi.blablalanguage;
+package com.example.jordi.blablalanguage.Activitys;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -32,13 +32,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.jordi.blablalanguage.R;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -225,6 +225,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     "saved to shared preferences user email "+ sharedPreferences.getString("email", "h"),
                     Toast.LENGTH_SHORT).show();
             startActivity(new Intent(getApplicationContext(), SearchMeetingActivity.class));
+            this.finish();
         }
     }
 
@@ -323,6 +324,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             Toast.makeText(getApplicationContext(), "user is already loogged", Toast.LENGTH_LONG).show();
             startActivity(new Intent(getApplicationContext(), SearchMeetingActivity.class));
+            this.finish();
 
         }
     }

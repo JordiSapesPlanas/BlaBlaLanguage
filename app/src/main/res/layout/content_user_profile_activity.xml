@@ -6,7 +6,7 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_user_profile_activiy" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.jordi.blablalanguage.UserProfileActivity">
+    tools:context=".Activitys.UserProfileActivity">
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"

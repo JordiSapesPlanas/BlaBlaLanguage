@@ -1,4 +1,4 @@
-package com.example.jordi.blablalanguage;
+package com.example.jordi.blablalanguage.Activitys;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -7,13 +7,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-public class MeetingPreferences extends AppCompatActivity {
+import com.example.jordi.blablalanguage.R;
+
+public class MeatingDetailActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_meeting_preferences);
+        setContentView(R.layout.activity_meating_detail);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("");
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -25,5 +28,4 @@ public class MeetingPreferences extends AppCompatActivity {
             }
         });
     }
-
 }

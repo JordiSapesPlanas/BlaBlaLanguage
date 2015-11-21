@@ -5,7 +5,6 @@
     android:layout_height="fill_parent"
     android:orientation="vertical"
     android:weightSum="1"
-    android:background="@color/verdeAlpha"
     tools:showIn="@layout/activity_createmeeting">
 
     <TextView
