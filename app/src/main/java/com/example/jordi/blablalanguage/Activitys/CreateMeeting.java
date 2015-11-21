@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -15,6 +16,9 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.jordi.blablalanguage.R;
+import com.example.jordi.blablalanguage.Models.Meeting;
+
+import java.util.Date;
 
 public class CreateMeeting extends Activity implements NumberPicker.OnValueChangeListener
 {
@@ -26,7 +30,8 @@ public class CreateMeeting extends Activity implements NumberPicker.OnValueChang
     TimePicker tp;
     DatePicker dp;
     String establishment;
-
+    boolean field1=false,field2=false,field3=false, field4=false;
+    Date date;
 
 
 
@@ -75,9 +80,28 @@ public class CreateMeeting extends Activity implements NumberPicker.OnValueChang
         button5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast toast1 =
-                        Toast.makeText(getApplicationContext(),
-                                "Meeting Created", Toast.LENGTH_SHORT);
+                Toast toast1;
+                if (field1 && field2 && field3 && field4) {
+                     toast1 =
+                            Toast.makeText(getApplicationContext(),
+                                    "Meeting Created", Toast.LENGTH_SHORT);
+                    field1=false;
+                    field2=false;
+                    field3=false;
+                    field4=false;
+                    Intent i = new Intent(v.getContext(),MeetingsListActivity.class);
+                    startActivityForResult(i, 0);
+                    Meeting m = new Meeting("Let's Talk", establishment,date,"english");
+                    m.load();
+                    finish();
+
+                 }
+                else{
+                     toast1 =
+                            Toast.makeText(getApplicationContext(),
+                                    "Empty field", Toast.LENGTH_SHORT);
+
+                }
 
                 toast1.show();
             }
@@ -106,6 +130,8 @@ public class CreateMeeting extends Activity implements NumberPicker.OnValueChang
                 people=np.getValue();
                 d.dismiss();
                 showTextCapacity();
+                field4=true;
+
 
             }
         });
@@ -138,6 +164,9 @@ public class CreateMeeting extends Activity implements NumberPicker.OnValueChang
             public void onClick(View v) {
                 dialog.dismiss();
                 showTextDate();
+                field3=true;
+                date=new Date(dp.getYear()-1900,dp.getMonth(),dp.getDayOfMonth(),tp.getCurrentHour(),tp.getCurrentMinute());
+
 
             }
         });
@@ -156,14 +185,17 @@ public class CreateMeeting extends Activity implements NumberPicker.OnValueChang
         dialog.setTitle("Choose Date");
         dp = (DatePicker)dialog.findViewById(R.id.datePicker1);
         dp.setCalendarViewShown(false);
+        dp.setMinDate(System.currentTimeMillis()+(1000 * 60 * 60 * 24));
         dp.setSpinnersShown(true);
         Button b1 = (Button) dialog.findViewById(R.id.buttonDateSet);
         Button b2 = (Button) dialog.findViewById(R.id.buttonDateCancel);
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.dismiss();
-                startDialogTime();
+
+                    dialog.dismiss();
+                    startDialogTime();
+                    date=new Date(dp.getYear()-1900,dp.getMonth(),dp.getDayOfMonth());
 
             }
         });
@@ -188,6 +220,7 @@ public class CreateMeeting extends Activity implements NumberPicker.OnValueChang
                         String [] s= getResources().getStringArray(R.array.Idioms);
                         language=s[selectedPosition];
                         showTextLanguage();
+                        field2=true;
 
                     }
                 })
@@ -207,6 +240,7 @@ public class CreateMeeting extends Activity implements NumberPicker.OnValueChang
                         String [] s= getResources().getStringArray(R.array.array_estabishments);
                         establishment=s[selectedPosition];
                         showTextEstablishment();
+                        field1=true;
 
                     }
                 })

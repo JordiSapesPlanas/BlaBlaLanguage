@@ -12,6 +12,8 @@ public class Meeting {
     private String establishment;
     private Date dateMeeting;
     private String imageUrl;
+    private MeetingsList meet = new  MeetingsList();
+
 
     public Meeting(){
         String s= "12/12/2015 23:34:23";
@@ -29,9 +31,9 @@ public class Meeting {
         this.dateMeeting = dateMeeting;
         this.imageUrl = imageUrl;
     }
-
-
-
+    public void load(){
+        this.meet.getList().add(this);
+    }
 
     public String getEstablishment() {
         return establishment;

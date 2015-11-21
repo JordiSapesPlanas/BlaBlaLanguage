@@ -12,11 +12,13 @@ import android.widget.ListView;
 import com.example.jordi.blablalanguage.Adapters.meetingAdapter;
 import com.example.jordi.blablalanguage.Models.Meeting;
 import com.example.jordi.blablalanguage.R;
+import com.example.jordi.blablalanguage.Models.MeetingsList;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MeetingsListActivity extends AppCompatActivity {
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,11 +34,13 @@ public class MeetingsListActivity extends AppCompatActivity {
         meeting1.setEstablishment("NyamNyam");
         meeting1.setImageUrl("english");
 
-        List<Meeting> meetings = new ArrayList<>();
-        meetings.add(meeting1);
+        MeetingsList listOfMeetings = new MeetingsList();
+        List <Meeting> met = listOfMeetings.getList();
+
+
 
         ListView listView = (ListView)findViewById(R.id.listView_my_meetings);
-        meetingAdapter myAdapter = new meetingAdapter(this,meetings,R.layout.customer_meeting_list);
+        meetingAdapter myAdapter = new meetingAdapter(this,met,R.layout.customer_meeting_list);
         listView.setAdapter(myAdapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
