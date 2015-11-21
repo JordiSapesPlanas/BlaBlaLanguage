@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:weightSum="1"
+    android:background="@color/verdeAlpha"
+    tools:showIn="@layout/activity_createmeeting">
+
+    <TextView
+        android:id="@+id/nothing"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:text=""
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_weight="0.11" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Select Establishment"
+        android:background="@drawable/roundbutton"
+        android:id="@+id/button1" />
+
+    <TextView
+        android:layout_width="223dp"
+        android:layout_height="5dp"
+        android:text=""
+        android:textColorHighlight="@color/drk_button"
+        android:id="@+id/textViewShowEst"
+        android:layout_gravity="center_horizontal"
+        android:onClick="showTextEstablishment"
+        android:layout_weight="0.20" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/roundbutton"
+        android:text="Select Language"
+        android:id="@+id/button2" />
+
+    <TextView
+        android:layout_width="211dp"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:id="@+id/textViewShowLan"
+        android:onClick="showTextLanguage"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.12" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Select Date and Hour"
+        android:background="@drawable/roundbutton"
+        android:id="@+id/button3" />
+
+    <TextView
+        android:layout_width="196dp"
+        android:layout_height="wrap_content"
+        android:onClick="showTextDate"
+        android:text=""
+        android:id="@+id/textViewshowDate"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.11" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/roundbutton"
+
+        android:text="Select Capacity"
+        android:id="@+id/button4" />
+
+    <TextView
+        android:layout_width="185dp"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:id="@+id/textViewShowCapacity"
+        android:layout_gravity="center_horizontal"
+        android:onClick="showTextCapacity"
+        android:layout_weight="0.13" />
+
+    <Button
+        android:layout_width="145dp"
+        android:layout_height="wrap_content"
+        android:text="CREATE"
+        android:id="@+id/button5"
+        android:background="@drawable/roundbutcreate"
+        android:layout_gravity="center_horizontal" />
+
+
+</LinearLayout>

@@ -18,8 +18,7 @@ public class CreateMeeting extends Activity implements NumberPicker.OnValueChang
 {
 
     NumberPicker np;
-    private TextView tv;
-    private TextView myText = null;
+    TextView myText = null;
     int people;
     String language="";
     TimePicker tp;

@@ -51,6 +51,8 @@
         <activity
             android:name=".CreateMeeting"
             android:label="Create New Meeting"
+            android:configChanges="screenSize|orientation"
+
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
         <activity
