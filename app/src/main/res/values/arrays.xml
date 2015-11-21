@@ -15,4 +15,32 @@
         <item>21:00 - English  - Risuenya</item>
         <item>21:30 - Spanish - On quedem</item>
     </string-array>
+
+
+     <string-array name="Idioms">
+
+        <item> English</item>
+        <item>Spanish</item>
+        <item>English</item>
+        <item>Chinese</item>
+        <item>Catalan</item>
+        <item>Portuguese</item>
+
+     </string-array>
+
+    <string-array name="array_estabishments">
+
+        <item>Tribeca</item>
+        <item>Bar Gilda</item>
+        <item>Nou Sebas</item>
+        <item>Cafeteria Europa</item>
+        <item>Escala</item>
+        <item>Beat Cafe i soul</item>
+        <item>Llobregat</item>
+        <item>Manila</item>
+        <item>Tofol</item>
+        <item>Pil Pil </item>
+        <item>Risuenya</item>
+        <item>On quedem</item>
+    </string-array>
 </resources>
