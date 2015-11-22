@@ -42,6 +42,18 @@
     <string name="preferences_languages">Select Idioms that you want to speak</string>
     <string name="checkBox_notifications">Notifications</string>
 
+    <!-- create user activity strings -->
+
+    <string name="fieldLabel_name">Name</string>
+    <string name="fieldLabel_login">Email</string>
+    <string name="fieldLabel_email">Email</string>
+    <string name="fieldLabel_facebook">Facebook Profile</string>
+    <string name="fieldLabel_sex">Sex</string>
+    <string name="fieldLabel_birthday">Birthday</string>
+    <string name="fieldLabel_photo">Photo</string>
+
+
+
 
 
 </resources>
