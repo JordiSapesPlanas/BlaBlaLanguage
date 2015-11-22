@@ -31,6 +31,7 @@ public class Meeting {
         this.dateMeeting = dateMeeting;
         this.imageUrl = imageUrl;
     }
+
     public void load(){
         this.meet.getList().add(this);
     }
