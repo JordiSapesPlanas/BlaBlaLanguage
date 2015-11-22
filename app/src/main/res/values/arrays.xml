@@ -19,9 +19,8 @@
 
      <string-array name="Idioms">
 
-        <item> English</item>
-        <item>Spanish</item>
         <item>English</item>
+        <item>Spanish</item>
         <item>Chinese</item>
         <item>Catalan</item>
         <item>Portuguese</item>
