@@ -16,10 +16,18 @@
     android:showDividers="middle|end"
     style="@style/AlertDialog.AppCompat"
     android:padding="@dimen/abc_action_bar_content_inset_material">
+
+    <CheckBox
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/checkBox_notifications"
+        android:id="@+id/cb_notifications"
+        android:layout_gravity="center_horizontal" />
+
     <Switch
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Notificaciones nuevo meeting"
+        android:text="@string/notification_new_meeting"
         android:id="@+id/sw_new_meeting"
         android:layout_alignParentTop="true"
         android:checked="false"
@@ -27,13 +35,13 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:clickable="true"
         android:padding="@dimen/abc_action_bar_content_inset_material"
-        android:singleLine="false" />
+        android:enabled="false"
+        />
     <Switch
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Notificacions nuevo meeting en meeting apuntad"
+        android:text="@string/notification_new_user_in_my_meeting"
         android:id="@+id/sw_new_user"
         android:layout_alignParentTop="true"
         android:checked="false"
@@ -41,12 +49,13 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:padding="@dimen/abc_action_bar_content_inset_material" />
+        android:padding="@dimen/abc_action_bar_content_inset_material"
+        android:enabled="false"/>
 
     <Switch
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Notificacion 30 minutos antes un meeting apuntado"
+        android:text="@string/notifcation_time_before_meeting"
         android:id="@+id/sw_meeting_time"
         android:layout_alignParentTop="true"
         android:checked="false"
@@ -54,8 +63,15 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:padding="@dimen/abc_action_bar_content_inset_material" />
+        android:padding="@dimen/abc_action_bar_content_inset_material"
+        android:enabled="false"/>
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/preferences_languages"
+        android:id="@+id/btn_select_idioms"
+        android:layout_gravity="center_horizontal" />
 
 
 </LinearLayout>
