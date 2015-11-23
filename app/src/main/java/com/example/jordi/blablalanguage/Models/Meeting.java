@@ -9,7 +9,7 @@ import java.util.Date;
  */
 public class Meeting {
     private String name;
-    private String establishment;
+    private String   establishment;
     private Date dateMeeting;
     private String imageUrl;
     private MeetingsList meet = new  MeetingsList();
