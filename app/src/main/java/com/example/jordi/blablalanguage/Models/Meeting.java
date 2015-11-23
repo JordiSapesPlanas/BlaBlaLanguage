@@ -26,7 +26,7 @@ public class Meeting {
     }
 
     public Meeting(String name, String establishment, Date dateMeeting, String imageUrl){
-        this.name = name;
+        this.name =  name;
         this.establishment = establishment;
         this.dateMeeting = dateMeeting;
         this.imageUrl = imageUrl;
