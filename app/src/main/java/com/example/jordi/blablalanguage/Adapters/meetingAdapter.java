@@ -78,6 +78,19 @@ public class meetingAdapter extends BaseAdapter {
             if(meeting.getImageUrl().equals("english")){
                 viewHolder.image.setImageResource(R.drawable.english);
             }
+            else if(meeting.getImageUrl().equals("chinese")){
+                viewHolder.image.setImageResource(R.drawable.chinese);
+            }
+            else if(meeting.getImageUrl().equals("spain")){
+                viewHolder.image.setImageResource(R.drawable.spain);
+            }
+            else if(meeting.getImageUrl().equals("france")){
+                viewHolder.image.setImageResource(R.drawable.france);
+            }
+            else {
+                viewHolder.image.setImageResource(R.drawable.international);
+            }
+
             viewHolder.date.setText(meeting.getFechaString());
             viewHolder.time.setText(meeting.getTimeString());
         }
