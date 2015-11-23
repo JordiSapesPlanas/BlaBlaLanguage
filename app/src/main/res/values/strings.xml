@@ -1,6 +1,24 @@
 <resources>
     <string name="app_name">BlaBlaLanguage</string>
 
+    <!--Generic values for labels -->
+    <string name="fieldLabel_name">Name</string>
+    <string name="fieldLabel_login">Login</string>
+    <string name="fieldLabel_pass">Password</string>
+    <string name="fieldLabel_email">Email</string>
+    <string name="fieldLabel_facebook">Facebook Profile (optional)</string>
+    <string name="fieldLabel_sex">Sex</string>
+    <string name="fieldLabel_birthday">Birthday</string>
+    <string name="fieldLabel_photo">Photo</string>
+
+    <!--Generic values for buttons -->
+    <string name="Button_register">Register</string>
+    <string name="Button_cancel">Cancel</string>
+    <string name="Button_save">Save</string>
+    <string name="Button_undo">Undo</string>
+    <string name="Button_signin">Sign In</string>
+
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
@@ -43,14 +61,6 @@
     <string name="checkBox_notifications">Notifications</string>
 
     <!-- create user activity strings -->
-
-    <string name="fieldLabel_name">Name</string>
-    <string name="fieldLabel_login">Email</string>
-    <string name="fieldLabel_email">Email</string>
-    <string name="fieldLabel_facebook">Facebook Profile</string>
-    <string name="fieldLabel_sex">Sex</string>
-    <string name="fieldLabel_birthday">Birthday</string>
-    <string name="fieldLabel_photo">Photo</string>
 
 
 

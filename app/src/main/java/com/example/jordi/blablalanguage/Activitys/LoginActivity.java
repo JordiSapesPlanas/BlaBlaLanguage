@@ -32,6 +32,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.jordi.blablalanguage.Models.User;
+import com.example.jordi.blablalanguage.Models.Utils;
 import com.example.jordi.blablalanguage.R;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
@@ -70,6 +72,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    private User user;
+    private Utils utils;
 
     //Shared preferences
 
@@ -115,7 +119,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // ATTENTION: This was auto-generated to implement the App Indexing API.
             // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
-
 
     }
 
@@ -210,24 +213,59 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
+
+          //  mAuthTask = new UserLoginTask(email, password);
             //mAuthTask.execute((Void) null);
 
             //TODO Vitor you can get de the user values of this 2 parameters. This line is execute when an user is susccesfully logged
+           // Toast.makeText(getApplicationContext(), "Validating google user", Snackbar.LENGTH_LONG).show();
+            utils = new Utils();
+            utils.removeKey(this, "USER_LOGGED");
+            this.user = new User();
 
-            Toast.makeText(getApplicationContext(), "Validating google user", Snackbar.LENGTH_LONG).show();
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            //sharedPreferences.edit().putString("password", password);
-            editor.putString("email", email);
-            editor.commit();
+            User u = user.getUserById(this, email.trim());
+            String log1 = u.getLogin();
+            //If is null then send to register
+            if( log1 == null){
+                showProgress(true);
+                utils.saveKey(this, "USER_LOGGED",email.trim());
+                startActivity(new Intent(getApplicationContext(), CreateUserActivity.class));
+                alert("Login not found, please, register yourself...");
+                this.finish();
 
-            Toast.makeText(getApplicationContext(),
-                    "saved to shared preferences user email "+ sharedPreferences.getString("email", "h"),
-                    Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(getApplicationContext(), SearchMeetingActivity.class));
-            this.finish();
+            }else{
+                    String senha = u.getPass();
+                    //Checking password
+                    if(senha.equals(password)){
+                        showProgress(true);
+                        utils.saveKey(this, "USER_LOGGED",email.trim());
+                        startActivity(new Intent(getApplicationContext(), SearchMeetingActivity.class));
+                        alert("Welcome " + u.getName().trim().split(" ")[0]);
+                        this.finish();
+                    }
+                    else{
+                        //show error
+                        alert("Login/Password wrong");
+                    }
+            }
+
+
+                /*
+                //logged
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                //sharedPreferences.edit().putString("password", password);
+                editor.putString("email", email);
+                editor.commit();
+
+                Toast.makeText(getApplicationContext(),
+                        "saved to shared preferences user email "+ sharedPreferences.getString("email", "h"),
+                        Toast.LENGTH_SHORT).show();
+                */
         }
+    }
+
+    private void alert(String alert){
+        Toast.makeText(getApplicationContext(), alert, 10000).show();
     }
 
     private boolean isEmailValid(String email) {
@@ -317,6 +355,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         // shared preferences get information
         sharedPreferences = getPreferences(context.MODE_PRIVATE);
         Log.e("shpf", " initi ok");
+
+        /*
         if(sharedPreferences.getString("email", "jordi@gmail.com").equals("jordi@gmail.com")){
             // do nothing
             // it shows login form
@@ -328,8 +368,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             this.finish();
 
         }
+        */
     }
-
 
 
     @Override

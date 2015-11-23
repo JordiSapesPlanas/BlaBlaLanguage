@@ -225,9 +225,6 @@ public class CreateMeeting extends Activity implements NumberPicker.OnValueChang
                     }
                 })
                 .show();
-
-
-
     }
 
     public void startEstablishmentDialog(){

@@ -18,14 +18,76 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true">
 
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/username"
             android:padding="@dimen/abc_action_bar_content_inset_material"
-            android:text="Jordi"
+            android:text=""
             android:textSize="20dp"
             android:textStyle="bold"></TextView>
+
+        <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <AutoCompleteTextView android:id="@+id/name" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:hint="@string/fieldLabel_name"
+            android:inputType="textEmailAddress" android:maxLines="1"
+            android:singleLine="true" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+        <AutoCompleteTextView android:id="@+id/birthday" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:hint="@string/fieldLabel_birthday"
+            android:inputType="textEmailAddress" android:maxLines="1"
+            android:singleLine="true" />
+
+        </android.support.design.widget.TextInputLayout>
+
+
+        <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <AutoCompleteTextView android:id="@+id/sex" android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:hint="@string/fieldLabel_sex"
+                android:inputType="textEmailAddress" android:maxLines="1"
+                android:singleLine="true" />
+
+        </android.support.design.widget.TextInputLayout>
+
+
+            <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <AutoCompleteTextView android:id="@+id/facebook" android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:hint="@string/fieldLabel_facebook"
+                    android:inputType="textEmailAddress" android:maxLines="1"
+                    android:singleLine="true" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <AutoCompleteTextView android:id="@+id/email" android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:hint="@string/prompt_email"
+                    android:inputType="textEmailAddress" android:maxLines="1"
+                    android:clickable="false"
+                    android:background="#00FFFFFF"
+                    android:singleLine="true" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <Button android:id="@+id/email_sign_in_button" style="?android:textAppearanceSmall"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginTop="16dp" android:text="@string/Button_save"
+                android:textStyle="bold" />
+
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

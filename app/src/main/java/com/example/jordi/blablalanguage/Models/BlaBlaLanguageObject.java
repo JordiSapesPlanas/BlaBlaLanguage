@@ -1,5 +1,7 @@
 package com.example.jordi.blablalanguage.Models;
 
+import android.app.Activity;
+
 import java.util.Date;
 
 /**
@@ -9,10 +11,14 @@ import java.util.Date;
  */
 public abstract class BlaBlaLanguageObject {
 
-    private Integer id;
+        private Integer id;
     private Date dateInclude;
     private Date dateUpdate;
     private boolean active;
+
+    public BlaBlaLanguageObject(){
+
+    }
 
 
     public Integer getId() {
@@ -46,4 +52,6 @@ public abstract class BlaBlaLanguageObject {
     public void setActive(boolean active) {
         this.active = active;
     }
+
+
 }
