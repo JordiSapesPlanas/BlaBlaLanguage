@@ -9,7 +9,7 @@ import java.util.Date;
  */
 public class Meeting {
     private String name;
-    private String establishment;
+    private String    establishment;
     private Date dateMeeting;
     private String imageUrl;
     private MeetingsList meet = new  MeetingsList();
@@ -26,7 +26,7 @@ public class Meeting {
     }
 
     public Meeting(String name, String establishment, Date dateMeeting, String imageUrl){
-        this.name = name;
+        this.name =  name;
         this.establishment = establishment;
         this.dateMeeting = dateMeeting;
         this.imageUrl = imageUrl;
