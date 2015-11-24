@@ -15,16 +15,18 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.example.jordi.blablalanguage.R;
 import com.example.jordi.blablalanguage.Models.Meeting;
+import com.example.jordi.blablalanguage.R;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class CreateMeeting extends Activity implements NumberPicker.OnValueChangeListener
 {
 
     NumberPicker np;
-    TextView myText = null;
+    TextView myText1 =null,myText2=null,myText3=null,myText4=null;
     int people;
     String language="";
     TimePicker tp;
@@ -32,14 +34,36 @@ public class CreateMeeting extends Activity implements NumberPicker.OnValueChang
     String establishment;
     boolean field1=false,field2=false,field3=false, field4=false;
     Date date;
+    static final String estab="establishment", lang="language", capac="capacity", data="date";
+    String capacity, dataString;
+    static final String field1s="field1s",field2s="field2s",field3s="field3s", field4s="field4s";
 
 
 
     /** Called when the activity is first created. */
     @Override
     public void onCreate(final Bundle savedInstanceState) {
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_createmeeting);
+
+        myText1 = (TextView) findViewById(R.id.textViewShowLan);
+        myText1.setText("");
+        myText2 = (TextView) findViewById(R.id.textViewShowEst);
+        myText2.setText("");
+        myText3 = (TextView) findViewById(R.id.textViewShowCapacity);
+        myText3.setText("");
+        myText4 = (TextView) findViewById(R.id.textViewshowDate);
+        myText4.setText("");
+
+
+        myText1.setText("");
+
+        if (savedInstanceState != null){
+            onRestoreInstanceState(savedInstanceState);
+        }
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(" NEW MEETING");
@@ -77,27 +101,34 @@ public class CreateMeeting extends Activity implements NumberPicker.OnValueChang
             }
         });
         final Button button5 = (Button) findViewById(R.id.button5);
+
+
+
+
+
+
         button5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast toast1;
                 if (field1 && field2 && field3 && field4) {
-                     toast1 =
+                    toast1 =
                             Toast.makeText(getApplicationContext(),
                                     "Meeting Created", Toast.LENGTH_SHORT);
-                    field1=false;
-                    field2=false;
-                    field3=false;
-                    field4=false;
-                    Intent i = new Intent(v.getContext(),MeetingsListActivity.class);
+                    field1 = false;
+                    field2 = false;
+                    field3 = false;
+                    field4 = false;
+                    Intent i = new Intent(v.getContext(), MeetingsListActivity.class);
                     startActivityForResult(i, 0);
-                    Meeting m = new Meeting("Let's Talk", establishment,date,"english");
+
+
+                    Meeting m = new Meeting("Let's Talk", establishment, date, language.toLowerCase());
                     m.load();
                     finish();
 
-                 }
-                else{
-                     toast1 =
+                } else {
+                    toast1 =
                             Toast.makeText(getApplicationContext(),
                                     "Empty field", Toast.LENGTH_SHORT);
 
@@ -109,6 +140,68 @@ public class CreateMeeting extends Activity implements NumberPicker.OnValueChang
 
 
     }
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        // Always call the superclass so it can restore the view h ierarchy
+        super.onRestoreInstanceState(savedInstanceState);
+
+        // Restore state members from saved instance
+
+        field1=savedInstanceState.getBoolean(field1s);
+        field2=savedInstanceState.getBoolean(field2s);
+        field3=savedInstanceState.getBoolean(field3s);
+        field4=savedInstanceState.getBoolean(field4s);
+
+        if (field1){
+            establishment = savedInstanceState.getCharSequence(estab).toString();
+            showTextEstablishment();
+
+        }
+        if (field2){
+            language = savedInstanceState.getCharSequence(lang).toString();
+            showTextLanguage();
+
+
+        }
+        if (field3){
+            dataString=savedInstanceState.getCharSequence(data).toString();
+
+            myText4=(TextView)findViewById(R.id.textViewshowDate);
+            myText4.setText(dataString);
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            try {
+                date = (Date)formatter.parse(dataString);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+        }
+        if (field4){
+            people=savedInstanceState.getInt(capac);
+
+            showTextCapacity();
+
+        }
+
+    }
+    protected void onSaveInstanceState(Bundle savedInstanceState) {
+        // Save the user's current game state
+        savedInstanceState.putCharSequence(lang, myText1.getText());
+        savedInstanceState.putCharSequence(estab, myText2.getText());
+        savedInstanceState.putInt(capac, people);
+        savedInstanceState.putCharSequence(data, myText4.getText());
+        savedInstanceState.putBoolean(field1s, field1);
+        savedInstanceState.putBoolean(field2s,field2);
+        savedInstanceState.putBoolean(field3s,field3);
+        savedInstanceState.putBoolean(field4s,field4);
+
+
+
+
+
+        // Always call the superclass so it can save the view hierarchy state
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
     public void startCapacityDialog()
     {
 
@@ -193,9 +286,8 @@ public class CreateMeeting extends Activity implements NumberPicker.OnValueChang
             @Override
             public void onClick(View v) {
 
-                    dialog.dismiss();
-                    startDialogTime();
-                    date=new Date(dp.getYear()-1900,dp.getMonth(),dp.getDayOfMonth());
+                dialog.dismiss();
+                startDialogTime();
 
             }
         });
@@ -225,6 +317,9 @@ public class CreateMeeting extends Activity implements NumberPicker.OnValueChang
                     }
                 })
                 .show();
+
+
+
     }
 
     public void startEstablishmentDialog(){
@@ -249,45 +344,40 @@ public class CreateMeeting extends Activity implements NumberPicker.OnValueChang
 
 
     public void showTextLanguage(){
-        myText = (TextView) findViewById(R.id.textViewShowLan);
-        myText.setText("");
+        myText1 = (TextView) findViewById(R.id.textViewShowLan);
+        myText1.setText("");
 
-        if (myText!=null)
-            myText.append("  You have selected "+language);
+        if (myText1!=null)
+            myText1.append(language);
 
 
     }
     public void showTextEstablishment() {
-        myText = (TextView) findViewById(R.id.textViewShowEst);
-        myText.setText("");
+        myText2 = (TextView) findViewById(R.id.textViewShowEst);
+        myText2.setText("");
 
-        if (myText != null)
-            myText.append("  Your establishment " + establishment);
+        if (myText2 != null)
+            myText2.append(  establishment);
     }
 
     public void showTextCapacity(){
-        myText = (TextView) findViewById(R.id.textViewShowCapacity);
-        myText.setText("");
+        myText3 = (TextView) findViewById(R.id.textViewShowCapacity);
+        myText3.setText("");
 
-        if (myText!=null)
-            myText.append("  Capacity = " + people + " people");
+        if (myText3!=null)
+            myText3.append( ""+people);
 
 
     }
     public void showTextDate(){
-        myText=(TextView)findViewById(R.id.textViewshowDate);
-        myText.setText("");
-        if (myText!=null)
-            myText.append("Date: "+dp.getDayOfMonth()+"/"+dp.getMonth()+"/"+dp.getYear()+"   "+tp.getCurrentHour()+"."+tp.getCurrentMinute()+"h");
-    }
+        myText4=(TextView)findViewById(R.id.textViewshowDate);
+        myText4.setText("");
 
-    /*
-     * Parameters:
-        adapter - The AdapterView where the click happened.
-        view - The view within the AdapterView that was clicked
-        position - The position of the view in the adapter.
-        id - The row id of the item that was clicked.
-     */
+        if (myText4!=null) {
+            myText4.append(dp.getDayOfMonth() + "/" + dp.getMonth() + "/" + dp.getYear() + "   " + tp.getCurrentHour() + ":" + tp.getCurrentMinute()+":00");
+
+        }
+    }
 
 
     @Override

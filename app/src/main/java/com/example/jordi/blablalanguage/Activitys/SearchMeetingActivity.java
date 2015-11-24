@@ -25,6 +25,7 @@ import android.widget.ListView;
 
 import com.example.jordi.blablalanguage.Adapters.meetingAdapter;
 import com.example.jordi.blablalanguage.Models.Meeting;
+import com.example.jordi.blablalanguage.Models.MeetingsList;
 import com.example.jordi.blablalanguage.R;
 
 import java.util.ArrayList;
@@ -37,7 +38,7 @@ public class SearchMeetingActivity extends AppCompatActivity
     private String[] nameMeetings;
     private String[] nameEstablishments;
     private String[] imageName;
-
+    private MeetingsList listOfMeetings;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,6 +90,9 @@ public class SearchMeetingActivity extends AppCompatActivity
             nameMeetings = new String[]{"Let's talk","how are you?","NiHao?","BonJour","viva Español","Conocer y hablar","waaaaaa","More language"};
             nameEstablishments=new String[]{"Escala","BonGust","Restaurante WOK","NyamNyam","GOGO","Prat","Mercadona","AC Hotel"};
             imageName=new String[]{"english","english","chinese","france","spain","spain","english","international"};
+            listOfMeetings = new MeetingsList();
+            met = listOfMeetings.getList();
+
             datosDePrueba();
             try {
                 Thread.sleep(2000);

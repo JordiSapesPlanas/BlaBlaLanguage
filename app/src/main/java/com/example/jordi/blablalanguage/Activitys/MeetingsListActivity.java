@@ -50,7 +50,7 @@ public class MeetingsListActivity extends AppCompatActivity {
 
         MeetingsList listOfMeetings = new MeetingsList();
         met = listOfMeetings.getList();
-        datosDePrueba();
+        //datosDePrueba();
 
         ListView listView = (ListView) findViewById(R.id.listView_my_meetings);
         meetingAdapter myAdapter = new meetingAdapter(MeetingsListActivity.this, met, R.layout.customer_meeting_list);

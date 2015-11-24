@@ -13,7 +13,8 @@
         android:layout_height="64dp"
         android:text=""
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:layout_weight="0.11" />
+        android:layout_weight="0.11"
+        android:gravity="center_horizontal"/>
 
     <Button
         android:layout_width="match_parent"
@@ -30,7 +31,8 @@
         android:id="@+id/textViewShowEst"
         android:layout_gravity="center_horizontal"
         android:onClick="showTextEstablishment"
-        android:layout_weight="0.20" />
+        android:layout_weight="0.20"
+        android:gravity="center_horizontal"/>
 
     <Button
         android:layout_width="match_parent"
@@ -46,7 +48,8 @@
         android:id="@+id/textViewShowLan"
         android:onClick="showTextLanguage"
         android:layout_gravity="center_horizontal"
-        android:layout_weight="0.12" />
+        android:layout_weight="0.12"
+        android:gravity="center_horizontal"/>
 
     <Button
         android:layout_width="match_parent"
@@ -62,7 +65,8 @@
         android:text=""
         android:id="@+id/textViewshowDate"
         android:layout_gravity="center_horizontal"
-        android:layout_weight="0.11" />
+        android:layout_weight="0.11"
+        android:gravity="center_horizontal"/>
 
     <Button
         android:layout_width="match_parent"
@@ -79,7 +83,8 @@
         android:id="@+id/textViewShowCapacity"
         android:layout_gravity="center_horizontal"
         android:onClick="showTextCapacity"
-        android:layout_weight="0.13" />
+        android:layout_weight="0.13"
+        android:gravity="center_horizontal"/>
 
     <Button
         android:layout_width="145dp"
