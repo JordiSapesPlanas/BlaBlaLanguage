@@ -112,6 +112,18 @@ public class User extends BlaBlaLanguageObject {
         return  null;
     }
 
+    public String FormatString(){
+        return "{"
+                +"login:".concat(this.login.trim()).concat(";")
+                +"pass:".concat(this.pass.trim()).concat(";")
+                +"name:".concat(this.name.trim()).concat(";")
+                +"email:".concat(this.login.trim()).concat(";")
+                +"facebookProfile:".concat(this.facebookProfile.trim()).concat(";")
+                +"photo:".concat(this.login.trim()).concat(";")
+                +"sex:".concat(this.sex.trim()).concat(";")
+                +"birthday:".concat(this.birthday.trim()).concat("}");
+    }
+
     public boolean Save(Activity a){
 
         try {
@@ -131,7 +143,8 @@ public class User extends BlaBlaLanguageObject {
         String[] jsStrings =  json
                                 .replace("{", "").replace("}", "")
                                 .replace("\"", "")
-                                .split(",");
+                                .replace("\\", "")
+                                .split(";");
 
 
         for (String s: jsStrings){

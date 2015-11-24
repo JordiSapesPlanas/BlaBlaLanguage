@@ -29,6 +29,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -74,6 +75,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mLoginFormView;
     private User user;
     private Utils utils;
+    private View mradGroup;
 
     //Shared preferences
 
@@ -92,7 +94,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         // Set up the login form.
+
+
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
+
         populateAutoComplete();
 
         mPasswordView = (EditText) findViewById(R.id.password);
@@ -120,6 +125,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
 
+        User newUser1 = new User("test1", "vitorlui@gmail.com", "qwert", "facebook1", "m1", "14/01/1991");
+        newUser1.Save(this);
     }
 
     private void populateAutoComplete() {

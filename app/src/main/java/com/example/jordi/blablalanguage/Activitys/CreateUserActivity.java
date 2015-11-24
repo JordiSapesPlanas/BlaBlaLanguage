@@ -142,6 +142,13 @@ public class CreateUserActivity extends AppCompatActivity {
                 cancel = true;
             }
 
+            // Check for a valid name.
+            if (TextUtils.isEmpty(password)) {
+                mPasswordView.setError(getString(R.string.error_field_required));
+                focusView = mPasswordView;
+                cancel = true;
+            }
+
             if (cancel) {
                 // There was an error; don't attempt login and focus the first
                 // form field with an error.
@@ -159,61 +166,11 @@ public class CreateUserActivity extends AppCompatActivity {
                     this.finish();
                 }
 
-
                 User user = new User();
-
                 User u = user.getUserById(this,email.trim());
-
-               String nome =  u.getName();
-
-                /*String result = sharedPreferences.getString("USERT", "");
-                alert("Result: "+ result);*/
-
-                //User testValue = newUser.getUserById(this, email);
-
-                /*
-                    alert("Nome:" + testValue.getName());
-
-                    alert("Birthday: " + testValue.getBirthday());
-
-                    alert("Sex: " + testValue.getSex());
-
-                    alert("Facebook: " + testValue.getFacebookProfile());
-
-                    alert("Foto: " + testValue.getPhoto());
-
-                    alert("Pass: " + testValue.getPass());
-                */
-
-                //Toast.makeText(getApplicationContext(), "Validating google user", Snackbar.LENGTH_LONG).show();
-
-                //startActivity(new Intent(getApplicationContext(), CreateUserActivity.class));
-
-            /*
-            //If is null then send to register
-            if(user.findUser(email,password)==null){
-
-                startActivity(new Intent(getApplicationContext(), CreateUserActivity.class));
-
-            }else{
-                //logged
+                String nome =  u.getName();
 
 
-                //sharedPreferences.edit().putString("password", password);
-                editor.putString("email", email);
-                editor.commit();
-
-                Toast.makeText(getApplicationContext(),
-                        "saved to shared preferences user email "+ sharedPreferences.getString("email", "h"),
-                        Toast.LENGTH_SHORT).show();
-
-                startActivity(new Intent(getApplicationContext(), SearchMeetingActivity.class));
-
-
-            }
-            */
-
-                // this.finish();
             }
         }
         catch (Exception e){
@@ -223,7 +180,7 @@ public class CreateUserActivity extends AppCompatActivity {
     }
 
     private void alert(String alert){
-        Toast.makeText(getApplicationContext(), alert, 10000).show();
+        Toast.makeText(getApplicationContext(), alert, Toast.LENGTH_LONG).show();
     }
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic

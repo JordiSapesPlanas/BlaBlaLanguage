@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +29,7 @@ public class UserProfileActivity extends AppCompatActivity {
     private EditText mBirthdayView;
     private EditText mFacebookView;
     private EditText mSexView;
+    private RadioGroup mradGroup;
     private View mProgressView;
     private View mLoginFormView;
 
@@ -40,13 +42,14 @@ public class UserProfileActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         // Set up the form.
+        mradGroup = (RadioGroup) findViewById(R.id.menu1);
         mLabelView = (TextView) findViewById(R.id.username);
         mNameView = (EditText) findViewById(R.id.name);
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         mBirthdayView = (EditText) findViewById(R.id.birthday);
         mSexView = (EditText) findViewById(R.id.sex);
         mFacebookView = (EditText) findViewById(R.id.facebook);
-        mPasswordView = (EditText) findViewById(R.id.password);
+
 
         Utils utils = new Utils();
         String email =  utils.getKey(this,"USER_LOGGED");
@@ -62,9 +65,15 @@ public class UserProfileActivity extends AppCompatActivity {
         mFacebookView.setText(user.getFacebookProfile());
         mSexView.setText(user.getSex());
 
-        mEmailView.setEnabled(false);
 
-        Button mSignInButton = (Button) findViewById(R.id.email_sign_in_button);
+        mNameView.setEnabled(false);
+        mEmailView.setEnabled(false);
+        mBirthdayView.setEnabled(false);
+        mFacebookView.setEnabled(false);
+        mSexView.setEnabled(false);
+
+
+        final Button mSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -72,12 +81,26 @@ public class UserProfileActivity extends AppCompatActivity {
             }
         });
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        mSignInButton.setVisibility(View.INVISIBLE);
+
+
+
+        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+
+                mNameView.setEnabled(true);
+                mEmailView.setEnabled(false);
+                mBirthdayView.setEnabled(true);
+                mFacebookView.setEnabled(true);
+                mSexView.setEnabled(true);
+                mSignInButton.setVisibility(View.VISIBLE);
+                mradGroup.setVisibility(View.INVISIBLE);
+                fab.setVisibility(View.INVISIBLE);
+
+               /* Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();*/
             }
         });
     }
@@ -89,14 +112,12 @@ public class UserProfileActivity extends AppCompatActivity {
             Utils utils = new Utils();
             // Reset errors.
             mEmailView.setError(null);
-            mPasswordView.setError(null);
             mNameView.setError(null);
             //mNameView.setError(null);
 
             // Store values at the time of the login attempt.
             String name = mNameView.getText().toString();
             String email = mEmailView.getText().toString();
-            String password = mPasswordView.getText().toString();
             String sex = mSexView.getText().toString();
             String facebook = mFacebookView.getText().toString();
             String birthday = mBirthdayView.getText().toString();
@@ -117,9 +138,6 @@ public class UserProfileActivity extends AppCompatActivity {
                 focusView.requestFocus();
             } else {
 
-                alert("Salvo");
-                this.finish();
-
                 User newUser = new User();
                 User tmp = newUser.getUserById(this,email.trim());
                 User update = new User(name, email.trim(), tmp.getPass(), facebook, sex, birthday);
@@ -139,7 +157,7 @@ public class UserProfileActivity extends AppCompatActivity {
     }
 
     private void alert(String alert){
-        Toast.makeText(getApplicationContext(), alert, 10000).show();
+        Toast.makeText(getApplicationContext(), alert, Toast.LENGTH_LONG).show();
     }
 
 

@@ -79,11 +79,12 @@ public class Utils {
             Gson gson = new Gson();
 
             JSONObject json = new JSONObject();
-            String text = gson.toJson(c);
+            //String text = gson.toJson(c.toString());
+            String text = ((User)c).FormatString();
             //String id = c.getClass().getName().concat("_").concat(identification.trim()); // ClassName_Identification
             String id = identification.trim(); // ClassName_Identification
             //String id = "USERT";
-            Log.d("USERT:", text);
+            //Log.d("USERT:", text);
             prefsEditor.putString(id, text);
             prefsEditor.commit();
 
@@ -104,7 +105,7 @@ public class Utils {
             //String id = "USERT";
             String id = identification.trim(); // ClassName_Identification
             String json = mPrefs.getString(id, "");
-            Log.d("getObj: ", json);
+            //Log.d("getObj: ", json);
            // User u = gson.fromJson(json, User.class);
             //Log.d("Login:", u.getLogin());
             return json;
