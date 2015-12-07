@@ -57,10 +57,28 @@
     <string name="notification_new_meeting">Notifications when new meeting appears</string>
     <string name="notification_new_user_in_my_meeting">Notification when a user points to a meeting</string>
     <string name="notifcation_time_before_meeting">Notification 30 minutes before a meeting where I am listed</string>
-    <string name="preferences_languages">Select Idioms that you want to speak</string>
+    <string name="preferences_languages">Select Languages that you want to speak</string>
     <string name="checkBox_notifications">Notifications</string>
 
     <!-- create user activity strings -->
+
+    <!-- create meeting strings -->
+    <string name="SelectEst">Select Place</string>
+    <string name="SelectDate">Select Date</string>
+    <string name="SelectLan">Select Language</string>
+    <string name="SelecCapacity">Select Capacity</string>
+    <string name="CREATE">CREATE</string>
+    <string name="Toast_MeetingCreated">Meeting Created</string>
+    <string name="Toast_EmptyField">Empty Field</string>
+    <string name="ChoosePeople">Choose People</string>
+    <string name="ChooseHour">Choose Hour</string>
+    <string name="ChooseDate">Choose Date</string>
+    <string name="OK">OK</string>
+    <string name="NewMeeting">NEW MEETING</string>
+    <string name="Cancel">Cancel</string>
+    <string name="Set">Set</string>
+
+
 
 
 

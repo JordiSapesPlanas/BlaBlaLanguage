@@ -58,7 +58,6 @@ public class CreateMeeting extends Activity implements NumberPicker.OnValueChang
         myText4.setText("");
 
 
-        myText1.setText("");
 
         if (savedInstanceState != null){
             onRestoreInstanceState(savedInstanceState);
@@ -66,7 +65,7 @@ public class CreateMeeting extends Activity implements NumberPicker.OnValueChang
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(" NEW MEETING");
+        toolbar.setTitle(getResources().getText(R.string.NewMeeting));
 
 
         final Button button1 = (Button) findViewById(R.id.button1);
@@ -114,7 +113,7 @@ public class CreateMeeting extends Activity implements NumberPicker.OnValueChang
                 if (field1 && field2 && field3 && field4) {
                     toast1 =
                             Toast.makeText(getApplicationContext(),
-                                    "Meeting Created", Toast.LENGTH_SHORT);
+                                    getApplicationContext().getText(R.string.Toast_MeetingCreated), Toast.LENGTH_SHORT);
                     field1 = false;
                     field2 = false;
                     field3 = false;
@@ -130,7 +129,7 @@ public class CreateMeeting extends Activity implements NumberPicker.OnValueChang
                 } else {
                     toast1 =
                             Toast.makeText(getApplicationContext(),
-                                    "Empty field", Toast.LENGTH_SHORT);
+                                    getApplicationContext().getText(R.string.Toast_EmptyField), Toast.LENGTH_SHORT);
 
                 }
 
@@ -206,7 +205,7 @@ public class CreateMeeting extends Activity implements NumberPicker.OnValueChang
     {
 
         final Dialog d = new Dialog(CreateMeeting.this);
-        d.setTitle("Choose People");
+        d.setTitle(getResources().getString(R.string.ChoosePeople));
         d.setContentView(R.layout.numberpicker);
         Button b1 = (Button) d.findViewById(R.id.button10);
         Button b2 = (Button) d.findViewById(R.id.button20);
@@ -216,26 +215,26 @@ public class CreateMeeting extends Activity implements NumberPicker.OnValueChang
         np.setWrapSelectorWheel(false);
         np.setOnValueChangedListener(this);
 
-        b1.setOnClickListener(new View.OnClickListener()
-        {
+        b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                people=np.getValue();
+                people = np.getValue();
                 d.dismiss();
                 showTextCapacity();
-                field4=true;
+                field4 = true;
 
 
             }
         });
+
         b2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 d.dismiss();
-                showTextDate();
             }
         });
         d.show();
+
 
 
 
@@ -245,7 +244,7 @@ public class CreateMeeting extends Activity implements NumberPicker.OnValueChang
         final Dialog dialog = new Dialog(CreateMeeting.this);
 
         dialog.setContentView(R.layout.time);
-        dialog.setTitle("Choose Hour");
+        dialog.setTitle(getResources().getString(R.string.ChooseHour));
         tp = (TimePicker)dialog.findViewById(R.id.timePicker1);
         tp.setIs24HourView(true);
 
@@ -275,7 +274,7 @@ public class CreateMeeting extends Activity implements NumberPicker.OnValueChang
         final Dialog dialog = new Dialog(CreateMeeting.this);
 
         dialog.setContentView(R.layout.date);
-        dialog.setTitle("Choose Date");
+        dialog.setTitle(getResources().getString(R.string.ChooseDate));
         dp = (DatePicker)dialog.findViewById(R.id.datePicker1);
         dp.setCalendarViewShown(false);
         dp.setMinDate(System.currentTimeMillis()+(1000 * 60 * 60 * 24));
@@ -305,7 +304,7 @@ public class CreateMeeting extends Activity implements NumberPicker.OnValueChang
     public void startLanguageDialog(){
         new AlertDialog.Builder(this)
                 .setSingleChoiceItems(R.array.Idioms, 0, null)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                .setPositiveButton(getResources().getText(R.string.OK), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         dialog.dismiss();
                         int selectedPosition = ((AlertDialog)dialog).getListView().getCheckedItemPosition();
@@ -325,7 +324,7 @@ public class CreateMeeting extends Activity implements NumberPicker.OnValueChang
     public void startEstablishmentDialog(){
         new AlertDialog.Builder(this)
                 .setSingleChoiceItems(R.array.array_estabishments, 0, null)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                .setPositiveButton(getResources().getText(R.string.OK), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         dialog.dismiss();
                         int selectedPosition = ((AlertDialog)dialog).getListView().getCheckedItemPosition();

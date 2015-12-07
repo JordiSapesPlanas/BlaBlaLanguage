@@ -19,7 +19,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Select Establishment"
+        android:text="@string/SelectEst"
         android:background="@drawable/roundbutton"
         android:id="@+id/button1" />
 
@@ -38,7 +38,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/roundbutton"
-        android:text="Select Language"
+        android:text="@string/SelectLan"
         android:id="@+id/button2" />
 
     <TextView
@@ -54,7 +54,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Select Date and Hour"
+        android:text="@string/SelectDate"
         android:background="@drawable/roundbutton"
         android:id="@+id/button3" />
 
@@ -73,7 +73,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/roundbutton"
 
-        android:text="Select Capacity"
+        android:text="@string/SelecCapacity"
         android:id="@+id/button4" />
 
     <TextView
@@ -89,7 +89,7 @@
     <Button
         android:layout_width="145dp"
         android:layout_height="wrap_content"
-        android:text="CREATE"
+        android:text="@string/CREATE"
         android:id="@+id/button5"
         android:background="@drawable/roundbutcreate"
         android:layout_gravity="center_horizontal" />

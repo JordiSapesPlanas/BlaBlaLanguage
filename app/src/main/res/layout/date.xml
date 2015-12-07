@@ -8,7 +8,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Cancel"
+        android:text="@string/Cancel"
         android:id="@+id/buttonDateCancel"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
@@ -17,7 +17,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Set"
+        android:text="@string/Set"
         android:id="@+id/buttonDateSet"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
