@@ -50,6 +50,7 @@ import static android.Manifest.permission.READ_CONTACTS;
  */
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 /**/
+    // ptova sign in
 
     /**
      * Id to identity READ_CONTACTS permission request.
