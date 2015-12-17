@@ -21,7 +21,15 @@
             android:layout_width="match_parent"
             android:padding="@dimen/abc_action_bar_content_inset_material"
             android:layout_height="wrap_content"
-            android:text="973 27 04 06"/>
+            android:id="@+id/telephoneNumber"
+            android:text="973800851"/>
+
+        <ImageButton
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:id="@+id/imageButton"
+            android:src="@drawable/telefone"
+            android:layout_gravity="center_horizontal" />
 
         <TextView
             android:layout_width="match_parent"
