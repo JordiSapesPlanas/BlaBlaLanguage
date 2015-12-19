@@ -10,8 +10,6 @@ import android.widget.TextView;
 import com.example.jordi.blablalanguage.Models.Meeting;
 import com.example.jordi.blablalanguage.R;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 
 /**
@@ -46,8 +44,12 @@ public class meetingAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return position;
+        return this.meetings.get(position);
     }
+    public Meeting getItemPressed(int position){
+        return meetings.get(position);
+    }
+
 
     @Override
     public long getItemId(int position) {

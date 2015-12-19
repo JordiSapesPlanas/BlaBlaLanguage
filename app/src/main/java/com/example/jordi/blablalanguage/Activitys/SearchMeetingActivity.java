@@ -1,17 +1,26 @@
 package com.example.jordi.blablalanguage.Activitys;
 
+import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
@@ -31,7 +40,7 @@ import com.example.jordi.blablalanguage.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchMeetingActivity extends AppCompatActivity
+public class SearchMeetingActivity extends Activity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private List<Meeting> met;
@@ -39,12 +48,14 @@ public class SearchMeetingActivity extends AppCompatActivity
     private String[] nameEstablishments;
     private String[] imageName;
     private MeetingsList listOfMeetings;
+    Meeting m=null;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_meeting);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -108,15 +119,50 @@ public class SearchMeetingActivity extends AppCompatActivity
             ListView listView = (ListView) findViewById(R.id.listView);
             meetingAdapter myAdapter = new meetingAdapter(SearchMeetingActivity.this, met, R.layout.customer_meeting_list);
             listView.setAdapter(myAdapter);
-
             pDialog.dismiss();
 
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                        startActivity(new Intent(getApplicationContext(), MeatingDetailActivity.class), Bundle.EMPTY);
-                    }
+                     m=(Meeting)parent.getAdapter().getItem(position);
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(SearchMeetingActivity.this);
+
+                    builder.setTitle("Register");
+                    builder.setMessage("Do you want to go?");
+
+                    builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Do nothing but close the dialog
+
+                            dialog.dismiss();
+                            int hour =m.getDateMeeting().getHours();
+                            int minute = m.getDateMeeting().getMinutes();
+                            String s = "Today at "+hour+":"+minute+"h";
+                            long future=System.currentTimeMillis()+10000;
+                            String title = "Remember today "+m.getName();
+                            showNotification(getNotification(title,s), future);
+
+                            startActivity(new Intent(getApplicationContext(), MeatingDetailActivity.class), Bundle.EMPTY);
+
+                        }
+
+                    });
+
+                    builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Do nothing
+                            dialog.dismiss();
+
+                        }
+                    });
+
+                    AlertDialog alert = builder.create();
+                    alert.show();
+
                 }
             });
         }
@@ -192,4 +238,32 @@ public class SearchMeetingActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+    private void showNotification(Notification notification, long future) {
+
+        Intent notificationIntent = new Intent(this, Receiver.class);
+        notificationIntent.putExtra(Receiver.NOTIFICATION_ID, 1);
+        notificationIntent.putExtra(Receiver.NOTIFICATION, notification);
+        int i = (int)SystemClock.elapsedRealtime()%99999999;
+        Log.e("Variable"," "+ i+" ");
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, i, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, future, pendingIntent);
+    }
+
+    private Notification getNotification(String title,String content) {
+        Notification.Builder builder = new Notification.Builder(this);
+        builder.setContentTitle(title);
+        builder.setContentText(content);
+        builder.setSmallIcon(R.drawable.international);
+        builder.setVibrate(new long[]{1000, 1000, 1000, 1000, 1000});
+        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        builder.setSound(alarmSound);
+        builder.setLights(Color.MAGENTA, 3000, 3000);
+
+        return builder.build();
+    }
+
+
+
 }
