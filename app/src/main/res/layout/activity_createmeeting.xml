@@ -7,12 +7,12 @@
     tools:context="com.example.jordi.blablalanguage.createmeeting">
 
     <android.support.design.widget.AppBarLayout android:layout_height="wrap_content"
-        android:layout_width="match_parent" android:text="NEW MEETING" android:theme="@style/AppTheme.AppBarOverlay">
+        android:layout_width="match_parent" android:text="NEW MEETING">
 
         <android.support.v7.widget.Toolbar android:id="@+id/toolbar"
             android:layout_width="match_parent" android:layout_height="?attr/actionBarSize"
             android:text="NEW MEETING"
-            android:background="?attr/colorPrimary" app:popupTheme="@style/AppTheme.PopupOverlay" />
+            android:background="?attr/colorPrimary"  />
 
     </android.support.design.widget.AppBarLayout>
 
