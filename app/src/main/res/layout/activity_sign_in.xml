@@ -23,14 +23,14 @@
             android:layout_marginBottom="10dp"
             android:layout_marginTop="@dimen/g_top_margin"
             android:contentDescription="@string/desc_google_icon"
-            android:src="@drawable/chinese" />
+            android:src="@drawable/international" />
 
         <TextView
             android:id="@+id/title_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:text="@string/title_text"
+            android:text="Sign in with google"
             android:gravity="center"
             android:textColor="@android:color/white"
             android:textSize="36sp" />
@@ -102,6 +102,12 @@
 
     </RelativeLayout>
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Register with another user"
+        android:id="@+id/button_register_with_an_other_user"
+        android:layout_gravity="center_horizontal" />
 
 
 </LinearLayout>

@@ -63,7 +63,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
 
         };
-        String[] addr= new String[]{"C/Urquinaona 8, Terrassa"};
+
+
+        String[] addr= new String[1];
+        String s = getIntent().getStringExtra("address");
+        if( s == null){
+             addr[0]= "C/Urquinaona 8, Terrassa";
+        }else{
+            addr[0]= s;
+        }
+
         async.execute(addr);
     }
 

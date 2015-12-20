@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.jordi.blablalanguage.Models.User;
 import com.example.jordi.blablalanguage.R;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -49,6 +50,12 @@ public class SignInActivity extends AppCompatActivity implements
         findViewById(R.id.sign_in_button).setOnClickListener(this);
         findViewById(R.id.sign_out_button).setOnClickListener(this);
         findViewById(R.id.disconnect_button).setOnClickListener(this);
+        findViewById(R.id.button_register_with_an_other_user).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+            }
+        });
 
         // [START configure_signin]
         // Configure sign-in to request the user's ID, email address, and basic
@@ -129,6 +136,18 @@ public class SignInActivity extends AppCompatActivity implements
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
             mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
+            User newUser = new User(acct.getDisplayName(), acct.getEmail(), "qwert", "facebook2", "f", "14/01/1993");
+            // TODO SAVE FOTO
+            // acct.getPhotoUrl();
+            // references
+            newUser.deleteByLogin(this,  acct.getEmail());
+            newUser.Save(this);
+
+
+
+
+
+
             Toast.makeText(this, "Hello:" + acct.getEmail() + ": name "
                     + acct.getDisplayName(), Toast.LENGTH_SHORT).show();
             //updateUI(true);

@@ -16,20 +16,8 @@
             android:layout_width="match_parent"
             android:padding="@dimen/abc_action_bar_content_inset_material"
             android:layout_height="wrap_content"
-            android:text="Carrer Acadèmia, 32,25002 Lleida"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:padding="@dimen/abc_action_bar_content_inset_material"
-            android:layout_height="wrap_content"
-            android:id="@+id/telephoneNumber"
-            android:text="973800851"/>
-
-        <ImageButton
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:id="@+id/imageButton"
-            android:src="@drawable/telefone"
-            android:layout_gravity="center_horizontal" />
+            android:text="Carrer Acadèmia, 32,25002 Lleida"
+            android:id="@+id/local_address" />
 
         <TextView
             android:layout_width="match_parent"
@@ -61,7 +49,19 @@
             android:text="Users: Manel, Joan, Jordi, Maria, Carolina, Paul, Bryan"
             android:layout_height="wrap_content" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:padding="@dimen/abc_action_bar_content_inset_material"
+            android:layout_height="wrap_content"
+            android:id="@+id/telephoneNumber"
+            android:text="973800851"/>
 
+        <ImageButton
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:id="@+id/imageButton"
+            android:src="@drawable/telefone"
+            android:layout_gravity="center_horizontal" />
 
 
     </LinearLayout>
