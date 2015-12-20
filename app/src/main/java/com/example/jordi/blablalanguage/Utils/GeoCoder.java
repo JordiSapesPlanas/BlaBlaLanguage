@@ -50,11 +50,8 @@ public class GeoCoder {
                 }
 
                 InputStream is = new URL(url).openStream();
-
                 InputStreamReader ir = new InputStreamReader(is);
-
                 BufferedReader bf = new BufferedReader(ir);
-
                 return gson.fromJson( bf, GeocodeResponse.class);
             } finally {
                 lastRequest = System.currentTimeMillis();
