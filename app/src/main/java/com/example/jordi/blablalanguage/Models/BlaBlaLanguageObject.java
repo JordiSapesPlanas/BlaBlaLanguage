@@ -1,6 +1,9 @@
 package com.example.jordi.blablalanguage.Models;
 
 import android.app.Activity;
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.Date;
 
@@ -11,15 +14,14 @@ import java.util.Date;
  */
 public abstract class BlaBlaLanguageObject {
 
-        private Integer id;
+    private static final String NOME_BANCO = "blablalanguage.db";
+    private static final int VERSAO = 1;
+
+
+    private Integer id;
     private Date dateInclude;
     private Date dateUpdate;
     private boolean active;
-
-    public BlaBlaLanguageObject(){
-
-    }
-
 
     public Integer getId() {
         return id;

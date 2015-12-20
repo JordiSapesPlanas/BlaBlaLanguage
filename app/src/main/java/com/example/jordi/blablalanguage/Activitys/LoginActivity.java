@@ -126,8 +126,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
 
-        User newUser1 = new User("test1", "vitorlui@gmail.com", "qwert", "facebook1", "m1", "14/01/1991");
+
+        User newUser1 = new User("Vitor Luiz", "vitorlui@gmail.com", "qwert", "facebook1", "m", "14/01/1990");
+        User newUser2 = new User("Jordi", "jordisapes@gmail.com", "qwert", "facebook2", "f", "14/01/1993");
+        newUser1.deleteByLogin(this,"vitorlui@gmail.com");
+        newUser2.deleteByLogin(this,"jordisapes@gmail.com");
         newUser1.Save(this);
+        newUser2.Save(this);
     }
 
     private void populateAutoComplete() {
@@ -225,16 +230,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
           //  mAuthTask = new UserLoginTask(email, password);
             //mAuthTask.execute((Void) null);
 
-            //TODO Vitor you can get de the user values of this 2 parameters. This line is execute when an user is susccesfully logged
+
            // Toast.makeText(getApplicationContext(), "Validating google user", Snackbar.LENGTH_LONG).show();
             utils = new Utils();
             utils.removeKey(this, "USER_LOGGED");
             this.user = new User();
 
             User u = user.getUserById(this, email.trim());
-            String log1 = u.getLogin();
+
             //If is null then send to register
-            if( log1 == null){
+            if( u == null){
                 showProgress(true);
                 utils.saveKey(this, "USER_LOGGED",email.trim());
                 startActivity(new Intent(getApplicationContext(), CreateUserActivity.class));
@@ -243,12 +248,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             }else{
                     String senha = u.getPass();
+                    String name = u.getName();
                     //Checking password
                     if(senha.equals(password)){
                         showProgress(true);
                         utils.saveKey(this, "USER_LOGGED",email.trim());
                         startActivity(new Intent(getApplicationContext(), SearchMeetingActivity.class));
-                        alert("Welcome " + u.getName().trim().split(" ")[0]);
+                        alert("Welcome " + name.trim().split(" ")[0]);
                         this.finish();
                     }
                     else{

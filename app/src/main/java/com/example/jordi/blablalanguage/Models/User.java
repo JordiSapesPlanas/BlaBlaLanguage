@@ -2,7 +2,10 @@ package com.example.jordi.blablalanguage.Models;
 
 import android.app.Activity;
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.provider.ContactsContract;
 import android.util.Log;
+import android.database.Cursor;
 
 import java.util.Date;
 
@@ -13,6 +16,7 @@ import java.util.Date;
 public class User extends BlaBlaLanguageObject {
 
     Utils utils = new Utils(); //internal uses
+    DBUtils dbutils; //internal uses
     private UserType userType;
     private String name;
     private String login;
@@ -21,11 +25,10 @@ public class User extends BlaBlaLanguageObject {
     private String sex;
     private String birthday;
     private String photo;
-
-    public User(){}
+    //fake
+    private Context context;
 
     public User(String name, String login, String password, String facebookProfile, String sex, String birthday){
-
         setDateInclude(new Date());
         setActive(true);
         //this.setUserType(ut);
@@ -35,6 +38,11 @@ public class User extends BlaBlaLanguageObject {
         this.setFacebookProfile(facebookProfile);
         this.setSex(sex);
         this.setBirthday(birthday);
+        this.setPhoto("");
+    }
+
+    public User(){
+
     }
 
     public UserType getUserType() {
@@ -124,7 +132,71 @@ public class User extends BlaBlaLanguageObject {
                 +"birthday:".concat(this.birthday.trim()).concat("}");
     }
 
+    public String InsertCommand(){
+         String value = "INSERT INTO USERS(Login,Pass,Name,FacebookProfile,Photo,Sex,Birthday) " +
+                "VALUES " +
+                "("
+                    +"\""+this.login.trim().concat("\",")
+                    +"\""+this.pass.trim().concat("\",")
+                    +"\""+this.name.trim().concat("\",")
+                    +"\""+this.facebookProfile.trim().concat("\",")
+                    +"\""+this.photo.trim().concat("\",")
+                    +"\""+this.sex.trim().concat("\",")
+                    +"\""+this.birthday.trim().concat("\"")
+                +")";
+
+        return value;
+    }
+
+    public String UpdateCommand(){
+
+        String value = "UPDATE USERS "
+                +" set "
+                +" Name = \""+this.name.trim()+"\""
+                +" ,FacebookProfile = \""+this.facebookProfile.trim()+"\""
+                +" ,Photo = \""+this.photo.trim()+"\""
+                +" ,Sex = \""+this.sex.trim()+"\""
+                +" ,Birthday = \""+this.birthday.trim()+"\""
+                +" where LOGIN = \""+this.login.trim()+"\"";
+
+        return value;
+    }
+
+
     public boolean Save(Activity a){
+
+        try {
+
+            dbutils = new DBUtils(a.getApplicationContext());
+            SQLiteDatabase db = dbutils.getWritableDatabase();
+
+            String sql ="";
+
+            if(getUserById(a,this.login)!=null){
+                sql =  UpdateCommand();
+            }else {
+               sql =  InsertCommand();
+            }
+
+            if(db!=null){
+                db.execSQL(sql);
+
+                db.close();
+
+                return  true;
+            }else{
+                return  false;
+            }
+
+        }
+        catch (Exception e){
+            throw  e;
+            //return  false;
+        }
+    }
+
+
+    public boolean Save2(Activity a){
 
         try {
             utils.saveObject(a, this.login, this);//Saving in preferences
@@ -166,6 +238,84 @@ public class User extends BlaBlaLanguageObject {
     }
 
     public User getUserById(Activity a, String login){
+
+        try {
+
+            dbutils = new DBUtils(a.getApplicationContext());
+            SQLiteDatabase db = dbutils.getReadableDatabase();
+
+            String[] campos =  {"Id","Name","Login","Pass","Type","FacebookProfile","Sex","Birthday","Photo"};
+            String where = " Login = " + "\""+login.trim()+"\"";
+
+            if(db!=null){
+
+               Cursor cursor =  db.query("USERS",campos,where, null, null, null, null, null);
+                if(cursor!=null && cursor.moveToFirst()){
+
+                    User u = new User();
+
+                    int Id = cursor.getInt(cursor.getColumnIndex("Id"));
+                    String Login = cursor.getString(cursor.getColumnIndex("Login"));
+                    String Name = cursor.getString(cursor.getColumnIndex("Name"));
+                    String Pass = cursor.getString(cursor.getColumnIndex("Pass"));
+                    int Type = cursor.getInt(cursor.getColumnIndex("Type"));
+                    String FacebookProfile = cursor.getString(cursor.getColumnIndex("FacebookProfile"));
+                    String Sex = cursor.getString(cursor.getColumnIndex("Sex"));
+                    String Birthday = cursor.getString(cursor.getColumnIndex("Birthday"));
+                    String Photo = cursor.getString(cursor.getColumnIndex("Photo"));
+
+                    u.setId(Id);
+                    u.setLogin(Login);
+                    u.setName(Name);
+                    u.setPass(Pass);
+                    u.setFacebookProfile(FacebookProfile);
+                    u.setSex(Sex);
+                    u.setPhoto(Photo);
+
+                    db.close();
+
+                    return u;
+                }
+                else{
+                    db.close();
+                    return null;
+                }
+
+            }else{
+                return  null;
+            }
+
+        }
+        catch (Exception e){
+            throw  e;
+            //return  false;
+        }
+    }
+
+    public boolean deleteByLogin(Activity a, String login){
+
+        try {
+
+            dbutils = new DBUtils(a.getApplicationContext());
+            SQLiteDatabase db = dbutils.getWritableDatabase();
+            String sql = "delete from USERS where login=\""+login+"\"";
+
+            if(db!=null){
+                db.execSQL(sql);
+                db.close();
+                return  true;
+            }else{
+                return  false;
+            }
+
+        }
+        catch (Exception e){
+            throw  e;
+            //return  false;
+        }
+    }
+
+    public User getUserById2(Activity a, String login){
 
         try {
 

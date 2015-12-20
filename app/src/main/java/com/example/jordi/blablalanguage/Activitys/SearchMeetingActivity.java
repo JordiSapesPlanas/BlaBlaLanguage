@@ -241,8 +241,8 @@ public class SearchMeetingActivity extends Activity
     private void showNotification(Notification notification, long future) {
 
         Intent notificationIntent = new Intent(this, Receiver.class);
-        notificationIntent.putExtra(Receiver.NOTIFICATION_ID, 1);
-        notificationIntent.putExtra(Receiver.NOTIFICATION, notification);
+        //notificationIntent.putExtra(Receiver.NOTIFICATION_ID, 1);
+        //notificationIntent.putExtra(Receiver.NOTIFICATION, notification);
         int i = (int)SystemClock.elapsedRealtime()%99999999;
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, i, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
