@@ -36,6 +36,7 @@ public class GeoCoder {
             }
             sb.append(URLEncoder.encode(string.replace(' ', '+'), "UTF-8"));
         }
+
         String url = "http://maps.googleapis.com/maps/api/geocode/json?sensor=false&address=" + sb.toString();
         // Google limits this web service to 2500/day and 10 requests/s
         synchronized (this) {
