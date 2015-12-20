@@ -244,7 +244,6 @@ public class SearchMeetingActivity extends Activity
         notificationIntent.putExtra(Receiver.NOTIFICATION_ID, 1);
         notificationIntent.putExtra(Receiver.NOTIFICATION, notification);
         int i = (int)SystemClock.elapsedRealtime()%99999999;
-        Log.e("Variable"," "+ i+" ");
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, i, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
