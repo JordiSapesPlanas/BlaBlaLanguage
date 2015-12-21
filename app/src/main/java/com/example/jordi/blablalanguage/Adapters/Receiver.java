@@ -1,4 +1,4 @@
-package com.example.jordi.blablalanguage.Activitys;
+package com.example.jordi.blablalanguage.Adapters;
 
 import android.app.Notification;
 import android.app.NotificationManager;

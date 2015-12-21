@@ -13,8 +13,6 @@ import android.widget.TextView;
 
 import com.example.jordi.blablalanguage.R;
 import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.common.api.GoogleApiClient;
 
 public class MeatingDetailActivity extends AppCompatActivity {
 
@@ -47,6 +45,19 @@ public class MeatingDetailActivity extends AppCompatActivity {
         });
 
     }
+
+
+
+        public void onClick(View view){
+            TextView text = (TextView) findViewById(R.id.local_address);
+            address = text.getText().toString();
+
+            Intent searchAddress = new  Intent(Intent.ACTION_VIEW,Uri.parse("geo:0,0?q="+address));
+            startActivity(searchAddress);
+
+    }
+
+
 
     @Override
     public void onStart() {

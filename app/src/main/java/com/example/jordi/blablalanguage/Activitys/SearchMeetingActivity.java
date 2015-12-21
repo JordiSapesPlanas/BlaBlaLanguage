@@ -32,6 +32,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.example.jordi.blablalanguage.Adapters.Receiver;
 import com.example.jordi.blablalanguage.Adapters.meetingAdapter;
 import com.example.jordi.blablalanguage.Models.Meeting;
 import com.example.jordi.blablalanguage.Models.MeetingsList;
@@ -241,8 +242,8 @@ public class SearchMeetingActivity extends Activity
     private void showNotification(Notification notification, long future) {
 
         Intent notificationIntent = new Intent(this, Receiver.class);
-        //notificationIntent.putExtra(Receiver.NOTIFICATION_ID, 1);
-        //notificationIntent.putExtra(Receiver.NOTIFICATION, notification);
+        notificationIntent.putExtra(Receiver.NOTIFICATION_ID, 1);
+        notificationIntent.putExtra(Receiver.NOTIFICATION, notification);
         int i = (int)SystemClock.elapsedRealtime()%99999999;
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, i, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 

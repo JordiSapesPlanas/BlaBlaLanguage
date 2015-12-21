@@ -1,0 +1,51 @@
+{
+  "project_info": {
+    "project_id": "blablalanguage-8f641",
+    "project_number": "717562559698",
+    "name": "BlaBlaLanguage"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:717562559698:android:f1c6fe7d6a46efaa",
+        "client_id": "android:com.example.jordi.blablalanguage",
+        "client_type": 1,
+        "android_client_info": {
+          "package_name": "com.example.jordi.blablalanguage"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "717562559698-t16qnd1sbo2lpk4jojm1633iteo60rab.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.jordi.blablalanguage",
+            "certificate_hash": "E1930B6E378D6E3640A000768BC9BC2C6E01198A"
+          }
+        }
+      ],
+      "api_key": [],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "cloud_messaging_service": {
+          "status": 1,
+          "apns_config": []
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "google_signin_service": {
+          "status": 2
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "client_info": [],
+  "ARTIFACT_VERSION": "1"
+}
