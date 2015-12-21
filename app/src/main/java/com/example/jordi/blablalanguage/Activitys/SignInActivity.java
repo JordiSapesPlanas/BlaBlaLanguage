@@ -54,6 +54,8 @@ public class SignInActivity extends AppCompatActivity implements
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                SignInActivity.this.finish();
+
             }
         });
 
