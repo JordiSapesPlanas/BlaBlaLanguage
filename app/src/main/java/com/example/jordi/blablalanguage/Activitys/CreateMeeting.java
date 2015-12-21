@@ -13,6 +13,7 @@ import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
@@ -22,10 +23,9 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.example.jordi.blablalanguage.Adapters.Receiver;
 import com.example.jordi.blablalanguage.Models.Meeting;
 import com.example.jordi.blablalanguage.R;
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.text.ParseException;
@@ -37,8 +37,9 @@ import java.util.Date;
  * Created 26/11/15
  * Modificated 18/12/15
  */
-public class CreateMeeting extends Activity implements NumberPicker.OnValueChangeListener {
+public class CreateMeeting extends Activity  {
 
+    //Attributes
     NumberPicker np;
     TextView myText1 = null, myText2 = null, myText3 = null, myText4 = null;
     int people;
@@ -169,9 +170,7 @@ public class CreateMeeting extends Activity implements NumberPicker.OnValueChang
         });
 
 
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+
     }
 
     public void onRestoreInstanceState(Bundle savedInstanceState) {
@@ -245,7 +244,6 @@ public class CreateMeeting extends Activity implements NumberPicker.OnValueChang
         np.setMaxValue(20);
         np.setMinValue(3);
         np.setWrapSelectorWheel(false);
-        np.setOnValueChangedListener(this);
 
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -417,9 +415,10 @@ public class CreateMeeting extends Activity implements NumberPicker.OnValueChang
     private void showNotification(Notification notification, long future) {
 
         Intent notificationIntent = new Intent(this, Receiver.class);
-        //notificationIntent.putExtra(Receiver.NOTIFICATION_ID, 1);
-        //notificationIntent.putExtra(Receiver.NOTIFICATION, notification);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        notificationIntent.putExtra(Receiver.NOTIFICATION_ID, 1);
+        notificationIntent.putExtra(Receiver.NOTIFICATION, notification);
+        int i = (int) SystemClock.elapsedRealtime()%99999999;
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, i, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         alarmManager.set(AlarmManager.RTC_WAKEUP, future, pendingIntent);
@@ -439,48 +438,4 @@ public class CreateMeeting extends Activity implements NumberPicker.OnValueChang
     }
 
 
-    @Override
-    public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.connect();
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "CreateMeeting Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app deep link URI is correct.
-                Uri.parse("android-app://com.example.jordi.blablalanguage.Activitys/http/host/path")
-        );
-        AppIndex.AppIndexApi.start(client, viewAction);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "CreateMeeting Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app deep link URI is correct.
-                Uri.parse("android-app://com.example.jordi.blablalanguage.Activitys/http/host/path")
-        );
-        AppIndex.AppIndexApi.end(client, viewAction);
-        client.disconnect();
-    }
 }
