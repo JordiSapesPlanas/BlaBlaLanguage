@@ -152,6 +152,7 @@ public class SignInActivity extends AppCompatActivity implements
                     + acct.getDisplayName(), Toast.LENGTH_SHORT).show();
             //updateUI(true);
             startActivity(new Intent(this, SearchMeetingActivity.class));
+            this.finish();
         } else {
             // Signed out, show unauthenticated UI.
             updateUI(false);
