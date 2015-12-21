@@ -153,6 +153,7 @@ public class SignInActivity extends AppCompatActivity implements
             //updateUI(true);
             startActivity(new Intent(this, SearchMeetingActivity.class));
             this.finish();
+
         } else {
             // Signed out, show unauthenticated UI.
             updateUI(false);
