@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.jordi.blablalanguage.R;
@@ -41,6 +42,19 @@ public class MeatingDetailActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), MapsActivity.class).putExtra("address", address));
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+            }
+        });
+
+        final ImageButton but = (ImageButton) findViewById(R.id.imageButton);
+        but.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TextView text =(TextView)findViewById(R.id.telephoneNumber);
+                String telefon = text.getText().toString();
+                Intent intent = new Intent(Intent.ACTION_CALL);
+                intent.setData(Uri.parse("tel:" + telefon));
+                startActivity(intent);
+
             }
         });
 
