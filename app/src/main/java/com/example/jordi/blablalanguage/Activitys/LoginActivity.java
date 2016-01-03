@@ -89,7 +89,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
-    private GoogleApiClient client;
+    //private GoogleApiClient client;
 
 
     @Override
@@ -128,7 +128,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mProgressView = findViewById(R.id.login_progress);
             // ATTENTION: This was auto-generated to implement the App Indexing API.
             // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+        //client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
 
 
         User newUser1 = new User("Vitor Luiz", "vitorlui@gmail.com", "qwert", "facebook1", "m", "14/01/1990");
@@ -396,7 +396,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.connect();
+        //client.connect();
         Action viewAction = Action.newAction(
                 Action.TYPE_VIEW, // TODO: choose an action type.
                 "Login Page", // TODO: Define a title for the content shown.
@@ -407,7 +407,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 // TODO: Make sure this auto-generated app deep link URI is correct.
                 Uri.parse("android-app://com.example.jordi.blablalanguage/http/host/path")
         );
-        AppIndex.AppIndexApi.start(client, viewAction);
+       // AppIndex.AppIndexApi.start(client, viewAction);
     }
 
     @Override
@@ -426,8 +426,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 // TODO: Make sure this auto-generated app deep link URI is correct.
                 Uri.parse("android-app://com.example.jordi.blablalanguage/http/host/path")
         );
-        AppIndex.AppIndexApi.end(client, viewAction);
-        client.disconnect();
+//        AppIndex.AppIndexApi.end(client, viewAction);
+//        client.disconnect();
     }
 
     @Override
@@ -445,8 +445,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     }
     private void signIn() {
-        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(client);
-        startActivityForResult(signInIntent, RC_SIGN_IN);
+        //Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(client);
+        //startActivityForResult(signInIntent, RC_SIGN_IN);
     };
 
     @Override
