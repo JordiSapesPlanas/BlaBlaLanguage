@@ -32,7 +32,6 @@ public class SignInActivity extends AppCompatActivity implements
 
     private static final String TAG = "SignInActivity";
     private static final int RC_SIGN_IN = 9001;
-
     private GoogleApiClient mGoogleApiClient;
     private TextView mStatusTextView;
     private ProgressDialog mProgressDialog;
@@ -141,6 +140,11 @@ public class SignInActivity extends AppCompatActivity implements
             User newUser = new User(acct.getDisplayName(), acct.getEmail(), "qwert", "facebook2", "f", "14/01/1993");
             // TODO SAVE FOTO
             // acct.getPhotoUrl();
+
+
+
+
+
             // references
             newUser.deleteByLogin(this,  acct.getEmail());
             newUser.Save(this);

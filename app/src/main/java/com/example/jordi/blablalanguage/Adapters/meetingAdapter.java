@@ -77,16 +77,16 @@ public class meetingAdapter extends BaseAdapter {
         if (meeting != null) {
             viewHolder.nameMeeting.setText(meeting.getName());
             viewHolder.nameEstablishment.setText(meeting.getEstablishment());
-            if(meeting.getImageUrl().equals("english")){
+            if(meeting.getImageUrl().toLowerCase().equals("english")){
                 viewHolder.image.setImageResource(R.drawable.english);
             }
-            else if(meeting.getImageUrl().equals("chinese")){
+            else if(meeting.getImageUrl().toLowerCase().equals("chinese")){
                 viewHolder.image.setImageResource(R.drawable.chinese);
             }
-            else if(meeting.getImageUrl().equals("spain")){
+            else if(meeting.getImageUrl().toLowerCase().equals("spanish")){
                 viewHolder.image.setImageResource(R.drawable.spain);
             }
-            else if(meeting.getImageUrl().equals("france")){
+            else if(meeting.getImageUrl().toLowerCase().equals("french")){
                 viewHolder.image.setImageResource(R.drawable.france);
             }
             else {

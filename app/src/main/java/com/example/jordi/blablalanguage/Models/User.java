@@ -2,10 +2,8 @@ package com.example.jordi.blablalanguage.Models;
 
 import android.app.Activity;
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
-import android.provider.ContactsContract;
-import android.util.Log;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 
 import java.util.Date;
 

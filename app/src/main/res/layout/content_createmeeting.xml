@@ -16,6 +16,22 @@
         android:layout_weight="0.11"
         android:gravity="center_horizontal"/>
 
+    <AutoCompleteTextView android:id="@+id/name" android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:hint="event name"
+        android:inputType="text" android:maxLines="1"
+        android:gravity="center_horizontal"
+        android:singleLine="true" />
+
+    <TextView
+        android:layout_width="223dp"
+        android:layout_height="5dp"
+        android:text=""
+        android:textColorHighlight="@color/drk_button"
+        android:id="@+id/name2"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.20"
+        android:gravity="center_horizontal"/>
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

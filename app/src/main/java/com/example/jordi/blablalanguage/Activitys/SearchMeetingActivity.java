@@ -58,6 +58,7 @@ public class SearchMeetingActivity extends Activity
         setContentView(R.layout.activity_search_meeting);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
+        m = new Meeting(this);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,6 +66,7 @@ public class SearchMeetingActivity extends Activity
 
                 Intent i = new Intent(view.getContext(), CreateMeeting.class);
                 startActivityForResult(i,0);
+                SearchMeetingActivity.this.finish();
             }
         });
 
@@ -99,13 +101,15 @@ public class SearchMeetingActivity extends Activity
         @Override
         protected String doInBackground(String... strings) {
             met = new ArrayList<>();
+
             nameMeetings = new String[]{"Let's talk","how are you?","NiHao?","BonJour","viva Español","Conocer y hablar","waaaaaa","More language"};
             nameEstablishments=new String[]{"Escala","BonGust","Restaurante WOK","NyamNyam","GOGO","Prat","Mercadona","AC Hotel"};
             imageName=new String[]{"english","english","chinese","france","spain","spain","english","international"};
             listOfMeetings = new MeetingsList();
-            met = listOfMeetings.getList();
+           // met = listOfMeetings.getList();
+            met = m.getAll(null);
 
-            datosDePrueba();
+            //datosDePrueba();
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
@@ -223,11 +227,13 @@ public class SearchMeetingActivity extends Activity
         if (id == R.id.nav_meetings_list) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 startActivity(new Intent(getApplicationContext(), MeetingsListActivity.class), Bundle.EMPTY);
+                //this.finish();
             }
             // Handle the camera action
         } else if (id == R.id.nav_preferences) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 startActivity(new Intent(getApplicationContext(), PreferencesActivity.class), Bundle.EMPTY);
+                this.finish();
             }
         } else if (id == R.id.nav_profile) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {

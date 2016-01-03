@@ -29,7 +29,6 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,7 +38,6 @@ import com.example.jordi.blablalanguage.R;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 
@@ -99,18 +97,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         // Set up the login form.
-        findViewById(R.id.sign_in_button).setOnClickListener(this);
 
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
 
         populateAutoComplete();
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build();
-        client = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this /* FragmentActivity */,  this /* OnConnectionFailedListener */)
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();
+
 
 
 
@@ -277,7 +268,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
 
 
-                /*
+
                 //logged
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 //sharedPreferences.edit().putString("password", password);
@@ -287,7 +278,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 Toast.makeText(getApplicationContext(),
                         "saved to shared preferences user email "+ sharedPreferences.getString("email", "h"),
                         Toast.LENGTH_SHORT).show();
-                */
+
         }
     }
 

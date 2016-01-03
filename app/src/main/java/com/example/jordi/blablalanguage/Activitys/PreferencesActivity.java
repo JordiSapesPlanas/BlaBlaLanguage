@@ -16,7 +16,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -24,7 +23,6 @@ import com.example.jordi.blablalanguage.R;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 
 public class PreferencesActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener , View.OnClickListener {
 
@@ -84,6 +82,15 @@ public class PreferencesActivity extends AppCompatActivity implements CompoundBu
             }
         }
     }
+
+
+    @Override
+    public void onBackPressed() {
+
+        startActivity(new Intent(this,SearchMeetingActivity.class));
+        this.finish();
+    }
+
 
     public void emitNotification(String title, String text) {
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);

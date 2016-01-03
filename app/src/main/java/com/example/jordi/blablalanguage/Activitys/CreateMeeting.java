@@ -14,7 +14,6 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -41,7 +40,7 @@ public class CreateMeeting extends Activity  {
 
     //Attributes
     NumberPicker np;
-    TextView myText1 = null, myText2 = null, myText3 = null, myText4 = null;
+    TextView myText1 = null, myText2 = null, myText3 = null, myText4 = null, myTextName = null;
     int people;
     String language = "";
     TimePicker tp;
@@ -69,6 +68,8 @@ public class CreateMeeting extends Activity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_createmeeting);
 
+        myTextName = (TextView) findViewById(R.id.name);
+        myTextName.setText("");
         myText1 = (TextView) findViewById(R.id.textViewShowLan);
         myText1.setText("");
         myText2 = (TextView) findViewById(R.id.textViewShowEst);
@@ -84,8 +85,7 @@ public class CreateMeeting extends Activity  {
         }
 
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(getResources().getText(R.string.NewMeeting));
+
 
 
         final Button button1 = (Button) findViewById(R.id.button1);
@@ -148,15 +148,20 @@ public class CreateMeeting extends Activity  {
                     String subtitle = "Today at " + tp.getCurrentHour() + ":" + min + "h";
 
                     showNotification(getNotification(title, subtitle), future);
+                    Meeting m = new Meeting(v.getContext());
+                    String s = myTextName.getText().toString();
+                    m.setName(s);
+                    m.setEstablishment(establishment);
+                    m.setDateMeeting(date);
+                    m.setLanguage(language);
+                    m.setImageUrl(language);
+                    m.Save(null);
 
-                    Intent i = new Intent(v.getContext(), MeetingsListActivity.class);
-                    startActivityForResult(i, 0);
-
-
-                    Meeting m = new Meeting("Let's Talk", establishment, date, language.toLowerCase());
-
-                    m.load();
-                    finish();
+                    //Intent i = new Intent(v.getContext(), MeetingsListActivity.class);
+                    //startActivityForResult(i, 0);
+                    Intent i = new Intent(v.getContext(), SearchMeetingActivity.class);
+                    startActivity(i);
+                    CreateMeeting.this.finish();
 
                 } else {
                     toast1 =
@@ -171,6 +176,13 @@ public class CreateMeeting extends Activity  {
 
 
 
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        startActivity(new Intent(this,SearchMeetingActivity.class));
+        this.finish();
     }
 
     public void onRestoreInstanceState(Bundle savedInstanceState) {
@@ -401,13 +413,13 @@ public class CreateMeeting extends Activity  {
     public void showTextDate() {
         myText4 = (TextView) findViewById(R.id.textViewshowDate);
         myText4.setText("");
-        String min = "00";
+        String min = tp.getCurrentMinute()+"";
         if (tp.getCurrentMinute() < 10) {
             min = "0" + tp.getCurrentMinute();
         }
 
         if (myText4 != null) {
-            myText4.append(dp.getDayOfMonth() + "/" + dp.getMonth() + "/" + dp.getYear() + "   " + tp.getCurrentHour() + ":" + min + ":00");
+            myText4.append(dp.getDayOfMonth() + "/" + (dp.getMonth()+1) + "/" + dp.getYear()+ "   " + tp.getCurrentHour() + ":" + min);
 
         }
     }

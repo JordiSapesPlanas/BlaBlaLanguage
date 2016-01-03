@@ -23,7 +23,12 @@
         android:layout_marginBottom="2dp"
         android:layout_marginRight="2dp"
         android:layout_marginLeft="2dp" />
-
+    <AutoCompleteTextView android:id="@+id/name" android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:hint="event name"
+        android:inputType="text" android:maxLines="1"
+        android:gravity="center_horizontal"
+        android:singleLine="true"
+        android:layout_toStartOf="@+id/textViewShowEst" />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -37,7 +42,9 @@
         android:layout_marginTop="56dp"
         android:layout_marginLeft="2dp"
         android:layout_marginRight="2dp"
-        android:layout_marginBottom="2dp" />
+        android:layout_marginBottom="2dp"
+        android:layout_toStartOf="@+id/editText"
+        android:layout_alignEnd="@+id/editText" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -130,6 +137,14 @@
         android:layout_alignParentEnd="true"
         android:layout_alignBottom="@+id/button4"
         android:gravity="center_vertical" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/editText"
+        android:layout_above="@+id/button1"
+        android:layout_alignEnd="@+id/button5"
+        android:layout_marginEnd="426dp" />
 
 
 </RelativeLayout>

@@ -1,33 +1,21 @@
 package com.example.jordi.blablalanguage.Activitys;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
-import android.text.style.RelativeSizeSpan;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.example.jordi.blablalanguage.Adapters.meetingAdapter;
 import com.example.jordi.blablalanguage.Models.Meeting;
-import com.example.jordi.blablalanguage.R;
 import com.example.jordi.blablalanguage.Models.MeetingsList;
+import com.example.jordi.blablalanguage.R;
 
-import org.xmlpull.v1.XmlPullParserException;
-
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class MeetingsListActivity extends AppCompatActivity {
@@ -47,11 +35,11 @@ public class MeetingsListActivity extends AppCompatActivity {
         nameMeetings = new String[]{"Let's talk","how are you?","NiHao?","BonJour","viva Español","Conocer y hablar","waaaaaa","More language"};
         nameEstablishments=new String[]{"Escala","BonGust","Restaurante WOK","NyamNyam","GOGO","Prat","Mercadona","AC Hotel"};
         imageName=new String[]{"english","english","chinese","france","spain","spain","english","international"};
-
+        Meeting m = new Meeting(this);
         MeetingsList listOfMeetings = new MeetingsList();
-        met = listOfMeetings.getList();
+        //met = listOfMeetings.getList();
         //datosDePrueba();
-
+        met = m.getAll(null);
         ListView listView = (ListView) findViewById(R.id.listView_my_meetings);
         meetingAdapter myAdapter = new meetingAdapter(MeetingsListActivity.this, met, R.layout.customer_meeting_list);
         listView.setAdapter(myAdapter);
