@@ -20,6 +20,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.toolbox.Volley;
 import com.example.jordi.blablalanguage.Adapters.meetingAdapter;
 import com.example.jordi.blablalanguage.Models.User;
 import com.example.jordi.blablalanguage.Models.Utils;
@@ -37,7 +38,6 @@ public class CreateUserActivity extends AppCompatActivity {
      * Keep track of the login task to ensure we can cancel it if requested.
      */
     SharedPreferences sharedPreferences;
-
     // UI references.
     private EditText mNameView;
     private AutoCompleteTextView mEmailView;
