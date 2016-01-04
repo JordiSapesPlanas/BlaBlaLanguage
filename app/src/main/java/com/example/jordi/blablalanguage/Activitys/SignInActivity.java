@@ -2,6 +2,7 @@ package com.example.jordi.blablalanguage.Activitys;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -22,6 +23,8 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+
+import java.net.URI;
 
 /**
  * Activity to demonstrate basic retrieval of the Google user's ID, email address, and basic
@@ -149,11 +152,9 @@ public class SignInActivity extends AppCompatActivity implements
             //mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
             User newUser = new User(acct.getDisplayName(), acct.getEmail(), "qwert", "facebook2", "f", "14/01/1993");
             // TODO SAVE FOTO
-            // acct.getPhotoUrl();
-
-
-
-
+            Uri uri =  acct.getPhotoUrl();
+            Log.e("--",uri.getPath());
+            Log.e("**",uri.toString());
 
             // references
             newUser.deleteByLogin(this, acct.getEmail());
@@ -162,7 +163,7 @@ public class SignInActivity extends AppCompatActivity implements
 
 
             utils.saveKey(this, "USER_LOGGED",acct.getEmail());
-
+            utils.saveKey(this, "IMAGE", uri.toString());
 
 
 

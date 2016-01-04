@@ -26,20 +26,27 @@ import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.jordi.blablalanguage.Adapters.Receiver;
 import com.example.jordi.blablalanguage.Adapters.meetingAdapter;
 import com.example.jordi.blablalanguage.Models.Meeting;
 import com.example.jordi.blablalanguage.Models.MeetingsList;
+import com.example.jordi.blablalanguage.Models.Utils;
 import com.example.jordi.blablalanguage.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class SearchMeetingActivity extends Activity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -50,6 +57,10 @@ public class SearchMeetingActivity extends Activity
     private String[] imageName;
     private MeetingsList listOfMeetings;
     Meeting m=null;
+    private CircleImageView profileImage;
+
+
+
 
 
     @Override
@@ -57,7 +68,6 @@ public class SearchMeetingActivity extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_meeting);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-
         m = new Meeting(this);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -65,7 +75,7 @@ public class SearchMeetingActivity extends Activity
             public void onClick(View view) {
 
                 Intent i = new Intent(view.getContext(), CreateMeeting.class);
-                startActivityForResult(i,0);
+                startActivityForResult(i, 0);
                 SearchMeetingActivity.this.finish();
             }
         });
@@ -78,6 +88,28 @@ public class SearchMeetingActivity extends Activity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+        Utils utils = new Utils();
+
+        View header = LayoutInflater.from(this).inflate(R.layout.nav_header_search_meeting, null);
+        navigationView.addHeaderView(header);
+        TextView text = (TextView) header.findViewById(R.id.tv_mail_user);
+        text.setText(utils.getKey(this, "USER_LOGGED"));
+
+        profileImage = (CircleImageView) header.findViewById(R.id.profile_image);
+        //profileImage.setImageResource(R.drawable.perfil_jordi);
+        try {
+            Picasso.with(this)
+                    .load(Uri.parse(utils.getKey(this, "IMAGE")))
+                    .placeholder(R.drawable.icon_user)
+                    .into(profileImage);
+        }catch (Exception e){
+            Log.e("***", e.toString());
+            profileImage.setImageResource(R.drawable.icon_user);
+        }
+
+
         new DownloadMeetingList().execute();
     }
 
@@ -109,10 +141,18 @@ public class SearchMeetingActivity extends Activity
            // met = listOfMeetings.getList();
             met = m.getAll(null);
 
+
+            /*
+
+            */
+
             //datosDePrueba();
             try {
+                Log.e("----", "ueeeueueeueueue");
+
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
+                Log.e("--***--", "ueeeueu111eeueueue");
                 e.printStackTrace();
             }
             return null;
