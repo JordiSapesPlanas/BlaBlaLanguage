@@ -99,5 +99,6 @@
         <receiver android:name=".Adapters.Receiver"/>
 
     </application>
+    <service android:name=".NotificationService"/>
 
 </manifest>

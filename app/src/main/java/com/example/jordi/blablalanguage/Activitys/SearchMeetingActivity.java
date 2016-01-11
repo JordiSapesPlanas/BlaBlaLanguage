@@ -31,10 +31,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.jordi.blablalanguage.Adapters.Receiver;
 import com.example.jordi.blablalanguage.Adapters.meetingAdapter;
 import com.example.jordi.blablalanguage.Models.Meeting;
@@ -43,7 +47,12 @@ import com.example.jordi.blablalanguage.Models.Utils;
 import com.example.jordi.blablalanguage.R;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -58,6 +67,7 @@ public class SearchMeetingActivity extends Activity
     private MeetingsList listOfMeetings;
     Meeting m=null;
     private CircleImageView profileImage;
+    List<Meeting> meet= null;
 
 
 
@@ -68,6 +78,38 @@ public class SearchMeetingActivity extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_meeting);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        RequestQueue queue= Volley.newRequestQueue(this);
+        final String url = "http://alumnes-grp05.udl.cat/rest/bla/json/allEvents";
+
+        JsonArrayRequest getRequest = new JsonArrayRequest( url,
+                new Response.Listener<JSONArray>()
+                {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        // display response
+                        Log.d("Response", response.toString());
+                        meet = new ArrayList<Meeting>();
+                        for (int i = 0; i < response.length(); i++) {
+                            try {
+                                meet.add(convertMeeting(response
+                                        .getJSONObject(i)));
+                            } catch (JSONException e) {
+                            }
+                        }
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        Log.d("Error.Response", error.toString());
+                    }
+                }
+        );
+
+        queue.add(getRequest);
+
         m = new Meeting(this);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -162,14 +204,14 @@ public class SearchMeetingActivity extends Activity
         protected void onPostExecute(String result) {
 
             ListView listView = (ListView) findViewById(R.id.listView);
-            meetingAdapter myAdapter = new meetingAdapter(SearchMeetingActivity.this, met, R.layout.customer_meeting_list);
+            meetingAdapter myAdapter = new meetingAdapter(SearchMeetingActivity.this, meet, R.layout.customer_meeting_list);
             listView.setAdapter(myAdapter);
             pDialog.dismiss();
 
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                     m=(Meeting)parent.getAdapter().getItem(position);
+                    m = (Meeting) parent.getAdapter().getItem(position);
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(SearchMeetingActivity.this);
 
@@ -182,14 +224,16 @@ public class SearchMeetingActivity extends Activity
                             // Do nothing but close the dialog
 
                             dialog.dismiss();
-                            int hour =m.getDateMeeting().getHours();
-                            int minute = m.getDateMeeting().getMinutes();
-                            String s = "Today at "+hour+":"+minute+"h";
-                            long future=System.currentTimeMillis()+10000;
-                            String title = "Remember today "+m.getName();
-                            showNotification(getNotification(title,s), future);
+                            int hour = m.getDateMeeting().getHours();
 
-                            startActivity(new Intent(getApplicationContext(), MeatingDetailActivity.class), Bundle.EMPTY);
+                            int minute = m.getDateMeeting().getMinutes();
+                            String s = "Today at " + hour + ":" + minute + "h";
+                            long future = System.currentTimeMillis() + 10000;
+                            String title = "Remember today " + m.getName();
+                            showNotification(getNotification(title, s), future);
+                            Intent intent = new Intent(SearchMeetingActivity.this, MeatingDetailActivity.class);
+                            intent.putExtra("estabName", m.getEstablishment());
+                            startActivity(intent);
 
                         }
 
@@ -227,12 +271,10 @@ public class SearchMeetingActivity extends Activity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
+
+        SearchMeetingActivity.this.finish();
+
+
     }
 
     @Override
@@ -308,6 +350,21 @@ public class SearchMeetingActivity extends Activity
         builder.setLights(Color.MAGENTA, 3000, 3000);
 
         return builder.build();
+    }
+    private final Meeting convertMeeting(JSONObject obj) throws JSONException {
+        String name = obj.getString("name");
+        String estab = obj.getString("estab");
+        String time = obj.getString("tim");
+        String lang = obj.getString("lang");
+
+        Meeting m = new Meeting();
+        m.setName(name);
+        m.setEstablishment(estab);
+        m.setDateMeeting(new Date());
+        m.setLanguage(lang);
+        m.setImageUrl(lang);
+        return m;
+
     }
 
 

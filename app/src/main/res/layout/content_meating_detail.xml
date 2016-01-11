@@ -41,8 +41,8 @@
         <TextView
             android:layout_width="match_parent"
             android:padding="@dimen/abc_action_bar_content_inset_material"
-            android:text="Maxim users: 10"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:id ="@+id/local_capacity" />
 
 
         <TextView

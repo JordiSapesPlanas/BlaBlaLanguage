@@ -14,6 +14,8 @@ public class Establishment extends BlaBlaLanguageObject {
     private Integer placesAvailable;
     private String  telephone;
 
+    public Establishment(){}
+
     public String getName() {
         return name;
     }

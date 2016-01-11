@@ -14,6 +14,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -22,14 +23,23 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.jordi.blablalanguage.Adapters.Receiver;
 import com.example.jordi.blablalanguage.Models.Meeting;
 import com.example.jordi.blablalanguage.R;
-import com.google.android.gms.common.api.GoogleApiClient;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * By Oscar Ujaque
@@ -55,8 +65,9 @@ public class CreateMeeting extends Activity  {
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
-    private GoogleApiClient client;
-
+    RequestQueue queue = null;
+    List<String> establis = null;
+    List<String> languag=null;
 
     /**
      * Called when the activity is first created.
@@ -79,6 +90,65 @@ public class CreateMeeting extends Activity  {
         myText4 = (TextView) findViewById(R.id.textViewshowDate);
         myText4.setText("");
 
+        queue= Volley.newRequestQueue(this);
+        final String url = "http://alumnes-grp05.udl.cat/rest/bla/json/allEstablishments";
+
+        JsonArrayRequest getRequest = new JsonArrayRequest( url,
+                new Response.Listener<JSONArray>()
+                {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        // display response
+                        Log.d("Response", response.toString());
+                        establis = new ArrayList<String>();
+                        for (int i = 0; i < response.length(); i++) {
+                            try {
+                                establis.add(response.getJSONObject(i).getString("name").toString());
+                            } catch (JSONException e) {
+                            }
+                        }
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        Log.d("Error.Response", error.toString());
+                    }
+                }
+        );
+
+        final String url2 = "http://alumnes-grp05.udl.cat/rest/bla/json/allLanguages";
+
+        JsonArrayRequest getRequest2 = new JsonArrayRequest( url2,
+                new Response.Listener<JSONArray>()
+                {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        // display response
+                        Log.d("Response", response.toString());
+                        languag = new ArrayList<String>();
+                        for (int i = 0; i < response.length(); i++) {
+                            try {
+                                languag.add(response.getJSONObject(i).getString("name").toString());
+                            } catch (JSONException e) {
+                            }
+                        }
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        Log.d("Error.Response", error.toString());
+                    }
+                }
+        );
+
+        queue.add(getRequest);
+        queue.add(getRequest2);
 
         if (savedInstanceState != null) {
             onRestoreInstanceState(savedInstanceState);
@@ -93,6 +163,8 @@ public class CreateMeeting extends Activity  {
             @Override
             public void onClick(View v) {
                 startEstablishmentDialog();
+
+
             }
         });
 
@@ -345,13 +417,12 @@ public class CreateMeeting extends Activity  {
 
     public void startLanguageDialog() {
         new AlertDialog.Builder(this)
-                .setSingleChoiceItems(R.array.Idioms, 0, null)
+                .setSingleChoiceItems(languag.toArray(new String[languag.size()]), 0, null)
                 .setPositiveButton(getResources().getText(R.string.OK), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         dialog.dismiss();
                         int selectedPosition = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
-                        String[] s = getResources().getStringArray(R.array.Idioms);
-                        language = s[selectedPosition];
+                        language = languag.get(selectedPosition);
                         showTextLanguage();
                         field2 = true;
 
@@ -363,14 +434,14 @@ public class CreateMeeting extends Activity  {
     }
 
     public void startEstablishmentDialog() {
+
         new AlertDialog.Builder(this)
-                .setSingleChoiceItems(R.array.array_estabishments, 0, null)
+                .setSingleChoiceItems(establis.toArray(new String[establis.size()]), 0, null)
                 .setPositiveButton(getResources().getText(R.string.OK), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         dialog.dismiss();
                         int selectedPosition = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
-                        String[] s = getResources().getStringArray(R.array.array_estabishments);
-                        establishment = s[selectedPosition];
+                        establishment = establis.get(selectedPosition);
                         showTextEstablishment();
                         field1 = true;
 

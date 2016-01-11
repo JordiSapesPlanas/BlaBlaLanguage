@@ -26,16 +26,16 @@ public class Meeting extends BlaBlaLanguageObject {
     private MeetingsList meet = new  MeetingsList();
 
 
-    public Meeting(){
-        String s= "12/12/2015 23:34:23";
+    public Date convert(String s){
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         try {
             dateMeeting =formatter.parse(s);
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        return dateMeeting;
     }
-
+    public Meeting(){};
     public Meeting(Context context){
         this.setContext(context);
     }

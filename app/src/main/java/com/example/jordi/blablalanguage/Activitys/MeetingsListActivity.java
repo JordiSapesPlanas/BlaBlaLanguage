@@ -18,6 +18,8 @@ import com.example.jordi.blablalanguage.R;
 
 import java.util.List;
 
+;
+
 public class MeetingsListActivity extends AppCompatActivity {
 
     private List<Meeting> met;
@@ -31,6 +33,9 @@ public class MeetingsListActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("My meeting list");
         setSupportActionBar(toolbar);
+
+
+
 
         nameMeetings = new String[]{"Let's talk","how are you?","NiHao?","BonJour","viva Español","Conocer y hablar","waaaaaa","More language"};
         nameEstablishments=new String[]{"Escala","BonGust","Restaurante WOK","NyamNyam","GOGO","Prat","Mercadona","AC Hotel"};
