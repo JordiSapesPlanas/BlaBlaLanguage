@@ -362,7 +362,7 @@ public class SearchMeetingActivity extends Activity
         Meeting m = new Meeting();
         m.setName(name);
         m.setEstablishment(estab);
-        m.setDateMeeting(convert(time));
+        m.setDateMeeting(convert(time)) ;
         m.setLanguage(lang);
         m.setImageUrl(lang);
         return m;
