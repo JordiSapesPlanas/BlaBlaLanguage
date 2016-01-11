@@ -51,6 +51,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -360,11 +362,22 @@ public class SearchMeetingActivity extends Activity
         Meeting m = new Meeting();
         m.setName(name);
         m.setEstablishment(estab);
-        m.setDateMeeting(new Date());
+        m.setDateMeeting(convert(time));
         m.setLanguage(lang);
         m.setImageUrl(lang);
         return m;
 
+    }
+    private Date convert(String s) {
+        Date date = null;
+
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            date = formatter.parse(s);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
     }
 
 

@@ -91,14 +91,10 @@
             android:name=".Activitys.MapsActivity"
             android:label="@string/title_activity_maps"></activity>
 
-        <service
-            android:name=".FetchAddressIntentService"
-            android:exported="false"/>
-
 
         <receiver android:name=".Adapters.Receiver"/>
+        <service android:name=".Adapters.NotificationService"/>
 
     </application>
-    <service android:name=".NotificationService"/>
 
 </manifest>
