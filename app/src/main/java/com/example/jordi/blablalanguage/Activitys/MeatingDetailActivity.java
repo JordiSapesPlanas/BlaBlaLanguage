@@ -67,27 +67,16 @@ public class MeatingDetailActivity extends Activity {
                     public void onResponse(JSONArray response) {
                         // display response
                         Log.d("Response", response.toString());
-                        Log.d("LENGTH", response.length() + "");
                         for (int i = 0; i < response.length(); i++) {
                             try {
                                 infoEst.add(convertInfo(response.getJSONObject(i)));
-                                Log.d("Test", convertInfo(response.getJSONObject(i)).getName());
-                                Log.d("Size", infoEst.size() + "");
                                 address = infoEst.get(0).getAddress();
                                 cap=" Capacity :"+infoEst.get(0).getPlacesAvailable();
-                                Log.d("Saldia",cap+" "+address);
-                                Log.d("Salida",infoEst.get(0).getTelephone().equals("null")+"");
-                                if (!infoEst.get(0).getTelephone().equals("null")){
-
-                                    Log.d("WWWW","WWWW2");
-
-                                telefon = Integer.parseInt(infoEst.get(0).getTelephone());}
+                                if (!infoEst.get(0).getTelephone().equals("null"))
+                                    telefon = Integer.parseInt(infoEst.get(0).getTelephone());
                                 else {
-                                    Log.d("YYYY","YYYY%");
-
-                                    telefon = 931405068;
+                                    telefon =00000000;
                                 }
-                                Log.d("Saldia",cap+" "+telefon+" "+address);
                                 TextView tel = (TextView)findViewById(R.id.telephoneNumber);
                                 tel.setText("");
                                 tel.append(telefon + "");
@@ -99,11 +88,8 @@ public class MeatingDetailActivity extends Activity {
                                 tv.append(address);
 
                             } catch (Exception e) {
-                                Log.d("Size2", infoEst.size() + "");
-                                Log.d("Error", e.toString());
                             }
                         }
-
 
                     }
                 },
@@ -136,15 +122,10 @@ public class MeatingDetailActivity extends Activity {
 
 
 
-
-
         final ImageButton but = (ImageButton) findViewById(R.id.imageButton);
         but.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TextView text = (TextView) findViewById(R.id.telephoneNumber);
-
-
 
                 Intent intent = new Intent(Intent.ACTION_CALL);
                 intent.setData(Uri.parse("tel:" + telefon));

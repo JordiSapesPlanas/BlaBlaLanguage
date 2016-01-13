@@ -229,9 +229,10 @@ public class SearchMeetingActivity extends Activity
                             int hour = m.getDateMeeting().getHours();
 
                             int minute = m.getDateMeeting().getMinutes();
-                            String s = "Today at " + hour + ":" + minute + "h";
+                            String s = "Today at "+m.getDateMeeting().toString().split(" ")[3].substring(0,5);
+
                             long future = System.currentTimeMillis() + 10000;
-                            String title = "Remember today " + m.getName();
+                            String title = m.getLanguage()+ " Meeting";
                             showNotification(getNotification(title, s), future);
                             Intent intent = new Intent(SearchMeetingActivity.this, MeatingDetailActivity.class);
                             intent.putExtra("estabName", m.getEstablishment());
@@ -345,7 +346,7 @@ public class SearchMeetingActivity extends Activity
         Notification.Builder builder = new Notification.Builder(this);
         builder.setContentTitle(title);
         builder.setContentText(content);
-        builder.setSmallIcon(R.drawable.international);
+        builder.setSmallIcon(R.drawable.notification);
         builder.setVibrate(new long[]{1000, 1000, 1000, 1000, 1000});
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         builder.setSound(alarmSound);
