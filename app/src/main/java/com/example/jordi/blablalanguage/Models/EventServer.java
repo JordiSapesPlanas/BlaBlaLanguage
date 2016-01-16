@@ -1,9 +1,11 @@
 package com.example.jordi.blablalanguage.Models;
 
+import java.io.Serializable;
+
 /**
  * Created by jordi on 16/01/2016.
  */
-public class EventServer  {
+public class EventServer  implements Serializable {
 
     private int establishmentId;
     private int languageId;

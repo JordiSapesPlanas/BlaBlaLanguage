@@ -67,7 +67,7 @@ public class PreferencesActivity extends AppCompatActivity implements CompoundBu
         this.selectedIdiomsList = new ArrayList<>();
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        String idioms = preferences.getString("Languages", null);
+        String idioms = preferences.getString("Languages", "DEFAULT");
 
         if(idioms.equals("DEFAULT")){
             for(int i = 0; i < idiomsArray.length; i++){

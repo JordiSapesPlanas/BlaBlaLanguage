@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ import java.util.List;
 /**
  * Created by vitor on 21/12/15.
  */
-public class Meeting extends BlaBlaLanguageObject {
+public class Meeting extends BlaBlaLanguageObject implements Serializable{
     DBUtils dbutils; //internal uses
     private Context context;
     private String name;
@@ -262,9 +263,10 @@ public class Meeting extends BlaBlaLanguageObject {
             }
             SQLiteDatabase db = dbutils.getReadableDatabase();
 
+//            String[] campos =  {"Idm","Id","Name","Language","LanguageId"
+//                    ,"Establishment","EstablishmentId","DateMeeting","Photo"};
             String[] campos =  {"Idm","Id","Name","Language","LanguageId"
-                    ,"Establishment","EstablishmentId","DateMeeting","Photo"};
-
+                    ,"Establishment","EstablishmentId","Photo"};
 
             if(db!=null){
                 List<Meeting> lst = new ArrayList<Meeting>();
@@ -297,6 +299,45 @@ public class Meeting extends BlaBlaLanguageObject {
 
             }else{
                 return  null;
+            }
+
+        }
+        catch (Exception e){
+            throw  e;
+            //return  false;
+        }
+    }
+    public boolean modifiyMeeting( Context con){
+        try {
+
+            //if (getContext() == null) {
+            dbutils = new DBUtils(con);
+//            } else {
+//                dbutils = new DBUtils(context);
+//            }
+
+            SQLiteDatabase db = dbutils.getWritableDatabase();
+
+//            {"Idm","Id","Name","Language","LanguageId"
+//                    ,"Establishment","EstablishmentId","DateMeeting","Photo"};
+
+            String sql ="UPDATE Events SET "
+                    +"Name = '"+this.getName()+"', "
+                    +"Language = '"+this.getLanguage()+"', "
+                    +"Establishment = '"+this.getEstablishment()+"' "
+                    //+"DateMeeting = '"+this.getDateMeeting()+"' "
+                    +"WHERE Idm = "+this.getIdM();
+
+
+
+            if(db!=null){
+                db.execSQL(sql);
+
+                db.close();
+
+                return  true;
+            }else{
+                return  false;
             }
 
         }

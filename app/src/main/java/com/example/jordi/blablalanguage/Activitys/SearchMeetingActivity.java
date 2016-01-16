@@ -135,10 +135,10 @@ public class SearchMeetingActivity extends Activity
         super.onResume();
         langPref = getDefaults("Languages", SearchMeetingActivity.this.getApplicationContext());
         String la =langPref+"";
-        if (langPref.equals("null"))
+        if (langPref != null && langPref.equals("null"))
             langPref="P";
 
-        Log.d("TRTTTTTTR", langPref);
+        //Log.d("TRTTTTTTR", langPref);
 
 
     }
@@ -188,17 +188,21 @@ public class SearchMeetingActivity extends Activity
         }
 
         private List<Meeting> preferencedMeetings (List<Meeting> meet, String lang){
+            if(lang != null) {
 
-            String [] s = lang.split(";");
-            List<Meeting> m = new ArrayList<Meeting>();
+                String [] s = lang.split(";");
+                List<Meeting> m = new ArrayList<Meeting>();
 
-            for (int i = 0; i<meet.size(); i++){
-                for (int j=0; j<s.length;j++){
-                    if (meet.get(i).getLanguage().equals(s[j]))
-                        m.add(meet.get(i));
+                for (int i = 0; i<meet.size(); i++) {
+                    for (int j = 0; j < s.length; j++) {
+                        if (meet.get(i).getLanguage().equals(s[j]))
+                            m.add(meet.get(i));
+                    }
                 }
+                    return m;
+            }else{
+                return new ArrayList<Meeting>();
             }
-            return m;
         }
 
         @Override
@@ -215,7 +219,7 @@ public class SearchMeetingActivity extends Activity
                         @Override
                         public void onResponse(JSONArray response) {
                             // display response
-                            Log.d("Response", response.toString());
+                            Log.e("Response", response.toString());
                             meet = new ArrayList<Meeting>();
                             for (int i = 0; i < response.length(); i++) {
                                 try {
@@ -238,7 +242,7 @@ public class SearchMeetingActivity extends Activity
                         @Override
                         public void onErrorResponse(VolleyError error) {
 
-                            Log.d("Error.Response", error.toString());
+                            Log.e("Error.Response", error.toString());
                         }
                     }
             );

@@ -7,11 +7,13 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Switch;
 
 import com.example.jordi.blablalanguage.Adapters.meetingAdapter;
 import com.example.jordi.blablalanguage.Models.Meeting;
@@ -25,10 +27,11 @@ import java.util.List;
 public class MeetingsListActivity extends AppCompatActivity {
 
     private List<Meeting> met;
-    private String[] nameMeetings;
-    private String[] nameEstablishments;
-    private String[] imageName;
-    int idEvent;
+//    private String[] nameMeetings;
+//    private String[] nameEstablishments;
+//    private String[] imageName;
+    private Meeting meetingSelected;
+    private ListView listView;
     String idEventExtra;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +46,7 @@ public class MeetingsListActivity extends AppCompatActivity {
         //met = listOfMeetings.getList();
         //datosDePrueba();
         met = m.getAll(null);
-        ListView listView = (ListView) findViewById(R.id.listView_my_meetings);
+        listView = (ListView) findViewById(R.id.listView_my_meetings);
         meetingAdapter myAdapter = new meetingAdapter(MeetingsListActivity.this, met, R.layout.customer_meeting_list);
         listView.setAdapter(myAdapter);
 
@@ -51,55 +54,112 @@ public class MeetingsListActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                final Meeting m = (Meeting) parent.getAdapter().getItem(position);
 
-                final int idEvent = searchIdEvent(met, m.getName(), m.getEstablishment(), m.getDateMeeting());
-                AlertDialog.Builder builder = new AlertDialog.Builder(MeetingsListActivity.this);
-                builder.setTitle("Delete");
-                builder.setMessage("Do you want to delete this meeting?");
+                Intent intent = new Intent(MeetingsListActivity.this, MeatingDetailActivity.class);
+                intent.putExtra("estabName", meetingSelected.getEstablishment());
+                intent.putExtra("language", meetingSelected.getLanguage());
+                intent.putExtra("date", meetingSelected.getDateMeeting().toString());
+                startActivity(intent);
+                // final int idEvent = searchIdEvent(met, m.getName(), m.getEstablishment(), m.getDateMeeting());
+                //int idEvent = meetingSelected.getIdM();
 
-                builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Do nothing but close the dialog
-                        m.DeleteById(MeetingsListActivity.this, idEvent);
-                        ListView listView = (ListView) findViewById(R.id.listView_my_meetings);
-                        met=m.getAll(MeetingsListActivity.this);
-                        meetingAdapter myAdapter = new meetingAdapter(MeetingsListActivity.this, met, R.layout.customer_meeting_list);
-                        listView.setAdapter(myAdapter);
-                        myAdapter.notifyDataSetChanged();
-                        dialog.dismiss();
-
-
-                    }
-
-                });
-
-                builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Do nothing
-                        dialog.dismiss();
-                        Intent intent = new Intent(MeetingsListActivity.this,MeatingDetailActivity.class);
-                        intent.putExtra("estabName",m.getEstablishment());
-                        intent.putExtra("language",m.getLanguage());
-                        intent.putExtra("date",m.getDateMeeting().toString());
-
-                        startActivity(intent);
-
-                    }
-                });
-
-                AlertDialog alert = builder.create();
-                alert.show();
-
-
+//                AlertDialog.Builder builder = new AlertDialog.Builder(MeetingsListActivity.this);
+//                builder.setTitle("Delete");
+//                builder.setMessage("Do you want to delete this meeting?");
+//
+//                builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+//
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        // Do nothing but close the dialog
+//                        m.DeleteById(MeetingsListActivity.this, idEvent);
+//                        ListView listView = (ListView) findViewById(R.id.listView_my_meetings);
+//                        met=m.getAll(MeetingsListActivity.this);
+//                        meetingAdapter myAdapter = new meetingAdapter(MeetingsListActivity.this, met, R.layout.customer_meeting_list);
+//                        listView.setAdapter(myAdapter);
+//                        myAdapter.notifyDataSetChanged();
+//                        dialog.dismiss();
+//
+//
+//                    }
+//
+//                });
+//
+//                builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+//
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        // Do nothing
+//                        dialog.dismiss();
+//                        Intent intent = new Intent(MeetingsListActivity.this,MeatingDetailActivity.class);
+//                        intent.putExtra("estabName",m.getEstablishment());
+//                        intent.putExtra("language",m.getLanguage());
+//                        intent.putExtra("date",m.getDateMeeting().toString());
+//
+//
+//
+//                    }
+//                });
+//
+//                AlertDialog alert = builder.create();
+//                alert.show();
             }
         });
-        myAdapter.notifyDataSetChanged();
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                meetingSelected = met.get(position);
+                registerForContextMenu(listView);
+                openContextMenu(listView);
+                return true;
+            }
+        });
+
 
     }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v,ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        menu.setHeaderTitle(meetingSelected.getName());
+        menu.add(0, 1, 0, "View details");
+        menu.add(0, 2, 0, "EDIT");
+        menu.add(0, 3, 0, "DELETE");
+    }
+
+
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+
+        switch(item.getItemId()){
+            case 1: //details
+                Intent intent = new Intent(MeetingsListActivity.this,MeatingDetailActivity.class);
+                    intent.putExtra("estabName",meetingSelected.getEstablishment());
+                    intent.putExtra("language",meetingSelected.getLanguage());
+                    intent.putExtra("date",meetingSelected.getDateMeeting().toString());
+                startActivity(intent);
+                break;
+            case 2:
+                Bundle b  = new Bundle();
+                b.putSerializable("meeting", meetingSelected);
+                startActivity(new Intent(MeetingsListActivity.this, CreateMeeting.class).putExtras(b));
+                break;
+            case 3:
+                meetingSelected.DeleteById(MeetingsListActivity.this, meetingSelected.getIdM());
+                met.remove(meetingSelected);
+                meetingAdapter myAdapter = new meetingAdapter(MeetingsListActivity.this, met, R.layout.customer_meeting_list);
+                listView.setAdapter(myAdapter);
+                myAdapter.notifyDataSetChanged();
+                break;
+
+
+
+        }
+        return true;
+    }
+
+
+
 
     private int searchIdBBDD (List<Meeting> list, String name, String estab, Date date){
 
@@ -136,16 +196,16 @@ public class MeetingsListActivity extends AppCompatActivity {
         return id;
     }
 
-    private void datosDePrueba(){
-
-        for(int i=0;i<nameMeetings.length;i++){
-            Meeting m= new Meeting();
-            m.setName(nameMeetings[i]);
-            m.setEstablishment(nameEstablishments[i]);
-            m.setImageUrl(imageName[i]);
-            met.add(m);
-        }
-    }
+//    private void datosDePrueba(){
+//
+//        for(int i=0;i<nameMeetings.length;i++){
+//            Meeting m= new Meeting();
+//            m.setName(nameMeetings[i]);
+//            m.setEstablishment(nameEstablishments[i]);
+//            m.setImageUrl(imageName[i]);
+//            met.add(m);
+//        }
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

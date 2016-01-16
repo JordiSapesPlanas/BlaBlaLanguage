@@ -1,10 +1,12 @@
 package com.example.jordi.blablalanguage.Models;
 
+import java.io.Serializable;
+
 /**
  * Created by vitor on 21/11/15.
  * Language of users
  */
-public class UserLanguage extends BlaBlaLanguageObject  {
+public class UserLanguage extends BlaBlaLanguageObject  implements Serializable {
     private User user;
     private IdiomLevel idomLevel;
     private Language language;

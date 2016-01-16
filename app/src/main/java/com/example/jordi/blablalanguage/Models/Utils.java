@@ -138,7 +138,24 @@ public class Utils {
             return null;
         }
     }
+    public static String soapUpdateEvent(int eventId, EventServer e){
+        String namespace = "http://swSoap/"; // getString from resources
+        String method = "UpdateEvent";
+        String url =  "http://alumnes-grp05.udl.cat/BlaBlaLanguageWeb/CreateEvent"; // get String from resources;
 
+        //"http://alumnes-grp05.udl.cat/BlaBlaLanguageWeb/"+method;
+        String soapAction = "";
+        SoapObject req = new SoapObject(namespace, method);
+        req.addProperty("arg0",eventId);
+        req.addProperty("arg1",e.getEstablishmentId());
+        req.addProperty("arg2",e.getLanguageId());
+        req.addProperty("arg3",e.getEventName());
+        req.addProperty("arg4",e.getDateEvent());
+        req.addProperty("arg5",e.getDescription());
+
+        return Utils.soapRequest(req, url, soapAction);
+
+    }
     public static String soapCreateUser(User u){
         String namespace = "http://swSoap/"; // getString from resources
         String method = "CreateUser";

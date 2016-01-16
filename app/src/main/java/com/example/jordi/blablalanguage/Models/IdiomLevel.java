@@ -1,9 +1,11 @@
 package com.example.jordi.blablalanguage.Models;
 
+import java.io.Serializable;
+
 /**
  * Created by vitor on 21/11/15.
  */
-public class IdiomLevel {
+public class IdiomLevel implements Serializable {
     private String name;
     private Integer rank;
 

@@ -1,9 +1,11 @@
 package com.example.jordi.blablalanguage.Models;
 
+import java.io.Serializable;
+
 /**
  * Created by vitor on 21/11/15.
  */
-public class UserDefinition extends BlaBlaLanguageObject  {
+public class UserDefinition extends BlaBlaLanguageObject  implements Serializable {
 
     private User user;
     private boolean eventNotification;

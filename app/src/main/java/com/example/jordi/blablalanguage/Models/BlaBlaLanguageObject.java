@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -12,7 +13,7 @@ import java.util.Date;
  * This abstract class is responsable to implement all classes of the System
  * making obligatory fields necessary to all tables in the database
  */
-public abstract class BlaBlaLanguageObject {
+public abstract class BlaBlaLanguageObject implements Serializable {
 
     private static final String NOME_BANCO = "blablalanguage.db";
     private static final int VERSAO = 1;

@@ -8,6 +8,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -25,7 +26,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.jordi.blablalanguage.Adapters.NotificationService;
+import com.example.jordi.blablalanguage.Models.Establishment;
+import com.example.jordi.blablalanguage.Models.EventServer;
+import com.example.jordi.blablalanguage.Models.Language;
 import com.example.jordi.blablalanguage.Models.Meeting;
+import com.example.jordi.blablalanguage.Models.Utils;
 import com.example.jordi.blablalanguage.R;
 
 import org.json.JSONArray;
@@ -63,6 +68,13 @@ public class CreateMeeting extends Activity  {
     List<String> establis = null;
     List<String> languag=null;
 
+
+    // Jordi Variables
+    List <Language> languageList = null;
+    List <Establishment> establishmentsList = null;
+    Meeting meeting = null;
+    boolean updateEvent;
+    EventServer eventServer = null;
     /**
      * Called when the activity is first created.
      */
@@ -85,6 +97,31 @@ public class CreateMeeting extends Activity  {
         myText4 = (TextView) findViewById(R.id.textViewshowDate);
         myText4.setText("");
 
+
+
+        //Create button
+        final Button button5 = (Button) findViewById(R.id.button5);
+
+        if(getIntent().getExtras() != null){
+            updateEvent = true;
+            Bundle b= getIntent().getExtras();
+            meeting = (Meeting) b.getSerializable("meeting");
+            myTextName.setText(meeting.getName());
+            myText1.setText(meeting.getLanguage());
+            myText2.setText(meeting.getEstablishment());
+            myText4.setText(meeting.getDateMeeting().toString());
+            button5.setText("edit");
+
+        }
+
+        // For Update Meeting
+
+
+
+
+
+
+
         //making the acces to server for establishments
         queue= Volley.newRequestQueue(this);
 
@@ -104,46 +141,7 @@ public class CreateMeeting extends Activity  {
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String url = "http://alumnes-grp05.udl.cat/BlaBlaLanguageWeb/rest/bla/json/allEstablishments";
-
-                JsonArrayRequest getRequest = new JsonArrayRequest( url,
-                        new Response.Listener<JSONArray>()
-                        {
-                            @Override
-                            public void onResponse(JSONArray response) {
-                                // display response
-                                Log.d("Response", response.toString());
-                                establis = new ArrayList<String>();
-                                for (int i = 0; i < response.length(); i++) {
-                                    try {
-                                        establis.add(response.getJSONObject(i).getString("name").toString());
-
-                                    } catch (JSONException e) {
-                                    }
-                                }
-                                startEstablishmentDialog();
-
-                            }
-                        },
-                        new Response.ErrorListener()
-                        {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-
-                                Log.d("Error.Response", error.toString());
-                            }
-                        }
-                );
-                getRequest.setRetryPolicy(new DefaultRetryPolicy(
-                        5000,
-                        DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-                queue.add(getRequest);
-
-
-
-
-
+                startEstablishmentDialog();
             }
         });
         // select languages
@@ -151,45 +149,9 @@ public class CreateMeeting extends Activity  {
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String url2 = "http://alumnes-grp05.udl.cat/BlaBlaLanguageWeb/rest/bla/json/allLanguages";
-
-                JsonArrayRequest getRequest2 = new JsonArrayRequest( url2,
-                        new Response.Listener<JSONArray>()
-                        {
-                            @Override
-                            public void onResponse(JSONArray response) {
-                                // display response
-                                Log.d("Response", response.toString());
-                                languag = new ArrayList<String>();
-                                for (int i = 0; i < response.length(); i++) {
-                                    try {
-                                        languag.add(response.getJSONObject(i).getString("name").toString());
-
-                                    } catch (JSONException e) {
-                                    }
-                                }
-                                startLanguageDialog();
-
-                            }
-                        },
-                        new Response.ErrorListener()
-                        {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-
-                                Log.d("Error.Response", error.toString());
-                            }
-                        }
-                );
-                getRequest2.setRetryPolicy(new DefaultRetryPolicy(
-                        5000,
-                        DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-
-                queue.add(getRequest2);
-
-
+                startLanguageDialog();
             }
+
         });
 
         //select  date and hour
@@ -207,15 +169,12 @@ public class CreateMeeting extends Activity  {
         button4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
                 startCapacityDialog();
-
             }
         });
+        doRestRequest();
 
-        //Create button
-        final Button button5 = (Button) findViewById(R.id.button5);
+
 
 
         button5.setOnClickListener(new View.OnClickListener() {
@@ -255,23 +214,32 @@ public class CreateMeeting extends Activity  {
                     alarmManager.set(AlarmManager.RTC_WAKEUP, future, pendingIntent);
 
                     // we create the meeting
+                    if(!updateEvent) // SO create new Event
+                    {
+                        meeting = new Meeting(v.getContext());
+                    }
 
-                    Meeting m = new Meeting(v.getContext());
                     String s = myTextName.getText().toString();
-                    m.setName(s);
-                    m.setEstablishment(establishment);
-                    m.setDateMeeting(date);
-                    m.setLanguage(language);
-                    m.setImageUrl(language);
-                    m.Save(null);
+                    meeting.setName(s);
+                    meeting.setEstablishment(establishment);
+                    meeting.setDateMeeting(date);
+                    meeting.setLanguage(language);
+                    meeting.setImageUrl(language);
+                    if(updateEvent){
+                        meeting.modifiyMeeting(getApplicationContext());
+                    }else{
+                        meeting.Save(null);
+                    }
+
+                    saveMeeting(meeting);
 
                     //Intent i = new Intent(v.getContext(), MeetingsListActivity.class);
                     //startActivityForResult(i, 0);
 
 
-                    Intent i = new Intent(v.getContext(), SearchMeetingActivity.class);
-                    startActivity(i);
-                    CreateMeeting.this.finish();
+//                    Intent i = new Intent(v.getContext(), SearchMeetingActivity.class);
+//                    startActivity(i);
+//                    CreateMeeting.this.finish();
 
                 } else {
                     toast1 =
@@ -287,6 +255,99 @@ public class CreateMeeting extends Activity  {
 
 
     }
+
+
+    private void doRestRequest() {
+        final String url2 = "http://alumnes-grp05.udl.cat/BlaBlaLanguageWeb/rest/bla/json/allLanguages";
+
+        JsonArrayRequest getRequest2 = new JsonArrayRequest( url2,
+                new Response.Listener<JSONArray>()
+                {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        // display response
+                        Log.d("Response", response.toString());
+                        languag = new ArrayList<String>();
+                        languageList = new ArrayList<>();
+                        Language l;
+                        for (int i = 0; i < response.length(); i++) {
+                            try {
+                                l = new Language();
+                                l.setName(response.getJSONObject(i).getString("name").toString());
+                                l.setId(Integer.parseInt(response.getJSONObject(i).getString("id").toString()));
+                                languageList.add(l);
+                                languag.add(response.getJSONObject(i).getString("name").toString());
+
+                            } catch (JSONException e) {
+                            }
+                        }
+
+
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        Log.d("Error.Response", error.toString());
+                    }
+                }
+        );
+        getRequest2.setRetryPolicy(new DefaultRetryPolicy(
+                5000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        queue.add(getRequest2);
+
+
+        final String url = "http://alumnes-grp05.udl.cat/BlaBlaLanguageWeb/rest/bla/json/allEstablishments";
+
+        JsonArrayRequest getRequest = new JsonArrayRequest( url,
+                new Response.Listener<JSONArray>()
+                {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        // display response
+                        Log.d("Response", response.toString());
+                        establis = new ArrayList<String>();
+                        Establishment e;
+                        establishmentsList = new ArrayList<>();
+                        for (int i = 0; i < response.length(); i++) {
+                            try {
+                                e =new Establishment();
+
+                                e.setName(response.getJSONObject(i).getString("name").toString());
+                                e.setId(Integer.parseInt(response.getJSONObject(i).getString("id").toString()));
+                                establishmentsList.add(e);
+                                establis.add(response.getJSONObject(i).getString("name").toString());
+
+                            } catch (JSONException err) {
+                            }
+                        }
+                        //startEstablishmentDialog();
+
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        Log.d("Error.Response", error.toString());
+                    }
+                }
+        );
+        getRequest.setRetryPolicy(new DefaultRetryPolicy(
+                5000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        queue.add(getRequest);
+
+
+    }
+
 
     @Override
     public void onBackPressed() {
@@ -402,6 +463,55 @@ public class CreateMeeting extends Activity  {
 
 
     }
+
+    private void saveMeeting(final Meeting m) {
+        Integer languageId = null;
+        Integer establishId = null;
+
+        for(Language l: this.languageList){
+
+            if(l.getName().equals(m.getLanguage())){
+                languageId = l.getId();
+            }
+        }
+        for(Establishment e: this.establishmentsList){
+
+            if(e.getName().equals(m.getEstablishment())){
+                establishId = e.getId();
+            }
+        }
+        if(languageId != null && establishId != null){
+            eventServer = new EventServer(establishId, languageId, m.getName(), m.getTimeString(), m.getName());
+            new AsyncTask<Void, Void, String>(){
+
+                @Override
+                protected String doInBackground(Void... params) {
+                    if(updateEvent){
+                        return Utils.soapUpdateEvent(m.getIdM(), eventServer);
+                    }else{
+                        return Utils.soapCreateEvent(eventServer);
+
+                    }
+                }
+                @Override
+                protected void onPostExecute(String result) {
+                    if(result != null && result.equals("Sucess")){
+                        Intent i = new Intent(CreateMeeting.this, SearchMeetingActivity.class);
+                        startActivity(i);
+                        CreateMeeting.this.finish();
+                    }else{
+                        Toast.makeText(getApplicationContext(), "Problems with server. Try again later", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+            }.execute();
+        }
+
+
+
+
+    }
+
 
     /**
      * method for showing the time dialog

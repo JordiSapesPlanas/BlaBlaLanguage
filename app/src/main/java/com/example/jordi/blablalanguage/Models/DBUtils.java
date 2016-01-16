@@ -8,7 +8,9 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-public class DBUtils extends SQLiteOpenHelper {
+import java.io.Serializable;
+
+public class DBUtils extends SQLiteOpenHelper implements Serializable {
 
     private static final String DATABASE_NAME = "blablalanguage.db";
     private static final int VERSION = 3;

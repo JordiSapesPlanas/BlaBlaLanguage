@@ -5,13 +5,14 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by vitor on 21/11/15.
  * Implement that using BlaBlaLanguageObject
  */
-public class User extends BlaBlaLanguageObject {
+public class User extends BlaBlaLanguageObject implements Serializable {
 
     Utils utils = new Utils(); //internal uses
     DBUtils dbutils; //internal uses
