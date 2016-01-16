@@ -14,6 +14,7 @@ public class Establishment extends BlaBlaLanguageObject {
     private Integer latitude;
     private Integer placesAvailable;
     private String  telephone;
+    private String date;
 
 
     public Establishment(){}
@@ -85,5 +86,12 @@ public class Establishment extends BlaBlaLanguageObject {
 
     public void setTelephone(String telephone) {
         this.telephone = telephone;
+    }
+
+    public void setDate (String date){
+        this.date= date;
+    }
+    public String getDate(){
+        return date;
     }
 }

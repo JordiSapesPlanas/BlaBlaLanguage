@@ -8,7 +8,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -19,17 +18,14 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.jordi.blablalanguage.Adapters.NotificationService;
-import com.example.jordi.blablalanguage.Models.Establishment;
-import com.example.jordi.blablalanguage.Models.EventServer;
-import com.example.jordi.blablalanguage.Models.Language;
 import com.example.jordi.blablalanguage.Models.Meeting;
-import com.example.jordi.blablalanguage.Models.Utils;
 import com.example.jordi.blablalanguage.R;
 
 import org.json.JSONArray;
@@ -67,11 +63,6 @@ public class CreateMeeting extends Activity  {
     List<String> establis = null;
     List<String> languag=null;
 
-    // Jordi variables
-    List<Establishment>  establishmentsList = null;
-    List<Language> languageList = null;
-    EventServer eventServer = null;
-
     /**
      * Called when the activity is first created.
      */
@@ -96,83 +87,9 @@ public class CreateMeeting extends Activity  {
 
         //making the acces to server for establishments
         queue= Volley.newRequestQueue(this);
-        final String url = "http://alumnes-grp05.udl.cat/BlaBlaLanguageWeb/rest/bla/json/allEstablishments";
 
-        JsonArrayRequest getRequest = new JsonArrayRequest( url,
-                new Response.Listener<JSONArray>()
-                {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        // display response
-                        Log.d("Response", response.toString());
-                        establis = new ArrayList<String>();
-                        establishmentsList = new ArrayList<>();
-                        Establishment e = null;
-                        for (int i = 0; i < response.length(); i++) {
-                            try {
-
-                                // list for get the id
-                                e = new Establishment();
-                                e.setId(Integer.parseInt(response.getJSONObject(i).getString("id").toString()));
-                                e.setName(response.getJSONObject(i).getString("name").toString());
-                                establishmentsList.add(e);
-
-                                establis.add(response.getJSONObject(i).getString("name").toString());
-                            } catch (JSONException ex) {
-                            }
-                        }
-                    }
-                },
-                new Response.ErrorListener()
-                {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                        Log.d("Error.Response", error.toString());
-                    }
-                }
-        );
 
         //making the acces to server for languages
-        final String url2 = "http://alumnes-grp05.udl.cat/BlaBlaLanguageWeb/rest/bla/json/allLanguages";
-
-        JsonArrayRequest getRequest2 = new JsonArrayRequest( url2,
-                new Response.Listener<JSONArray>()
-                {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        // display response
-                        Log.d("Response", response.toString());
-                        languag = new ArrayList<String>();
-                        Language l = null;
-                        languageList = new ArrayList<>();
-                        for (int i = 0; i < response.length(); i++) {
-                            try {
-                                l = new Language();
-
-                                l.setId(Integer.parseInt(response.getJSONObject(i).getString("id").toString()));
-                                l.setName(response.getJSONObject(i).getString("name").toString());
-
-                                languageList.add(l);
-
-                                languag.add(response.getJSONObject(i).getString("name").toString());
-                            } catch (JSONException e) {
-                            }
-                        }
-                    }
-                },
-                new Response.ErrorListener()
-                {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                        Log.d("Error.Response", error.toString());
-                    }
-                }
-        );
-
-        queue.add(getRequest);
-        queue.add(getRequest2);
 
 
         if (savedInstanceState != null) {
@@ -187,8 +104,43 @@ public class CreateMeeting extends Activity  {
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final String url = "http://alumnes-grp05.udl.cat/BlaBlaLanguageWeb/rest/bla/json/allEstablishments";
 
-                startEstablishmentDialog();
+                JsonArrayRequest getRequest = new JsonArrayRequest( url,
+                        new Response.Listener<JSONArray>()
+                        {
+                            @Override
+                            public void onResponse(JSONArray response) {
+                                // display response
+                                Log.d("Response", response.toString());
+                                establis = new ArrayList<String>();
+                                for (int i = 0; i < response.length(); i++) {
+                                    try {
+                                        establis.add(response.getJSONObject(i).getString("name").toString());
+
+                                    } catch (JSONException e) {
+                                    }
+                                }
+                                startEstablishmentDialog();
+
+                            }
+                        },
+                        new Response.ErrorListener()
+                        {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+
+                                Log.d("Error.Response", error.toString());
+                            }
+                        }
+                );
+                getRequest.setRetryPolicy(new DefaultRetryPolicy(
+                        5000,
+                        DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+                queue.add(getRequest);
+
+
 
 
 
@@ -199,7 +151,43 @@ public class CreateMeeting extends Activity  {
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startLanguageDialog();
+                final String url2 = "http://alumnes-grp05.udl.cat/BlaBlaLanguageWeb/rest/bla/json/allLanguages";
+
+                JsonArrayRequest getRequest2 = new JsonArrayRequest( url2,
+                        new Response.Listener<JSONArray>()
+                        {
+                            @Override
+                            public void onResponse(JSONArray response) {
+                                // display response
+                                Log.d("Response", response.toString());
+                                languag = new ArrayList<String>();
+                                for (int i = 0; i < response.length(); i++) {
+                                    try {
+                                        languag.add(response.getJSONObject(i).getString("name").toString());
+
+                                    } catch (JSONException e) {
+                                    }
+                                }
+                                startLanguageDialog();
+
+                            }
+                        },
+                        new Response.ErrorListener()
+                        {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+
+                                Log.d("Error.Response", error.toString());
+                            }
+                        }
+                );
+                getRequest2.setRetryPolicy(new DefaultRetryPolicy(
+                        5000,
+                        DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+                queue.add(getRequest2);
+
 
             }
         });
@@ -277,15 +265,13 @@ public class CreateMeeting extends Activity  {
                     m.setImageUrl(language);
                     m.Save(null);
 
-                    saveMeeting(m);
-
                     //Intent i = new Intent(v.getContext(), MeetingsListActivity.class);
                     //startActivityForResult(i, 0);
 
 
-//                    Intent i = new Intent(v.getContext(), SearchMeetingActivity.class);
-//                    startActivity(i);
-//                    CreateMeeting.this.finish();
+                    Intent i = new Intent(v.getContext(), SearchMeetingActivity.class);
+                    startActivity(i);
+                    CreateMeeting.this.finish();
 
                 } else {
                     toast1 =
@@ -296,52 +282,7 @@ public class CreateMeeting extends Activity  {
 
                 toast1.show();
             }
-
-
         });
-
-
-
-    }
-
-    private void saveMeeting(Meeting m) {
-        Integer languageId = null;
-        Integer establishId = null;
-
-        for(Language l: this.languageList){
-
-            if(l.getName().equals(m.getLanguage())){
-                languageId = l.getId();
-            }
-        }
-        for(Establishment e: this.establishmentsList){
-
-            if(e.getName().equals(m.getEstablishment())){
-                establishId = e.getId();
-            }
-        }
-        if(languageId != null && establishId != null){
-            eventServer = new EventServer(establishId, languageId, m.getName(), m.getTimeString(), m.getName());
-            new AsyncTask<Void, Void, String>(){
-
-                @Override
-                protected String doInBackground(Void... params) {
-                    return Utils.soapCreateEvent(eventServer);
-                }
-                @Override
-                protected void onPostExecute(String result) {
-                   if(result.equals("Sucess")){
-                       Intent i = new Intent(CreateMeeting.this, SearchMeetingActivity.class);
-                       startActivity(i);
-                       CreateMeeting.this.finish();
-                   }else{
-                       Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
-                   }
-
-                }
-            }.execute();
-        }
-
 
 
 

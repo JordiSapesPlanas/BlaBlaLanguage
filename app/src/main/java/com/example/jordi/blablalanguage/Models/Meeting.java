@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -23,7 +24,8 @@ public class Meeting extends BlaBlaLanguageObject {
     private String language;
     private Date dateMeeting;
     private String imageUrl;
-    private MeetingsList meet = new  MeetingsList();
+    private int idM;
+    private int extraId;
 
 
     public Date convert(String s){
@@ -47,10 +49,13 @@ public class Meeting extends BlaBlaLanguageObject {
         this.imageUrl = imageUrl;
     }
 
-    public void load(){
-        this.meet.getList().add(this);
-    }
+    public void setExtraId(int id){
+        this.extraId=id;
 
+    }
+    public int getExtraId(){
+        return extraId;
+    }
     public String getEstablishment() {
         return establishment;
     }
@@ -65,6 +70,14 @@ public class Meeting extends BlaBlaLanguageObject {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setIdM(int idM){
+        this.idM=idM;
+
+    }
+    public int getIdM(){
+        return this.idM;
     }
 
     public Date getDateMeeting() {
@@ -103,6 +116,8 @@ public class Meeting extends BlaBlaLanguageObject {
         this.language = language;
     }
 
+
+
     public String InsertCommand(){
 
                  /*
@@ -123,9 +138,10 @@ public class Meeting extends BlaBlaLanguageObject {
             */
 
 
-        String value = "INSERT INTO Events(Name,Language,Establishment,Photo) " +
+        String value = "INSERT INTO Events(Id,Name,Language,Establishment,Photo) " +
                 "VALUES " +
                 "("
+                +"\""+String.valueOf(this.getExtraId()).concat("\",")
                 +"\""+this.getName().trim().concat("\",")
                 +"\""+this.language.trim().concat("\",")
                 +"\""+this.establishment.trim().concat("\",")
@@ -154,6 +170,38 @@ public class Meeting extends BlaBlaLanguageObject {
 
             if(db!=null){
                 db.execSQL(sql);
+                Log.d("QUERY", sql);
+                db.close();
+
+                return  true;
+            }else{
+                return  false;
+            }
+
+        }
+        catch (Exception e){
+            throw  e;
+            //return  false;
+        }
+    }
+
+    public boolean DeleteById (Activity a, int idEvent){
+
+
+        try {
+
+            if (getContext() == null) {
+                dbutils = new DBUtils(a.getApplicationContext());
+            } else {
+                dbutils = new DBUtils(context);
+            }
+
+            SQLiteDatabase db = dbutils.getWritableDatabase();
+
+            String sql ="DELETE FROM Events WHERE Idm="+idEvent;
+
+            if(db!=null){
+                db.execSQL(sql);
 
                 db.close();
 
@@ -168,6 +216,7 @@ public class Meeting extends BlaBlaLanguageObject {
             //return  false;
         }
     }
+
 
 
     public boolean DeleteAll(Activity a){
@@ -224,7 +273,7 @@ public class Meeting extends BlaBlaLanguageObject {
                 while (cursor!=null && cursor.moveToNext()){
 
                     Meeting m = new Meeting();
-
+                    int Idm = cursor.getInt(cursor.getColumnIndex("Idm"));
                     int Id = cursor.getInt(cursor.getColumnIndex("Id"));
                     String Name = cursor.getString(cursor.getColumnIndex("Name"));
                     String Establishment = cursor.getString(cursor.getColumnIndex("Establishment"));
@@ -232,7 +281,8 @@ public class Meeting extends BlaBlaLanguageObject {
                     // String dateMeeting = cursor.getString(cursor.getColumnIndex("dateMeeting"));
                     String Photo = cursor.getString(cursor.getColumnIndex("Photo"));
 
-                    m.setId(Id);
+                    m.setId(Idm);
+                    m.setExtraId(Id);
                     m.setName(Name);
                     m.setEstablishment(Establishment);
                     m.setLanguage(Language);

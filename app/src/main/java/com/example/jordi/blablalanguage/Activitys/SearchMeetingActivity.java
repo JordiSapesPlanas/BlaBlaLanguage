@@ -9,6 +9,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -16,6 +17,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -42,7 +44,6 @@ import com.android.volley.toolbox.Volley;
 import com.example.jordi.blablalanguage.Adapters.Receiver;
 import com.example.jordi.blablalanguage.Adapters.meetingAdapter;
 import com.example.jordi.blablalanguage.Models.Meeting;
-import com.example.jordi.blablalanguage.Models.MeetingsList;
 import com.example.jordi.blablalanguage.Models.Utils;
 import com.example.jordi.blablalanguage.R;
 import com.squareup.picasso.Picasso;
@@ -66,12 +67,12 @@ public class SearchMeetingActivity extends Activity
     private String[] nameMeetings;
     private String[] nameEstablishments;
     private String[] imageName;
-    private MeetingsList listOfMeetings;
     Meeting m=null;
     private CircleImageView profileImage;
     List<Meeting> meet= null;
-
-
+    meetingAdapter myAdapter=null;
+    ListView listView=null;
+    String langPref;
 
 
 
@@ -80,38 +81,6 @@ public class SearchMeetingActivity extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_meeting);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        RequestQueue queue= Volley.newRequestQueue(this);
-        final String url = "http://alumnes-grp05.udl.cat/BlaBlaLanguageWeb/rest/bla/json/allEvents";
-
-        JsonArrayRequest getRequest = new JsonArrayRequest( url,
-                new Response.Listener<JSONArray>()
-                {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        // display response
-                        Log.e("Response", response.toString());
-                        meet = new ArrayList<Meeting>();
-                        for (int i = 0; i < response.length(); i++) {
-                            try {
-                                meet.add(convertMeeting(response
-                                        .getJSONObject(i)));
-                            } catch (JSONException e) {
-
-                            }
-                        }
-                    }
-                },
-                new Response.ErrorListener()
-                {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                        Log.d("Error.Response", error.toString());
-                    }
-                }
-        );
-
-        queue.add(getRequest);
 
         m = new Meeting(this);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -154,8 +123,24 @@ public class SearchMeetingActivity extends Activity
             profileImage.setImageResource(R.drawable.icon_user);
         }
 
-
         new DownloadMeetingList().execute();
+
+    }
+    public static String getDefaults(String key, Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return preferences.getString(key, null);
+    }
+    @Override
+    public void onResume(){
+        super.onResume();
+        langPref = getDefaults("Languages", SearchMeetingActivity.this.getApplicationContext());
+        String la =langPref+"";
+        if (langPref.equals("null"))
+            langPref="P";
+
+        Log.d("TRTTTTTTR", langPref);
+
+
     }
 
     private class DownloadMeetingList extends AsyncTask<String,Float,String> {
@@ -171,7 +156,7 @@ public class SearchMeetingActivity extends Activity
             ss2.setSpan(new RelativeSizeSpan(2f), 0, ss2.length(), 0);
             ss2.setSpan(new ForegroundColorSpan(Color.BLACK), 0, ss2.length(), 0);
             pDialog.setMessage(ss2);
-            pDialog.setCancelable(false);
+            pDialog.setCancelable(true);
             pDialog.show();
         }
 
@@ -182,9 +167,8 @@ public class SearchMeetingActivity extends Activity
             nameMeetings = new String[]{"Let's talk","how are you?","NiHao?","BonJour","viva Español","Conocer y hablar","waaaaaa","More language"};
             nameEstablishments=new String[]{"Escala","BonGust","Restaurante WOK","NyamNyam","GOGO","Prat","Mercadona","AC Hotel"};
             imageName=new String[]{"english","english","chinese","france","spain","spain","english","international"};
-            listOfMeetings = new MeetingsList();
-             met = listOfMeetings.getList();
-            //met = m.getAll(null);
+           // met = listOfMeetings.getList();
+            met = m.getAll(null);
 
 
             /*
@@ -203,13 +187,64 @@ public class SearchMeetingActivity extends Activity
             return null;
         }
 
+        private List<Meeting> preferencedMeetings (List<Meeting> meet, String lang){
+
+            String [] s = lang.split(";");
+            List<Meeting> m = new ArrayList<Meeting>();
+
+            for (int i = 0; i<meet.size(); i++){
+                for (int j=0; j<s.length;j++){
+                    if (meet.get(i).getLanguage().equals(s[j]))
+                        m.add(meet.get(i));
+                }
+            }
+            return m;
+        }
+
         @Override
         protected void onPostExecute(String result) {
 
-            ListView listView = (ListView) findViewById(R.id.listView);
-            meetingAdapter myAdapter = new meetingAdapter(SearchMeetingActivity.this, meet, R.layout.customer_meeting_list);
-            listView.setAdapter(myAdapter);
-            pDialog.dismiss();
+
+            listView = (ListView) findViewById(R.id.listView);
+            RequestQueue queue= Volley.newRequestQueue(SearchMeetingActivity.this.getBaseContext());
+            final String url = "http://alumnes-grp05.udl.cat/BlaBlaLanguageWeb/rest/bla/json/allEvents";
+
+            JsonArrayRequest getRequest = new JsonArrayRequest( url,
+                    new Response.Listener<JSONArray>()
+                    {
+                        @Override
+                        public void onResponse(JSONArray response) {
+                            // display response
+                            Log.d("Response", response.toString());
+                            meet = new ArrayList<Meeting>();
+                            for (int i = 0; i < response.length(); i++) {
+                                try {
+                                    meet.add(convertMeeting(response
+                                            .getJSONObject(i)));
+
+                                } catch (JSONException e) {
+                                }
+                            }
+                            List<Meeting> meetPref = preferencedMeetings(meet,langPref);
+                            myAdapter = new meetingAdapter(SearchMeetingActivity.this, meetPref, R.layout.customer_meeting_list);
+                            listView.setAdapter(myAdapter);
+
+
+                            pDialog.dismiss();
+                        }
+                    },
+                    new Response.ErrorListener()
+                    {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+
+                            Log.d("Error.Response", error.toString());
+                        }
+                    }
+            );
+
+            queue.add(getRequest);
+
 
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -227,16 +262,33 @@ public class SearchMeetingActivity extends Activity
                             // Do nothing but close the dialog
 
                             dialog.dismiss();
-                            int hour = m.getDateMeeting().getHours();
+                            int id = searchIdEvent(meet, m.getName(), m.getEstablishment(), m.getDateMeeting());
 
+                            Meeting me= new Meeting();
+                            me.setLanguage(m.getLanguage());
+                            me.setName(m.getName());
+                            me.setDateMeeting(m.getDateMeeting());
+                            me.setEstablishment(m.getEstablishment());
+                            me.setImageUrl(m.getLanguage());
+                            me.setExtraId(id);
+                            me.Save(SearchMeetingActivity.this);
+
+
+
+                            int hour = m.getDateMeeting().getHours();
                             int minute = m.getDateMeeting().getMinutes();
-                            String s = "Today at "+m.getDateMeeting().toString().split(" ")[3].substring(0,5);
+
+                            String s = "Today at " + m.getDateMeeting().toString().split(" ")[3].substring(0, 5);
 
                             long future = System.currentTimeMillis() + 10000;
-                            String title = m.getLanguage()+ " Meeting";
+
+                            String title = m.getLanguage() + " Meeting";
                             showNotification(getNotification(title, s), future);
                             Intent intent = new Intent(SearchMeetingActivity.this, MeatingDetailActivity.class);
+                            intent.putExtra("language", m.getLanguage());
                             intent.putExtra("estabName", m.getEstablishment());
+                            intent.putExtra("date", m.getDateMeeting().toString());
+                            intent.putExtra("id", id);
                             startActivity(intent);
 
                         }
@@ -258,6 +310,7 @@ public class SearchMeetingActivity extends Activity
 
                 }
             });
+
         }
     }
 
@@ -275,8 +328,7 @@ public class SearchMeetingActivity extends Activity
 
     @Override
     public void onBackPressed() {
-
-        SearchMeetingActivity.this.finish();
+        finish();
 
 
     }
@@ -312,7 +364,9 @@ public class SearchMeetingActivity extends Activity
 
         if (id == R.id.nav_meetings_list) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                startActivity(new Intent(getApplicationContext(), MeetingsListActivity.class), Bundle.EMPTY);
+                Intent intent = new Intent(getApplicationContext(),MeetingsListActivity.class);
+                intent.putExtra("id",id);
+                startActivity(intent);
                 //this.finish();
             }
             // Handle the camera action
@@ -355,11 +409,12 @@ public class SearchMeetingActivity extends Activity
 
         return builder.build();
     }
-    private Meeting convertMeeting(JSONObject obj) throws JSONException {
+    private final Meeting convertMeeting(JSONObject obj) throws JSONException {
         String name = obj.getString("name");
         String estab = obj.getString("estab");
         String time = obj.getString("tim");
         String lang = obj.getString("lang");
+        int id = obj.getInt("id");
 
         Meeting m = new Meeting();
         m.setName(name);
@@ -367,6 +422,7 @@ public class SearchMeetingActivity extends Activity
         m.setDateMeeting(convert(time)) ;
         m.setLanguage(lang);
         m.setImageUrl(lang);
+        m.setId(id);
         return m;
 
     }
@@ -382,6 +438,21 @@ public class SearchMeetingActivity extends Activity
         return date;
     }
 
+    private int searchIdEvent (List<Meeting> list, String name, String estab, Date date){
+
+        boolean found = false;
+        int id = 0;
+        int i = 0;
+        while (i<list.size() && !found){
+            if (list.get(i).getName().equals(name) && list.get(i).getEstablishment().equals(estab)
+                    && (list.get(i).getDateMeeting().getTime()) == date.getTime()){
+                found=true;
+                id = list.get(i).getId();
+            }
+            i++;
+        }
+        return id;
+    }
 
 
 }

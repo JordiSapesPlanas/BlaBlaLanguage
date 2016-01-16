@@ -1,17 +1,24 @@
 package com.example.jordi.blablalanguage.Activitys;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -19,7 +26,6 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.jordi.blablalanguage.Models.Establishment;
 import com.example.jordi.blablalanguage.R;
-import com.google.android.gms.appindexing.Action;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,69 +46,44 @@ public class MeatingDetailActivity extends Activity {
     private String address;
     List<Establishment> infoEst= new ArrayList<Establishment>();
     int telefon=0;
-    String cap="";
     String telef="";
+    String language="";
+    TextView users, lan, cap, add, tel, tim;
+    String estName,capacity;
+    int id;
+    String time;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+         estName = getIntent().getExtras().getString("estabName");
+         id = getIntent().getExtras().getInt("id");
+        language = getIntent().getExtras().getString("language");
+        time = getIntent().getExtras().getString("date");
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meating_detail);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("");
 
-        String estName = getIntent().getExtras().getString("estabName");
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String url = null;
-        try {
-            url = "http://alumnes-grp05.udl.cat/BlaBlaLanguageWeb/rest/bla/json/getEstablishmentsByName/" + URLEncoder.encode(estName, "UTF-8").replace("+", "%20");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
 
-        Log.d("URL", url);
-        JsonArrayRequest getRequest = new JsonArrayRequest(url,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        // display response
-                        Log.d("Response", response.toString());
-                        for (int i = 0; i < response.length(); i++) {
-                            try {
-                                infoEst.add(convertInfo(response.getJSONObject(i)));
-                                address = infoEst.get(0).getAddress();
-                                cap=" Capacity :"+infoEst.get(0).getPlacesAvailable();
-                                if (!infoEst.get(0).getTelephone().equals("null"))
-                                    telefon = Integer.parseInt(infoEst.get(0).getTelephone());
-                                else {
-                                    telefon =00000000;
-                                }
-                                TextView tel = (TextView)findViewById(R.id.telephoneNumber);
-                                tel.setText("");
-                                tel.append(telefon + "");
-                                TextView add = (TextView )findViewById(R.id.local_capacity);
-                                add.setText("");
-                                add.append(cap);
-                                TextView tv = (TextView)findViewById(R.id.local_address);
-                                tv.setText("");
-                                tv.append(address);
 
-                            } catch (Exception e) {
-                            }
-                        }
 
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                        Log.d("Error.Response", error.toString());
-                    }
-                }
-        );
-
-        queue.add(getRequest);
+        users = (TextView)findViewById(R.id.meetingUsers);
+        users.setText("Users: ");
+        tel = (TextView) findViewById(R.id.telephoneNumber);
+        tel.setText("");
+        cap = (TextView) findViewById(R.id.local_capacity);
+        cap.setText("");
+        add = (TextView) findViewById(R.id.local_address);
+        add.setText("");
+        lan = (TextView) findViewById(R.id.languageMeeting);
+        lan.setText("Language: ");
+        lan.append(language);
+        tim = (TextView) findViewById(R.id.timeMeeting);
+        tim.setText("");
+        tim.append("Time: "+time.split(" ")[3].substring(0,5));
 
 
 
@@ -134,10 +115,132 @@ public class MeatingDetailActivity extends Activity {
 
             }
         });
+        new DownloadMeetingList().execute();
 
 
 
     }
+    private class DownloadMeetingList extends AsyncTask<String,Float,String> {
+        ProgressDialog pDialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            Log.d("Hi", "Download Commencing");
+            pDialog = new ProgressDialog(MeatingDetailActivity.this);
+            String message = "Waiting...";
+            SpannableString ss2 = new SpannableString(message);
+            ss2.setSpan(new RelativeSizeSpan(2f), 0, ss2.length(), 0);
+            ss2.setSpan(new ForegroundColorSpan(Color.BLACK), 0, ss2.length(), 0);
+            pDialog.setMessage(ss2);
+            pDialog.setCancelable(true);
+            pDialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+            RequestQueue queue = Volley.newRequestQueue(MeatingDetailActivity.this.getApplicationContext());
+            String url = null;
+            try {
+                url = "http://alumnes-grp05.udl.cat/BlaBlaLanguageWeb/rest/bla/json/getEstablishmentsByName/" + URLEncoder.encode(estName, "UTF-8").replace("+", "%20");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            Log.d("URL", url);
+            JsonArrayRequest getRequest = new JsonArrayRequest(url,
+                    new Response.Listener<JSONArray>() {
+                        @Override
+                        public void onResponse(JSONArray response) {
+                            // display response
+                            Log.d("Response", response.toString());
+                            for (int i = 0; i < response.length(); i++) {
+                                try {
+                                    infoEst.add(convertInfo(response.getJSONObject(i)));
+                                    address = infoEst.get(0).getAddress();
+                                    capacity =  infoEst.get(0).getPlacesAvailable()+"";
+                                    if (!infoEst.get(0).getTelephone().equals("null"))
+                                        telefon = Integer.parseInt(infoEst.get(0).getTelephone());
+                                    else {
+                                        telefon = 00000000;
+                                    }
+
+                                    tel.append("Telephone: "+telefon );
+                                    cap.append("Capacity: "+capacity);
+                                    add.append(address);
+
+                                    pDialog.dismiss();
+
+
+                                } catch (Exception e) {
+                                }
+                            }
+
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+
+                            Log.d("Error.Response", error.toString());
+                        }
+                    }
+            );
+            getRequest.setRetryPolicy(new DefaultRetryPolicy(
+                    5000,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            queue.add(getRequest);
+
+            String url2 = null;
+            String Id = String.valueOf(id);
+
+            url2 = "http://alumnes-grp05.udl.cat/BlaBlaLanguageWeb/rest/bla/json/getEventById/" + Id + "/users";
+            JsonArrayRequest getRequest2 = new JsonArrayRequest(url2,
+                    new Response.Listener<JSONArray>() {
+                        @Override
+                        public void onResponse(JSONArray response) {
+                            // display response
+                            Log.d("ResponseUsers", response.toString());
+                            for (int i = 0; i < response.length(); i++) {
+                                try {
+                                    String user = response.getJSONObject(i).getString("name").toString();
+
+
+                                    users.append(user + ", ");
+
+                                } catch (Exception e) {
+                                }
+                            }
+
+
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+
+                            Log.d("Error.ResponseUsers", error.toString());
+                        }
+                    }
+            );
+            getRequest2.setRetryPolicy(new DefaultRetryPolicy(
+                    5000,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+
+            queue.add(getRequest2);
+
+        }
+    }
+
 
         private final Establishment convertInfo( JSONObject obj) throws JSONException {
 
@@ -164,44 +267,4 @@ public class MeatingDetailActivity extends Activity {
 
     }
 
-
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "MeatingDetail Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app deep link URI is correct.
-                Uri.parse("android-app://com.example.jordi.blablalanguage.Activitys/http/host/path")
-        );
-
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "MeatingDetail Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app deep link URI is correct.
-                Uri.parse("android-app://com.example.jordi.blablalanguage.Activitys/http/host/path")
-        );
-
-    }
 }

@@ -4,11 +4,13 @@ import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -63,7 +65,10 @@ public class PreferencesActivity extends AppCompatActivity implements CompoundBu
         this.idiomsArray = getResources().getStringArray(R.array.Idioms);
         this.idiomsSelectedBooleanArray = new boolean[idiomsArray.length];
         this.selectedIdiomsList = new ArrayList<>();
-        String idioms = sharedPreferences.getString("Idioms", "DEFAULT");
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        String idioms = preferences.getString("Languages", null);
+
         if(idioms.equals("DEFAULT")){
             for(int i = 0; i < idiomsArray.length; i++){
                 idiomsSelectedBooleanArray[i]=false;
@@ -84,6 +89,7 @@ public class PreferencesActivity extends AppCompatActivity implements CompoundBu
     }
 
 
+
     @Override
     public void onBackPressed() {
 
@@ -100,13 +106,13 @@ public class PreferencesActivity extends AppCompatActivity implements CompoundBu
         Notification n = null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                n = new Notification.Builder(this)
-                        .setContentTitle(title)
-                        .setContentText(text)
-                        //.setColor(R.color.colorPrimary)
-                        .setSmallIcon(R.drawable.icon_bla_bla_language)
-                        .setContentIntent(pIntent)
-                        .setAutoCancel(true).build();
+            n = new Notification.Builder(this)
+                    .setContentTitle(title)
+                    .setContentText(text)
+                            //.setColor(R.color.colorPrimary)
+                    .setSmallIcon(R.drawable.icon_bla_bla_language)
+                    .setContentIntent(pIntent)
+                    .setAutoCancel(true).build();
             //}
         }
         notificationManager.notify(0, n);
@@ -121,7 +127,7 @@ public class PreferencesActivity extends AppCompatActivity implements CompoundBu
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        switch (buttonView.getId()){
+        switch (buttonView.getId()) {
             case R.id.sw_meeting_time:
                 Toast.makeText(this, "Meeting time action selected", Toast.LENGTH_SHORT).show();
                 break;
@@ -192,20 +198,23 @@ public class PreferencesActivity extends AppCompatActivity implements CompoundBu
                         for (String idiom : selectedIdiomsList) {
                             sb.append(idiom).append(";");
                         }
-                        SharedPreferences.Editor editor= sharedPreferences.edit();
-                        editor.putString("Idioms", sb.toString());
-                        editor.commit();
+                        setDefaults("Languages",sb.toString(),PreferencesActivity.this.getApplicationContext());
                         Toast.makeText(getApplicationContext(),"saved to shared preferences", Toast.LENGTH_SHORT).show();
                         dialog.cancel();
                     }
                 }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
         AlertDialog alert = builder.create();
         alert.show();
     }
+    public static void setDefaults(String key, String value, Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(key, value);
+        editor.commit();
+    }
 }
-
