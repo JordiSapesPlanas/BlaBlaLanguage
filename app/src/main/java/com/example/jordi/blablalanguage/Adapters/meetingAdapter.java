@@ -39,7 +39,12 @@ public class meetingAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return meetings.size();
+        if(meetings != null){
+            return meetings.size();
+        }else {
+            return 0;
+        }
+
     }
 
     @Override

@@ -17,6 +17,9 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        repositories {
+            maven { url 'http://ksoap2-android.googlecode.com/svn/m2-repo' }
+        }
     }
 }
 
@@ -34,4 +37,5 @@ dependencies {
     //compile project(":volley")
     compile 'com.mcxiaoke.volley:library:1.0.17'
     compile 'com.google.android.gms:play-services:8.3.0'
+    compile 'com.google.code.ksoap2-android:ksoap2-android:3.3.0'
 }

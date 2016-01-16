@@ -19,7 +19,14 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.gson.Gson;
 
 import org.json.JSONObject;
+import org.ksoap2.SoapEnvelope;
+import org.ksoap2.serialization.SoapObject;
+import org.ksoap2.serialization.SoapPrimitive;
+import org.ksoap2.serialization.SoapSerializationEnvelope;
+import org.ksoap2.transport.HttpTransportSE;
+import org.xmlpull.v1.XmlPullParserException;
 
+import java.io.IOException;
 import java.util.Objects;
 
 public class Utils {
@@ -130,5 +137,60 @@ public class Utils {
             Log.d("Excep: ",e.getMessage());
             return null;
         }
+    }
+
+    public static String soapCreateUser(User u){
+        String namespace = "http://swSoap/"; // getString from resources
+        String method = "CreateUser";
+        String url =  "http://alumnes-grp05.udl.cat/BlaBlaLanguageWeb/CreateUser"; // get String from resources;
+
+        //"http://alumnes-grp05.udl.cat/BlaBlaLanguageWeb/"+method;
+        String soapAction = "";
+        SoapObject req = new SoapObject(namespace, method);
+        req.addProperty("arg0", u.getLogin());
+        req.addProperty("arg1", u.getName());
+        req.addProperty("arg2", u.getPass());
+        req.addProperty("arg3", u.getSex());
+        req.addProperty("arg4", u.getBirthday());
+
+        return Utils.soapRequest(req, url, soapAction);
+
+    }
+
+    private static String soapRequest(SoapObject req, String url, String soapAction){
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.setOutputSoapObject(req);
+
+        HttpTransportSE transportSE = new HttpTransportSE(url);
+
+        try {
+            transportSE.call(soapAction, envelope);
+            SoapPrimitive result = (SoapPrimitive)envelope.getResponse();
+            Log.e("--*--", result.toString());
+            return result.toString();
+            //
+
+        } catch (IOException | XmlPullParserException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    public static String soapCreateEvent(EventServer e){
+        String namespace = "http://swSoap/"; // getString from resources
+        String method = "CreateEvent";
+        String url =  "http://alumnes-grp05.udl.cat/BlaBlaLanguageWeb/CreateEvent"; // get String from resources;
+
+        //"http://alumnes-grp05.udl.cat/BlaBlaLanguageWeb/"+method;
+        String soapAction = "";
+        SoapObject req = new SoapObject(namespace, method);
+        req.addProperty("arg0",e.getEstablishmentId());
+        req.addProperty("arg1",e.getLanguageId());
+        req.addProperty("arg2",e.getEventName());
+        req.addProperty("arg3",e.getDateEvent());
+        req.addProperty("arg4",e.getDescription());
+
+        return Utils.soapRequest(req, url, soapAction);
+
+
     }
 }

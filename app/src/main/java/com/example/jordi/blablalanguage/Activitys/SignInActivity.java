@@ -3,6 +3,7 @@ package com.example.jordi.blablalanguage.Activitys;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -40,6 +41,9 @@ public class SignInActivity extends AppCompatActivity implements
     //private TextView mStatusTextView;
     private Utils utils = new Utils();
     private ProgressDialog mProgressDialog;
+    private User newUser = null;
+    private GoogleSignInAccount acct = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,31 +152,57 @@ public class SignInActivity extends AppCompatActivity implements
         Toast.makeText(this, "handleSignInResult:" + result.isSuccess(), Toast.LENGTH_SHORT).show();
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
-            GoogleSignInAccount acct = result.getSignInAccount();
+            acct = result.getSignInAccount();
             //mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
-            User newUser = new User(acct.getDisplayName(), acct.getEmail(), "qwert", "facebook2", "f", "14/01/1993");
-            // TODO SAVE FOTO
-            Uri uri =  acct.getPhotoUrl();
-            Log.e("--",uri.getPath());
-            Log.e("**",uri.toString());
+            newUser = new User(acct.getDisplayName(), acct.getEmail(), "qwert", "facebook2", "f", "14/01/1993");
+            Log.e("???","--------------------------");
+            new AsyncTask<Void, Void, String>() {
+                @Override
+                protected String doInBackground( final Void ... params ) {
+                    // something you know that will take a few seconds
+                    if(Utils.soapCreateUser(newUser) != null){
+                        Log.e("???", "--------------*******------------");
+                        // TODO SAVE FOTO
+                        Uri uri =  acct.getPhotoUrl();
+                        Log.e("--",uri.getPath());
+                        Log.e("**", uri.toString());
 
-            // references
-            newUser.deleteByLogin(this, acct.getEmail());
-            newUser.Save(this);
+                        // references
+                        newUser.deleteByLogin(SignInActivity.this, acct.getEmail());
+                        newUser.Save(SignInActivity.this);
 
 
 
-            utils.saveKey(this, "USER_LOGGED",acct.getEmail());
-            utils.saveKey(this, "IMAGE", uri.toString());
+                        utils.saveKey(SignInActivity.this, "USER_LOGGED",acct.getEmail());
+                        utils.saveKey(SignInActivity.this, "IMAGE", uri.toString());
 
 
 
 
-            Toast.makeText(this, "Hello:" + acct.getEmail() + ": name "
-                    + acct.getDisplayName(), Toast.LENGTH_SHORT).show();
-            //updateUI(true);
-            startActivity(new Intent( this, SearchMeetingActivity.class));
-            this.finish();
+//                    Toast.makeText(SignInActivity.this, "Hello:" + acct.getEmail() + ": name "
+//                            + acct.getDisplayName(), Toast.LENGTH_SHORT).show();
+                        //updateUI(true);
+
+                        return "OK";
+                    }else{
+                        return null;
+                    }
+
+                }
+
+                @Override
+                protected void onPostExecute( String result ) {
+                    if(result != null){
+                        startActivity(new Intent( SignInActivity.this, SearchMeetingActivity.class));
+                        SignInActivity.this.finish();
+                    }else{
+                        Toast.makeText(SignInActivity.this, "Error accesing to database", Toast.LENGTH_SHORT).show();
+                    }
+
+
+                }
+            }.execute();
+
 
         } else {
             // Signed out, show unauthenticated UI.

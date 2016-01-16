@@ -55,7 +55,7 @@ public class MeatingDetailActivity extends Activity {
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = null;
         try {
-            url = "http://alumnes-grp05.udl.cat/rest/bla/json/getEstablishmentsByName/" + URLEncoder.encode(estName, "UTF-8").replace("+", "%20");
+            url = "http://alumnes-grp05.udl.cat/BlaBlaLanguageWeb/rest/bla/json/getEstablishmentsByName/" + URLEncoder.encode(estName, "UTF-8").replace("+", "%20");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }

@@ -81,7 +81,7 @@ public class SearchMeetingActivity extends Activity
         setContentView(R.layout.activity_search_meeting);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         RequestQueue queue= Volley.newRequestQueue(this);
-        final String url = "http://alumnes-grp05.udl.cat/rest/bla/json/allEvents";
+        final String url = "http://alumnes-grp05.udl.cat/BlaBlaLanguageWeb/rest/bla/json/allEvents";
 
         JsonArrayRequest getRequest = new JsonArrayRequest( url,
                 new Response.Listener<JSONArray>()
@@ -89,13 +89,14 @@ public class SearchMeetingActivity extends Activity
                     @Override
                     public void onResponse(JSONArray response) {
                         // display response
-                        Log.d("Response", response.toString());
+                        Log.e("Response", response.toString());
                         meet = new ArrayList<Meeting>();
                         for (int i = 0; i < response.length(); i++) {
                             try {
                                 meet.add(convertMeeting(response
                                         .getJSONObject(i)));
                             } catch (JSONException e) {
+
                             }
                         }
                     }
@@ -182,8 +183,8 @@ public class SearchMeetingActivity extends Activity
             nameEstablishments=new String[]{"Escala","BonGust","Restaurante WOK","NyamNyam","GOGO","Prat","Mercadona","AC Hotel"};
             imageName=new String[]{"english","english","chinese","france","spain","spain","english","international"};
             listOfMeetings = new MeetingsList();
-           // met = listOfMeetings.getList();
-            met = m.getAll(null);
+             met = listOfMeetings.getList();
+            //met = m.getAll(null);
 
 
             /*
@@ -354,7 +355,7 @@ public class SearchMeetingActivity extends Activity
 
         return builder.build();
     }
-    private final Meeting convertMeeting(JSONObject obj) throws JSONException {
+    private Meeting convertMeeting(JSONObject obj) throws JSONException {
         String name = obj.getString("name");
         String estab = obj.getString("estab");
         String time = obj.getString("tim");

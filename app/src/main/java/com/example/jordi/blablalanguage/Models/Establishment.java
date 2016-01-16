@@ -6,6 +6,7 @@ package com.example.jordi.blablalanguage.Models;
  */
 public class Establishment extends BlaBlaLanguageObject {
 
+
     private String name;
     private User owner;
     private String address;
@@ -14,7 +15,21 @@ public class Establishment extends BlaBlaLanguageObject {
     private Integer placesAvailable;
     private String  telephone;
 
+
     public Establishment(){}
+
+    public Establishment(Integer id, String name, User owner, String address,  Integer longitude, Integer latitude, String telephone){
+        this.setId(id);
+        this.name = name;
+        this.owner = owner;
+        this.address = address;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.telephone = telephone;
+
+    }
+
+
 
     public String getName() {
         return name;

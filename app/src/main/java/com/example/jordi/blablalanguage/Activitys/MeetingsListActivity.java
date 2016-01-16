@@ -42,7 +42,7 @@ public class MeetingsListActivity extends AppCompatActivity {
         imageName=new String[]{"english","english","chinese","france","spain","spain","english","international"};
         Meeting m = new Meeting(this);
         MeetingsList listOfMeetings = new MeetingsList();
-        //met = listOfMeetings.getList();
+        met = listOfMeetings.getList();
         //datosDePrueba();
         met = m.getAll(null);
         ListView listView = (ListView) findViewById(R.id.listView_my_meetings);
