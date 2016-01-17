@@ -17,6 +17,7 @@ import android.widget.Switch;
 
 import com.example.jordi.blablalanguage.Adapters.meetingAdapter;
 import com.example.jordi.blablalanguage.Models.Meeting;
+import com.example.jordi.blablalanguage.Models.Utils;
 import com.example.jordi.blablalanguage.R;
 
 import java.util.Date;
@@ -33,6 +34,7 @@ public class    MeetingsListActivity extends AppCompatActivity {
     private Meeting meetingSelected;
     private ListView listView;
     String idEventExtra;
+    private Utils utils = new Utils();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -121,9 +123,18 @@ public class    MeetingsListActivity extends AppCompatActivity {
     public void onCreateContextMenu(ContextMenu menu, View v,ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         menu.setHeaderTitle(meetingSelected.getName());
-        menu.add(0, 1, 0, "View details");
-        menu.add(0, 2, 0, "EDIT");
-        menu.add(0, 3, 0, "DELETE");
+        Log.e("-----*-----", meetingSelected.getUserEmail());
+        String userMail = utils.getKey(this, "USER_LOGGED");
+        String meetingUserMail = meetingSelected.getUserEmail();
+        Log.e("-----*1-----", utils.getKey(this, "USER_LOGGED"));
+        if(userMail.equals(meetingUserMail)){
+            menu.add(0, 1, 0, "View details");
+            menu.add(0, 2, 0, "EDIT");
+            menu.add(0, 3, 0, "DELETE");
+        }else{
+            menu.add(0, 1, 0, "View details");
+        }
+
     }
 
 

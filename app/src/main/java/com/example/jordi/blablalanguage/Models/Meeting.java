@@ -26,7 +26,7 @@ public class Meeting extends BlaBlaLanguageObject implements Serializable{
     private String language;
     private Date dateMeeting;
     private String imageUrl;
-    private String userEmail;
+    private String userEmail = "";
     private int idM;
     private int extraId;
 
