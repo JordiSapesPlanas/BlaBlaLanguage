@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import java.io.Serializable;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -25,8 +26,10 @@ public class Meeting extends BlaBlaLanguageObject implements Serializable{
     private String language;
     private Date dateMeeting;
     private String imageUrl;
+    private String userEmail;
     private int idM;
     private int extraId;
+
 
 
     public Date convert(String s){
@@ -48,6 +51,15 @@ public class Meeting extends BlaBlaLanguageObject implements Serializable{
         this.establishment = establishment;
         this.dateMeeting = dateMeeting;
         this.imageUrl = imageUrl;
+    }
+
+
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
     }
 
     public void setExtraId(int id){
@@ -132,23 +144,34 @@ public class Meeting extends BlaBlaLanguageObject implements Serializable{
                     "   EstablishmentId Integer default 0," +
                     "   EventDate DATETIME," +
                     "   Photo TEXT," +
+                    DateMeeting TEXT,"+
+            "   UserMail TEXT, "+
                     "   DateInclude DATETIME," +
                     "   DateUpdate DATETIME," +
                     "   Active bool INTEGER DEFAULT 1" +
                     ")";
             */
 
-
-        String value = "INSERT INTO Events(Id,Name,Language,Establishment,Photo) " +
+        DateFormat writeFormat = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss");
+        String value = "INSERT INTO Events(Id," +
+                "Name," +
+                "Language," +
+                "Establishment," +
+                "Photo," +
+                "DateMeeting, " +
+                "UserMail) " +
                 "VALUES " +
                 "("
                 +"\""+String.valueOf(this.getExtraId()).concat("\",")
                 +"\""+this.getName().trim().concat("\",")
                 +"\""+this.language.trim().concat("\",")
                 +"\""+this.establishment.trim().concat("\",")
-                +"\""+this.imageUrl.trim().concat("\"")
-                +")";
+                +"\""+this.imageUrl.trim().concat("\",")
+                +"\""+writeFormat.format(this.getDateMeeting()).concat("\",")
+                +"\""+this.userEmail.trim().concat("\"")
 
+                +")";
+        Log.e("--***--", value);
         return value;
     }
 
@@ -252,7 +275,7 @@ public class Meeting extends BlaBlaLanguageObject implements Serializable{
     }
 
 
-    public List<Meeting> getAll(Activity a){
+    public List<Meeting> getAll(Activity a)  {
 
         try {
 
@@ -263,10 +286,10 @@ public class Meeting extends BlaBlaLanguageObject implements Serializable{
             }
             SQLiteDatabase db = dbutils.getReadableDatabase();
 
-//            String[] campos =  {"Idm","Id","Name","Language","LanguageId"
-//                    ,"Establishment","EstablishmentId","DateMeeting","Photo"};
             String[] campos =  {"Idm","Id","Name","Language","LanguageId"
-                    ,"Establishment","EstablishmentId","Photo"};
+                    ,"Establishment","EstablishmentId","DateMeeting","UserMail","Photo"};
+//            String[] campos =  {"Idm","Id","Name","Language","LanguageId"
+//                    ,"Establishment","EstablishmentId","Photo"};
 
             if(db!=null){
                 List<Meeting> lst = new ArrayList<Meeting>();
@@ -280,7 +303,8 @@ public class Meeting extends BlaBlaLanguageObject implements Serializable{
                     String Name = cursor.getString(cursor.getColumnIndex("Name"));
                     String Establishment = cursor.getString(cursor.getColumnIndex("Establishment"));
                     String Language = cursor.getString(cursor.getColumnIndex("Language"));
-                    // String dateMeeting = cursor.getString(cursor.getColumnIndex("dateMeeting"));
+                    String dateMeeting = cursor.getString(cursor.getColumnIndex("DateMeeting"));
+                    String userMail = cursor.getString(cursor.getColumnIndex("UserMail"));
                     String Photo = cursor.getString(cursor.getColumnIndex("Photo"));
 
                     m.setId(Idm);
@@ -288,9 +312,16 @@ public class Meeting extends BlaBlaLanguageObject implements Serializable{
                     m.setName(Name);
                     m.setEstablishment(Establishment);
                     m.setLanguage(Language);
-                    m.setDateMeeting(new Date()); //TODO(vitor): Try to use a real date
-                    m.setImageUrl(Photo);
+                    //DateFormat readFormat = new SimpleDateFormat( "EEE MMM dd yyyy hh:mm aaa");
+                    SimpleDateFormat formatter = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss");
+                    Log.e("++", "++++"+dateMeeting+"+++");
 
+                    m.setDateMeeting(formatter.parse(dateMeeting)); //TODO(vitor): Try to use a real date
+
+                    //Log.e("--***-1--", dateMeeting.toString());
+                    m.setImageUrl(Photo);
+                    m.setUserEmail(userMail);
+                    Log.e("--***-2--", userMail);
                     lst.add(m);
                 }
 
@@ -303,8 +334,10 @@ public class Meeting extends BlaBlaLanguageObject implements Serializable{
 
         }
         catch (Exception e){
-            throw  e;
-            //return  false;
+            Log.e("****", "Error database");
+            e.printStackTrace();
+
+            return  null;
         }
     }
     public boolean modifiyMeeting( Context con){
@@ -320,12 +353,13 @@ public class Meeting extends BlaBlaLanguageObject implements Serializable{
 
 //            {"Idm","Id","Name","Language","LanguageId"
 //                    ,"Establishment","EstablishmentId","DateMeeting","Photo"};
-
+            SimpleDateFormat writeFormat = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss");
             String sql ="UPDATE Events SET "
                     +"Name = '"+this.getName()+"', "
                     +"Language = '"+this.getLanguage()+"', "
-                    +"Establishment = '"+this.getEstablishment()+"' "
-                    //+"DateMeeting = '"+this.getDateMeeting()+"' "
+                    +"Establishment = '"+this.getEstablishment()+"', "
+                    +"DateMeeting = '"+writeFormat.format(this.getDateMeeting())+"', " +
+                    "UserMail = '"+this.getUserEmail()+"' "
                     +"WHERE Idm = "+this.getIdM();
 
 

@@ -47,6 +47,8 @@ public class DBUtils extends SQLiteOpenHelper implements Serializable {
             "   Establishment TEXT," +
             "   EstablishmentId Integer default 0," +
             "   Photo TEXT," +
+            "   DateMeeting TEXT,"+
+            "   UserMail TEXT, "+
             "   DateInclude DATETIME," +
             "   DateUpdate DATETIME," +
             "   Active bool INTEGER DEFAULT 1" +

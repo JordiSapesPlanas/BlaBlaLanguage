@@ -24,7 +24,7 @@ import java.util.List;
 
 ;
 
-public class MeetingsListActivity extends AppCompatActivity {
+public class    MeetingsListActivity extends AppCompatActivity {
 
     private List<Meeting> met;
 //    private String[] nameMeetings;
@@ -54,7 +54,7 @@ public class MeetingsListActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-
+                meetingSelected = met.get(position);
                 Intent intent = new Intent(MeetingsListActivity.this, MeatingDetailActivity.class);
                 intent.putExtra("estabName", meetingSelected.getEstablishment());
                 intent.putExtra("language", meetingSelected.getLanguage());

@@ -168,9 +168,9 @@ public class SearchMeetingActivity extends Activity
             nameEstablishments=new String[]{"Escala","BonGust","Restaurante WOK","NyamNyam","GOGO","Prat","Mercadona","AC Hotel"};
             imageName=new String[]{"english","english","chinese","france","spain","spain","english","international"};
            // met = listOfMeetings.getList();
-            met = m.getAll(null);
+            //met = m.getAll(null);
 
-
+            //for(Meeting m)
             /*
 
             */
@@ -232,7 +232,7 @@ public class SearchMeetingActivity extends Activity
                             List<Meeting> meetPref = preferencedMeetings(meet,langPref);
                             myAdapter = new meetingAdapter(SearchMeetingActivity.this, meetPref, R.layout.customer_meeting_list);
                             listView.setAdapter(myAdapter);
-
+                            myAdapter.notifyDataSetChanged();
 
                             pDialog.dismiss();
                         }

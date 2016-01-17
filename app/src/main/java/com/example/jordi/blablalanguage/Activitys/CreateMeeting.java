@@ -70,18 +70,20 @@ public class CreateMeeting extends Activity  {
 
 
     // Jordi Variables
-    List <Language> languageList = null;
-    List <Establishment> establishmentsList = null;
-    Meeting meeting = null;
+    private List <Language> languageList = null;
+    private List <Establishment> establishmentsList = null;
+    private Meeting meeting = null;
     boolean updateEvent;
-    EventServer eventServer = null;
+    private EventServer eventServer = null;
+    private Utils utils = new Utils();
+    private Activity activity;
     /**
      * Called when the activity is first created.
      */
     @Override
     public void onCreate(final Bundle savedInstanceState) {
 
-
+        activity = this;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_createmeeting);
 
@@ -225,9 +227,17 @@ public class CreateMeeting extends Activity  {
                     meeting.setDateMeeting(date);
                     meeting.setLanguage(language);
                     meeting.setImageUrl(language);
+
                     if(updateEvent){
                         meeting.modifiyMeeting(getApplicationContext());
                     }else{
+                        String email = utils.getKey(activity, "USER_LOGGED");
+                        if(email != null){
+                            meeting.setUserEmail(email);
+                        }else{
+                            meeting.setUserEmail("");
+                        }
+
                         meeting.Save(null);
                     }
 
