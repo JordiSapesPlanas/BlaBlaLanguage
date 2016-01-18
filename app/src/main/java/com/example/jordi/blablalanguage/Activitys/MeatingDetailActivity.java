@@ -193,7 +193,7 @@ public class MeatingDetailActivity extends Activity {
                     }
             );
             getRequest.setRetryPolicy(new DefaultRetryPolicy(
-                    5000,
+                    10000,
                     DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                     DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
             queue.add(getRequest);

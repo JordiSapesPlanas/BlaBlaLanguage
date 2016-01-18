@@ -46,7 +46,6 @@
         android:textColorHighlight="@color/drk_button"
         android:id="@+id/textViewShowEst"
         android:layout_gravity="center_horizontal"
-        android:onClick="showTextEstablishment"
         android:layout_weight="0.20"
         android:gravity="center_horizontal"/>
 
@@ -62,7 +61,6 @@
         android:layout_height="wrap_content"
         android:text=""
         android:id="@+id/textViewShowLan"
-        android:onClick="showTextLanguage"
         android:layout_gravity="center_horizontal"
         android:layout_weight="0.12"
         android:gravity="center_horizontal"/>
@@ -77,7 +75,6 @@
     <TextView
         android:layout_width="196dp"
         android:layout_height="wrap_content"
-        android:onClick="showTextDate"
         android:text=""
         android:id="@+id/textViewshowDate"
         android:layout_gravity="center_horizontal"
@@ -98,7 +95,6 @@
         android:text=""
         android:id="@+id/textViewShowCapacity"
         android:layout_gravity="center_horizontal"
-        android:onClick="showTextCapacity"
         android:layout_weight="0.13"
         android:gravity="center_horizontal"/>
 

@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.jordi.blablalanguage.Models.User;
@@ -24,8 +23,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
-
-import java.net.URI;
 
 /**
  * Activity to demonstrate basic retrieval of the Google user's ID, email address, and basic
@@ -49,6 +46,10 @@ public class SignInActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if (getIntent().getBooleanExtra("Exit", false)) {
+            finish();
+        }
+
         setContentView(R.layout.activity_sign_in);
 
         // Views
@@ -66,6 +67,7 @@ public class SignInActivity extends AppCompatActivity implements
 
             }
         });
+
 
         // [START configure_signin]
         // Configure sign-in to request the user's ID, email address, and basic
@@ -193,6 +195,9 @@ public class SignInActivity extends AppCompatActivity implements
                 @Override
                 protected void onPostExecute( String result ) {
                     if(result != null){
+                        if (getIntent().getBooleanExtra("Exit", false)) {
+                            finish();
+                        }
                         startActivity(new Intent( SignInActivity.this, SearchMeetingActivity.class));
                         SignInActivity.this.finish();
                     }else{

@@ -1,9 +1,7 @@
 package com.example.jordi.blablalanguage.Activitys;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -11,7 +9,6 @@ import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,7 +26,7 @@ public class UserProfileActivity extends AppCompatActivity {
     private EditText mBirthdayView;
     private EditText mFacebookView;
     private EditText mSexView;
-    private RadioGroup mradGroup;
+    //private RadioGroup mradGroup;
     private View mProgressView;
     private View mLoginFormView;
 
@@ -42,7 +39,7 @@ public class UserProfileActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         // Set up the form.
-        mradGroup = (RadioGroup) findViewById(R.id.menu1);
+       // mradGroup = (RadioGroup) findViewById(R.id.menu1);
         mLabelView = (TextView) findViewById(R.id.username);
         mNameView = (EditText) findViewById(R.id.name);
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
@@ -96,7 +93,7 @@ public class UserProfileActivity extends AppCompatActivity {
                 mFacebookView.setEnabled(true);
                 mSexView.setEnabled(true);
                 mSignInButton.setVisibility(View.VISIBLE);
-                mradGroup.setVisibility(View.INVISIBLE);
+               // mradGroup.setVisibility(View.INVISIBLE);
                 fab.setVisibility(View.INVISIBLE);
 
                /* Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)

@@ -36,6 +36,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -73,6 +74,8 @@ public class SearchMeetingActivity extends Activity
     meetingAdapter myAdapter=null;
     ListView listView=null;
     String langPref;
+    DownloadMeetingList downloading;
+    ProgressDialog pDialog;
 
 
 
@@ -123,7 +126,8 @@ public class SearchMeetingActivity extends Activity
             profileImage.setImageResource(R.drawable.icon_user);
         }
 
-        new DownloadMeetingList().execute();
+        downloading = new DownloadMeetingList();
+        downloading.execute();
 
     }
     public static String getDefaults(String key, Context context) {
@@ -134,17 +138,12 @@ public class SearchMeetingActivity extends Activity
     public void onResume(){
         super.onResume();
         langPref = getDefaults("Languages", SearchMeetingActivity.this.getApplicationContext());
-        String la =langPref+"";
-        if (langPref != null && langPref.equals("null"))
-            langPref="P";
 
-        //Log.d("TRTTTTTTR", langPref);
 
 
     }
 
     private class DownloadMeetingList extends AsyncTask<String,Float,String> {
-        ProgressDialog pDialog;
 
         @Override
         protected void onPreExecute() {
@@ -162,28 +161,7 @@ public class SearchMeetingActivity extends Activity
 
         @Override
         protected String doInBackground(String... strings) {
-            met = new ArrayList<>();
 
-            nameMeetings = new String[]{"Let's talk","how are you?","NiHao?","BonJour","viva Español","Conocer y hablar","waaaaaa","More language"};
-            nameEstablishments=new String[]{"Escala","BonGust","Restaurante WOK","NyamNyam","GOGO","Prat","Mercadona","AC Hotel"};
-            imageName=new String[]{"english","english","chinese","france","spain","spain","english","international"};
-           // met = listOfMeetings.getList();
-            //met = m.getAll(null);
-
-            //for(Meeting m)
-            /*
-
-            */
-
-            //datosDePrueba();
-            try {
-                Log.e("----", "ueeeueueeueueue");
-
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                Log.e("--***--", "ueeeueu111eeueueue");
-                e.printStackTrace();
-            }
             return null;
         }
 
@@ -246,6 +224,10 @@ public class SearchMeetingActivity extends Activity
                         }
                     }
             );
+            getRequest.setRetryPolicy(new DefaultRetryPolicy(
+                    10000,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
             queue.add(getRequest);
 
@@ -332,7 +314,12 @@ public class SearchMeetingActivity extends Activity
 
     @Override
     public void onBackPressed() {
-        finish();
+        SearchMeetingActivity.this.finish();
+        Intent intent = new Intent(SearchMeetingActivity.this, SignInActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        intent.putExtra("Exit", true);
+        startActivity(intent);
 
 
     }

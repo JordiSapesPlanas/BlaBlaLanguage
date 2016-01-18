@@ -113,6 +113,10 @@ public class CreateMeeting extends Activity  {
             myText2.setText(meeting.getEstablishment());
             myText4.setText(meeting.getDateMeeting().toString());
             button5.setText("edit");
+            field1 = true;
+            field2 = true;
+            field3 = true;
+            field4 = true;
 
         }
 
@@ -182,20 +186,15 @@ public class CreateMeeting extends Activity  {
         button5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast toast1;
                 if (field1 && field2 && field3 && field4) {
-                    toast1 =
-                            Toast.makeText(getApplicationContext(),
-                                    getApplicationContext().getText(R.string.Toast_MeetingCreated), Toast.LENGTH_SHORT);
+
                     // we update values to false to restore if necessary when changing orientation
                     field1 = false;
                     field2 = false;
                     field3 = false;
                     field4 = false;
 
-                    // computing the time when the notification is shown
 
-                    long future = System.currentTimeMillis() + 10000;
 
                     /**String title = "Remember the " + language + " meeting";
                     String min = "";
@@ -207,13 +206,6 @@ public class CreateMeeting extends Activity  {
                     String subtitle = "Today at " + tp.getCurrentHour() + ":" + min + "h";
                      **/
 
-                    // getting the service for showing the notification with an Alarm Manager
-                    Intent intent = new Intent(CreateMeeting.this, NotificationService.class);
-                    intent.putExtra("language",language);
-                    intent.putExtra("date",date.toString());
-                    PendingIntent pendingIntent = PendingIntent.getService(CreateMeeting.this, 001, intent, 0);
-                    AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-                    alarmManager.set(AlarmManager.RTC_WAKEUP, future, pendingIntent);
 
                     // we create the meeting
                     if(!updateEvent) // SO create new Event
@@ -252,13 +244,13 @@ public class CreateMeeting extends Activity  {
 //                    CreateMeeting.this.finish();
 
                 } else {
-                    toast1 =
+                    Toast toast1 =
                             Toast.makeText(getApplicationContext(),
                                     getApplicationContext().getText(R.string.Toast_EmptyField), Toast.LENGTH_SHORT);
+                    toast1.show();
 
                 }
 
-                toast1.show();
             }
         });
 
@@ -305,7 +297,7 @@ public class CreateMeeting extends Activity  {
                 }
         );
         getRequest2.setRetryPolicy(new DefaultRetryPolicy(
-                5000,
+                10000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
@@ -350,7 +342,7 @@ public class CreateMeeting extends Activity  {
                 }
         );
         getRequest.setRetryPolicy(new DefaultRetryPolicy(
-                5000,
+                10000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         queue.add(getRequest);
@@ -478,6 +470,9 @@ public class CreateMeeting extends Activity  {
         Integer languageId = null;
         Integer establishId = null;
 
+
+
+
         for(Language l: this.languageList){
 
             if(l.getName().equals(m.getLanguage())){
@@ -506,10 +501,33 @@ public class CreateMeeting extends Activity  {
                 @Override
                 protected void onPostExecute(String result) {
                     if(result != null && result.equals("Sucess")){
+                        Toast toast1 =
+                                Toast.makeText(getApplicationContext(),
+                                        getApplicationContext().getText(R.string.Toast_MeetingCreated), Toast.LENGTH_SHORT);
+                        toast1.show();
+                        // computing the time when the notification is shown
+
+                        long future = System.currentTimeMillis() + 10000;
+                        // getting the service for showing the notification with an Alarm Manager
+                        Intent intent = new Intent(CreateMeeting.this, NotificationService.class);
+                        intent.putExtra("language",language);
+                        intent.putExtra("date",date.toString());
+                        PendingIntent pendingIntent = PendingIntent.getService(CreateMeeting.this, 001, intent, 0);
+                        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+
+
                         Intent i = new Intent(CreateMeeting.this, SearchMeetingActivity.class);
                         startActivity(i);
                         CreateMeeting.this.finish();
                     }else{
+                        myTextName.setText("");
+                        myText1.setText("");
+                        myText2.setText("");
+                        myText3.setText("");
+                        myText4.setText("");
+
+
                         Toast.makeText(getApplicationContext(), "Problems with server. Try again later", Toast.LENGTH_SHORT).show();
                     }
 
