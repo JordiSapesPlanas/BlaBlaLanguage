@@ -178,6 +178,8 @@ public class CreateMeeting extends Activity  {
                 startCapacityDialog();
             }
         });
+        establishmentsList = new ArrayList<>();
+        languageList = new ArrayList<>();
         doRestRequest();
 
 
@@ -270,7 +272,7 @@ public class CreateMeeting extends Activity  {
                         // display response
                         Log.d("Response", response.toString());
                         languag = new ArrayList<String>();
-                        languageList = new ArrayList<>();
+                        //languageList = new ArrayList<>();
                         Language l;
                         for (int i = 0; i < response.length(); i++) {
                             try {
@@ -315,7 +317,7 @@ public class CreateMeeting extends Activity  {
                         Log.d("Response", response.toString());
                         establis = new ArrayList<String>();
                         Establishment e;
-                        establishmentsList = new ArrayList<>();
+                        //establishmentsList = new ArrayList<>();
                         for (int i = 0; i < response.length(); i++) {
                             try {
                                 e =new Establishment();
@@ -354,7 +356,7 @@ public class CreateMeeting extends Activity  {
     @Override
     public void onBackPressed() {
 
-        startActivity(new Intent(this,SearchMeetingActivity.class));
+        startActivity(new Intent(this, SearchMeetingActivity.class));
         this.finish();
     }
 
@@ -614,19 +616,34 @@ public class CreateMeeting extends Activity  {
      * method for showing the language dialog
      */
     public void startLanguageDialog() {
-        new AlertDialog.Builder(this)
-                .setSingleChoiceItems(languag.toArray(new String[languag.size()]), 0, null)
-                .setPositiveButton(getResources().getText(R.string.OK), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        dialog.dismiss();
-                        int selectedPosition = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
-                        language = languag.get(selectedPosition);
-                        showTextLanguage();
-                        field2 = true;
+        if(languageList.isEmpty()){
+            new AlertDialog.Builder(this)
+                    .setTitle("Problems Comunicating with server, try it again later")
+                    .setPositiveButton(getResources().getText(R.string.OK), new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            dialog.dismiss();
 
-                    }
-                })
-                .show();
+                        }
+                    })
+                    .show();
+
+
+        }else{
+            new AlertDialog.Builder(this)
+                    .setSingleChoiceItems(languag.toArray(new String[languag.size()]), 0, null)
+                    .setPositiveButton(getResources().getText(R.string.OK), new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            dialog.dismiss();
+                            int selectedPosition = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
+                            language = languag.get(selectedPosition);
+                            showTextLanguage();
+                            field2 = true;
+
+                        }
+                    })
+                    .show();
+
+        }
 
 
     }
@@ -635,20 +652,33 @@ public class CreateMeeting extends Activity  {
      * method for showing the establishment dialog
      */
     public void startEstablishmentDialog() {
+        Log.e("***1**", " +  + "+ establishmentsList.isEmpty());
+        if(establishmentsList.isEmpty()) {
+            new AlertDialog.Builder(this)
+                    .setTitle("Problems Comunicating with server, try it again later")
+                    .setPositiveButton(getResources().getText(R.string.OK), new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            dialog.dismiss();
 
-        new AlertDialog.Builder(this)
-                .setSingleChoiceItems(establis.toArray(new String[establis.size()]), 0, null)
-                .setPositiveButton(getResources().getText(R.string.OK), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        dialog.dismiss();
-                        int selectedPosition = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
-                        establishment = establis.get(selectedPosition);
-                        showTextEstablishment();
-                        field1 = true;
+                        }
+                    })
+                    .show();
+        }else{
+            new AlertDialog.Builder(this)
+                    .setSingleChoiceItems(establis.toArray(new String[establis.size()]), 0, null)
+                    .setPositiveButton(getResources().getText(R.string.OK), new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            dialog.dismiss();
+                            int selectedPosition = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
+                            establishment = establis.get(selectedPosition);
+                            showTextEstablishment();
+                            field1 = true;
 
-                    }
-                })
-                .show();
+                        }
+                    })
+                    .show();
+        }
+
 
 
     }
