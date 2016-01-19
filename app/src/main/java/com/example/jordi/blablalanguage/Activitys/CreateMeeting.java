@@ -262,7 +262,7 @@ public class CreateMeeting extends Activity  {
 
 
     private void doRestRequest() {
-        final String url2 = "http://alumnes-grp05.udl.cat/BlaBlaLanguageWeb/rest/bla/json/allLanguages";
+        final String url2 = "http://alumnes-grp05.udl.cat/BlaBlaLanguageWeb/rest/bla/json/languages";
 
         JsonArrayRequest getRequest2 = new JsonArrayRequest( url2,
                 new Response.Listener<JSONArray>()
@@ -306,7 +306,7 @@ public class CreateMeeting extends Activity  {
         queue.add(getRequest2);
 
 
-        final String url = "http://alumnes-grp05.udl.cat/BlaBlaLanguageWeb/rest/bla/json/allEstablishments";
+        final String url = "http://alumnes-grp05.udl.cat/BlaBlaLanguageWeb/rest/bla/json/establishments";
 
         JsonArrayRequest getRequest = new JsonArrayRequest( url,
                 new Response.Listener<JSONArray>()
@@ -488,7 +488,8 @@ public class CreateMeeting extends Activity  {
             }
         }
         if(languageId != null && establishId != null){
-            eventServer = new EventServer(establishId, languageId, m.getName(), m.getTimeString(), m.getName());
+            Log.e("****" , m.getFechaString() + " " +m.getTimeString());
+            eventServer = new EventServer(establishId, languageId, m.getName(), m.getFechaString2() + " " +m.getTimeString(), m.getName());
             new AsyncTask<Void, Void, String>(){
 
                 @Override

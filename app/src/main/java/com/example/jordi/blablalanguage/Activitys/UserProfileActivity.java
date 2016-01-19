@@ -1,10 +1,12 @@
 package com.example.jordi.blablalanguage.Activitys;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -15,6 +17,9 @@ import android.widget.Toast;
 import com.example.jordi.blablalanguage.Models.User;
 import com.example.jordi.blablalanguage.Models.Utils;
 import com.example.jordi.blablalanguage.R;
+import com.squareup.picasso.Picasso;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class UserProfileActivity extends AppCompatActivity {
 
@@ -29,6 +34,8 @@ public class UserProfileActivity extends AppCompatActivity {
     //private RadioGroup mradGroup;
     private View mProgressView;
     private View mLoginFormView;
+    private Utils utils = new Utils();
+    private CircleImageView profileImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +87,17 @@ public class UserProfileActivity extends AppCompatActivity {
 
         mSignInButton.setVisibility(View.INVISIBLE);
 
+        profileImage = (CircleImageView) findViewById(R.id.profile_image_user);
+        //profileImage.setImageResource(R.drawable.perfil_jordi);
+        try {
+            Picasso.with(this)
+                    .load(Uri.parse(utils.getKey(this, "IMAGE")))
+                    .placeholder(R.drawable.icon_user)
+                    .into(profileImage);
+        }catch (Exception e){
+            Log.e("***", e.toString());
+            profileImage.setImageResource(R.drawable.icon_user);
+        }
 
 
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);

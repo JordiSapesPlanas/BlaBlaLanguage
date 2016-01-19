@@ -109,6 +109,12 @@ public class Meeting extends BlaBlaLanguageObject implements Serializable{
         String time= formatter.format(this.dateMeeting);
         return time;
     }
+
+    public String getFechaString2(){
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        String fecha = formatter.format(this.dateMeeting);
+        return fecha;
+    }
     public void setDateMeeting(Date dateMeeting) {
         this.dateMeeting = dateMeeting;
     }

@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/BlaBlaLanguage.iml" filepath="$PROJECT_DIR$/BlaBlaLanguage.iml" />
-      <module fileurl="file://$PROJECT_DIR$/BlaBlaLanguage-Git.iml" filepath="$PROJECT_DIR$/BlaBlaLanguage-Git.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

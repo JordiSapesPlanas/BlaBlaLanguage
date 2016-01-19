@@ -189,7 +189,7 @@ public class SearchMeetingActivity extends Activity
 
             listView = (ListView) findViewById(R.id.listView);
             RequestQueue queue= Volley.newRequestQueue(SearchMeetingActivity.this.getBaseContext());
-            final String url = "http://alumnes-grp05.udl.cat/BlaBlaLanguageWeb/rest/bla/json/allEvents";
+            final String url = "http://alumnes-grp05.udl.cat/BlaBlaLanguageWeb/rest/bla/json/events";
 
             JsonArrayRequest getRequest = new JsonArrayRequest( url,
                     new Response.Listener<JSONArray>()
@@ -398,7 +398,10 @@ public class SearchMeetingActivity extends Activity
         builder.setSound(alarmSound);
         builder.setLights(Color.MAGENTA, 3000, 3000);
 
-        return builder.build();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            return builder.build();
+        }
+        return null;
     }
     private final Meeting convertMeeting(JSONObject obj) throws JSONException {
         String name = obj.getString("name");
