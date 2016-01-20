@@ -96,8 +96,8 @@ public class MeatingDetailActivity extends Activity {
             @Override
             public void onClick(View view) {
                 Log.e("-----", address);
-
-                startActivity(new Intent(getApplicationContext(), MapsActivity.class).putExtra("address", address));
+                address = address +", Lleida"
+                startActivity(new Intent(getApplicationContext(), MapsActivity.class).putExtra("address", address ));
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
